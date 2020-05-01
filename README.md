@@ -1,4 +1,4 @@
-![](https://miro.medium.com/max/1400/0*Gix6981I6q3J_afW.jpg)
+![](https://github.com/jfgabriel/diplomatura-js/raw/master/header.jpg)
 
 ### [Facultad de Informática (UnComa)](http://faiweb.uncoma.edu.ar/) + [Patagonian Academy](https://patagonian.it/academy)
 
