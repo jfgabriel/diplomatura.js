@@ -24,7 +24,19 @@ import basededatos from './basededatos';
 export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
   // Ejemplo de como accedo a datos dentro de la base de datos
   // console.log(basededatos.alumnos);
-  return [];
+  const registro = basededatos.alumnos.find(alumno => {
+    return alumno.nombre === nombreAlumno;
+  })
+  if (registro) {
+    let resultado = [];
+    basededatos.calificaciones.forEach(calificacion => {
+      if (calificacion.alumno === registro.id && calificacion.nota >= 4)
+        resultado.push(basededatos.materias.find(materia => materia.id === calificacion.materia));
+    });
+    return JSON.stringify(resultado, null, 2);
+  } else {
+    return registro;
+  }
 };
 
 /**
@@ -69,7 +81,29 @@ export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
  * @param {string} nombreUniversidad
  */
 export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
-  return {};
+  const registro = basededatos.universidades.find(universidad => {
+    return universidad.nombre == nombreUniversidad;
+  });
+  if (registro) {
+    let profesores = [];
+    let alumnos = [];
+    registro.materias = basededatos.materias.filter(materia => {
+      if (materia.universidad === registro.id) {
+        profesores = profesores + materia.profesores;
+        alumnos = alumnos + basededatos.calificaciones.filter(calificacion => { return calificacion.materia === materia.id }).map(calificacion => calificacion.alumno);
+        return true;
+      }
+    });
+    registro.profesores = basededatos.profesores.filter(profesor => {
+      return profesores.includes(profesor.id);
+    });
+    registro.alumnos = basededatos.alumnos.filter(alumno => {
+      return alumnos.includes(alumno.id);
+    });
+    return JSON.stringify(registro, null, 2);
+  } else {
+    return registro;
+  }
 };
 
 // /**
