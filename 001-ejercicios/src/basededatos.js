@@ -81,3 +81,5 @@ export const database = {
     { alumno: 5, materia: 4, nota: 1 },
   ],
 };
+
+export default database;

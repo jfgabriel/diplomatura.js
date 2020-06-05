@@ -2,7 +2,8 @@ import basededatos from './basededatos';
 
 /**
  * Obtiene la lista de materias aprobadas (nota >= 4) para el nombre de alumno dado.
- * En caso de que no encuentre ninguna, devuelve un array vacio []
+ * En caso de no existir el alumno, devolver undefined.
+ * En caso de que no encuentre ninguna materia para el alumno, devuelve un array vacio []
  * Ejemplo del formato del resultado suponiendo que el alumno cursa dos materias y tiene mas de 4.
  *  [
     {
@@ -21,15 +22,18 @@ import basededatos from './basededatos';
  * @param {number} alumnoId el id del alumno
  */
 export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
+  // Ejemplo de como accedo a datos dentro de la base de datos
+  // console.log(basededatos.alumnos);
   return [];
 };
 
 /**
  * Devuelve informacion ampliada sobre una universidad.
- * Ademas de devolver el objeto universidad completo,
+ * Si no existe la universidad con dicho nombre, devolvemos undefined.
+ * Ademas de devolver el objeto universidad,
  * agregar la lista de materias dictadas por la universidad y
  * tambien agrega informacion de los profesores y alumnos que participan.
- * Ejemplo de formato del resultado (pueden no ser correctos los datos):
+ * Ejemplo de formato del resultado (pueden no ser correctos los datos en el ejemplo):
  *{
       id: 1,
       nombre: 'Universidad del Comahue',
