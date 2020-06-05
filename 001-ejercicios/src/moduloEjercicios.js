@@ -22,6 +22,8 @@ import basededatos from './basededatos';
  * @param {number} alumnoId el id del alumno
  */
 export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
+  // Ejemplo de como accedo a datos dentro de la base de datos
+  // console.log(basededatos.alumnos);
   return [];
 };
 
