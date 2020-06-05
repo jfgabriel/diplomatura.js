@@ -6,4 +6,4 @@
 
 # Desarrollo full-stack de aplicaciones Web con Javascript
 
-TODO
+Ver cada directorio de ejercicios. Vamos a ir publicando nuevas carpetas independientes con las distintas sesiones de ejercicios que vayamos haciendo.
