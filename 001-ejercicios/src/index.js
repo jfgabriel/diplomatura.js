@@ -4,7 +4,7 @@ import {
 } from './moduloEjercicios';
 
 import baseDeDatos from './basededatos';
-
+// materiasAprobadasByNombreAlumno
 console.log('------------------------------------------------------');
 console.log('Ejecutando ejercicios materiasAprobadasByNombreAlumno.');
 
