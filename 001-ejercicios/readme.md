@@ -23,3 +23,5 @@ npm run start
 Lo que tenemos que hacer, es implementar las 2 funciones que hay en el archivo moduloEjercicios.js, de manera que utilizen los datos de database.js para producir los valores esperados.
 
 En este caso intencionalemente no hay tests, para que comparemos los resultados que conseguimos.
+
+No se pueden modificar los datos en basededatos.js

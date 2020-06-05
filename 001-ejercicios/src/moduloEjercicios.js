@@ -28,8 +28,8 @@ export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
  * Devuelve informacion ampliada sobre una universidad.
  * Ademas de devolver el objeto universidad completo,
  * agregar la lista de materias dictadas por la universidad y
- * tambien agrega informacion de los profesores que participan.
- * Ejemplo de formato del resultado:
+ * tambien agrega informacion de los profesores y alumnos que participan.
+ * Ejemplo de formato del resultado (pueden no ser correctos los datos):
  *{
       id: 1,
       nombre: 'Universidad del Comahue',
@@ -56,6 +56,10 @@ export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
         { id: 1, nombre: 'Jorge Esteban Quito' },
         { id: 2, nombre: 'Marta Raca' },
         { id: 3, nombre: 'Silvia Torre Negra' },
+      ],
+      alumnos: [
+         { id: 1, nombre: 'Rigoberto Manchu', edad: 22, provincia: 1 },
+         { id: 2, nombre: 'Alina Robles', edad: 21, provincia: 2 },
       ]
     }
  * @param {string} nombreUniversidad
