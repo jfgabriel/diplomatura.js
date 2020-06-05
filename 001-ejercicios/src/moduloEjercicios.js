@@ -19,13 +19,42 @@ import basededatos from './basededatos';
       universidad: 2,
     }
   ]
- * @param {number} alumnoId el id del alumno
+ * param {number} alumnoId el id del alumno
  */
 export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
   // Ejemplo de como accedo a datos dentro de la base de datos
-  // console.log(basededatos.alumnos);
-  return [];
+  // obtener el id del alumno
+  
+  let id = obtenerIdAlumnoByNombre(nombreAlumno);
+
+  // obtener materias aprobadas
+  return obtenerMateriasAlumnoById(id);
+
 };
+
+export const obtenerIdAlumnoByNombre = (nombreAlumno) => {
+  for(let i=0; i < basededatos.alumnos.length; i++) {
+    if(basededatos.alumnos[i].nombre === nombreAlumno) return basededatos.alumnos[i].id
+  }
+  return 0;
+}
+
+export const obtenerMateriasAlumnoById = (id) => {
+  let mat = [];
+  for(let i=0; i < basededatos.calificaciones.length; i++) {
+    if(basededatos.calificaciones[i].alumno === id && basededatos.calificaciones[i].nota >= 4)
+      mat.push(basededatos.calificaciones[i].materia);
+  }
+  const listadoMaterias = [];
+  for(let i=0; i < basededatos.materias.length; i++) {
+    for(let j=0; j < mat.length; j++) {
+      if(mat[j] === basededatos.materias[i].id)
+        listadoMaterias.push(basededatos.materias[i]);
+    }
+  }
+  return listadoMaterias;
+}
+
 
 /**
  * Devuelve informacion ampliada sobre una universidad.
@@ -69,7 +98,60 @@ export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
  * @param {string} nombreUniversidad
  */
 export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
-  return {};
+  const materias = [];
+  const profesores = [];
+  const profesoresIds = [];
+  const alumnos = [];
+  const alumnosIds = [];
+  let universidadId = 0;
+  let universidadesInfo = {};
+
+  for(let i=0; i < basededatos.universidades.length; i++) {
+    if(basededatos.universidades[i].nombre === nombreUniversidad) {
+      universidadesInfo = basededatos.universidades[i];
+      universidadId = basededatos.universidades[i].id;
+    }
+  }
+
+  ///materias
+  for(let i=0; i < basededatos.materias.length; i++) {
+    if(basededatos.materias[i].universidad === universidadId) {
+      materias.push(basededatos.materias[i]);
+
+      ///profesores
+      for(let j=0; j < basededatos.materias[i].profesores.length; j++) {
+        for(let k=0; k < basededatos.profesores.length; k++) {
+          if (basededatos.profesores[k].id === basededatos.materias[i].profesores[j]) {
+            if(profesoresIds.indexOf(basededatos.profesores[k].id) < 0) {
+              profesoresIds.push(basededatos.profesores[k].id);
+              profesores.push(basededatos.profesores[k]);
+            }
+          }
+        }
+
+        /// alumnos
+        for(let k=0; k < basededatos.calificaciones.length; k++) {
+          for(let l=0; l < basededatos.alumnos.length; l++) {
+            
+            if (basededatos.calificaciones[k].alumno === basededatos.alumnos[l].id &&
+              alumnosIds.indexOf(basededatos.alumnos[l].id) < 0
+              ) {
+                alumnos.push(basededatos.alumnos[l]);
+            }
+            
+          }
+          alumnosIds.push(basededatos.calificaciones[k].alumno);
+        }
+      }
+    }
+  }
+  
+  universidadesInfo.materias = materias;
+  universidadesInfo.profesores = profesores;
+  universidadesInfo.alumnos = alumnos;
+
+  return universidadesInfo;
+  
 };
 
 // /**
