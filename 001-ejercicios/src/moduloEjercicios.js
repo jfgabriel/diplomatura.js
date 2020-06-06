@@ -22,36 +22,41 @@ import basededatos from './basededatos';
  * param {number} alumnoId el id del alumno
  */
 export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
-  // Ejemplo de como accedo a datos dentro de la base de datos
   // obtener el id del alumno
-  
   let id = obtenerIdAlumnoByNombre(nombreAlumno);
-
   // obtener materias aprobadas
-  return obtenerMateriasAlumnoById(id);
+  let materiasAprobadas = obtenerMateriasAlumnoById(id);
 
+  return materiasAprobadas;
 };
 
 export const obtenerIdAlumnoByNombre = (nombreAlumno) => {
   for(let i=0; i < basededatos.alumnos.length; i++) {
-    if(basededatos.alumnos[i].nombre === nombreAlumno) return basededatos.alumnos[i].id
+    if(basededatos.alumnos[i].nombre === nombreAlumno) {
+      return basededatos.alumnos[i].id
+    }
   }
   return 0;
 }
 
 export const obtenerMateriasAlumnoById = (id) => {
   let mat = [];
-  for(let i=0; i < basededatos.calificaciones.length; i++) {
-    if(basededatos.calificaciones[i].alumno === id && basededatos.calificaciones[i].nota >= 4)
-      mat.push(basededatos.calificaciones[i].materia);
-  }
   const listadoMaterias = [];
-  for(let i=0; i < basededatos.materias.length; i++) {
-    for(let j=0; j < mat.length; j++) {
-      if(mat[j] === basededatos.materias[i].id)
-        listadoMaterias.push(basededatos.materias[i]);
+
+  for(let i=0; i < basededatos.calificaciones.length; i++) {
+    if(basededatos.calificaciones[i].alumno === id && basededatos.calificaciones[i].nota >= 4) {
+      mat.push(basededatos.calificaciones[i].materia);
     }
   }
+
+  for(let i=0; i < basededatos.materias.length; i++) {
+    for(let j=0; j < mat.length; j++) {
+      if(mat[j] === basededatos.materias[i].id) {
+        listadoMaterias.push(basededatos.materias[i]);
+      }
+    }
+  }
+
   return listadoMaterias;
 }
 
@@ -95,7 +100,7 @@ export const obtenerMateriasAlumnoById = (id) => {
          { id: 2, nombre: 'Alina Robles', edad: 21, provincia: 2 },
       ]
     }
- * @param {string} nombreUniversidad
+ * param {string} nombreUniversidad
  */
 export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
   const materias = [];
@@ -157,9 +162,20 @@ export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
 // /**
 //  * Devuelve el promedio de edad de los alumnos.
 //  */
-// export const promedioDeEdad = () => {
-//   return [];
-// };
+export const promedioDeEdad = () => {
+  const edades = arrayDeEdades();
+  let average = edades.reduce((a, b) => (a + b)) / edades.length;
+  return average.toFixed(2);
+};
+
+export const arrayDeEdades = () => {
+  let edades = [];
+  for(let i=0; i < basededatos.alumnos.length; i++) {
+    edades.push(basededatos.alumnos[i].edad);
+  }
+  return edades;
+}
+
 
 // /**
 //  * Devuelve la lista de alumnos con promedio mayor al numero pasado
