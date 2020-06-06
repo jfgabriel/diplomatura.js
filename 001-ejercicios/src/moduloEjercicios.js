@@ -163,14 +163,14 @@ export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
 //  * Devuelve el promedio de edad de los alumnos.
 //  */
 export const promedioDeEdad = () => {
-  const edades = arrayDeEdades();
+  const edades = arrayDeEdades(basededatos.alumnos);
   let promedio = edades.reduce((a, b) => (a + b)) / edades.length;
   return promedio.toFixed(2);
 };
 
-const arrayDeEdades = () => {
+const arrayDeEdades = (a) => {
   let edades = [];
-  basededatos.alumnos.filter(alumno => edades.push(alumno.edad));
+  a.filter(alumno => edades.push(alumno.edad));
   return edades;
 }
 
@@ -206,6 +206,7 @@ export const materiasSinAlumnosAnotados = () => {
   let materiasSinAlumnos = [];
   basededatos.materias.filter(materia => {
     let materiaId = materia.id;
+    /// chequear si la materia ya existe en el array
     let flag = true;
     basededatos.calificaciones.filter(calif => {
       if(calif.materia === materiaId) flag = false;
@@ -219,6 +220,34 @@ export const materiasSinAlumnosAnotados = () => {
 //  * Devuelve el promdedio de edad segun el id de la universidad.
 //  * @param {number} universidadId
 //  */
-// export const promedioDeEdadByUniversidadId = (universidadId) => {
-//   return [];
-// };
+export const promedioDeEdadByUniversidadId = (universidadId) => {
+  let promedio = 0;
+  let arrayAlumnos = [];
+  ///materia.id ==> calificaciones.materia calificaciones.alumno ==> alumno ==> armar array sin repetidos
+  basededatos.materias.filter(materia => {
+    let materiaId = materia.id;
+    if(materia.universidad === universidadId) {
+      basededatos.calificaciones.filter(calif => {
+        if(calif.materia === materiaId) {
+          let califId = calif.alumno;
+          basededatos.alumnos.filter(alumno => {
+            if(alumno.id === califId) {
+              /// chequear si el alumno ya existe en el array
+              let flagIfAlumno = true;
+              arrayAlumnos.filter(al => {
+                if (al.id === alumno.id) flagIfAlumno = false;
+              })
+              if (flagIfAlumno) arrayAlumnos.push(alumno);
+            }
+          });
+        }
+      });
+    }
+  });
+  
+  /// sacar promedio de edad de ese array
+  const edades = arrayDeEdades(arrayAlumnos);
+  promedio = edades.reduce((a, b) => (a + b), 0) / edades.length;
+
+  return promedio.toFixed(2);
+};
