@@ -202,9 +202,18 @@ const promedioAlumno = (id) => {
 // /**
 //  * Devuelve la lista de materias sin alumnos
 //  */
-// export const materiasSinAlumnosAnotados = () => {
-//   return [];
-// };
+export const materiasSinAlumnosAnotados = () => {
+  let materiasSinAlumnos = [];
+  basededatos.materias.filter(materia => {
+    let materiaId = materia.id;
+    let flag = true;
+    basededatos.calificaciones.filter(calif => {
+      if(calif.materia === materiaId) flag = false;
+    });
+    if (flag) materiasSinAlumnos.push(materia);
+  });
+  return materiasSinAlumnos;
+};
 
 // /**
 //  * Devuelve el promdedio de edad segun el id de la universidad.

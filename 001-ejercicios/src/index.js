@@ -3,6 +3,7 @@ import {
   expandirInfoUniversidadByNombre,
   promedioDeEdad,
   alumnosConPromedioMayorA,
+  materiasSinAlumnosAnotados,
 } from './moduloEjercicios';
 
 import baseDeDatos from './basededatos';
@@ -40,3 +41,9 @@ console.log('Promedio de Edad:',promedioEdad);
 
 const promedioMayorA = alumnosConPromedioMayorA(5);
 console.log('Alumnos con promedio mayor a 5:',promedioMayorA);
+
+const promedioMayorAocho = alumnosConPromedioMayorA(8);
+console.log('Alumnos con promedio mayor a 8:',promedioMayorAocho);
+
+const materiasSinAlumnos = materiasSinAlumnosAnotados();
+console.log('Materias sin alumnos anotados:',materiasSinAlumnos);
