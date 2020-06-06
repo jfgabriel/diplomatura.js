@@ -30,7 +30,7 @@ export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
   return materiasAprobadas;
 };
 
-export const obtenerIdAlumnoByNombre = (nombreAlumno) => {
+const obtenerIdAlumnoByNombre = (nombreAlumno) => {
   for(let i=0; i < basededatos.alumnos.length; i++) {
     if(basededatos.alumnos[i].nombre === nombreAlumno) {
       return basededatos.alumnos[i].id
@@ -39,7 +39,7 @@ export const obtenerIdAlumnoByNombre = (nombreAlumno) => {
   return 0;
 }
 
-export const obtenerMateriasAlumnoById = (id) => {
+const obtenerMateriasAlumnoById = (id) => {
   let mat = [];
   const listadoMaterias = [];
 
@@ -164,27 +164,40 @@ export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
 //  */
 export const promedioDeEdad = () => {
   const edades = arrayDeEdades();
-  let average = edades.reduce((a, b) => (a + b)) / edades.length;
-  return average.toFixed(2);
+  let promedio = edades.reduce((a, b) => (a + b)) / edades.length;
+  return promedio.toFixed(2);
 };
 
-export const arrayDeEdades = () => {
+const arrayDeEdades = () => {
   let edades = [];
-  for(let i=0; i < basededatos.alumnos.length; i++) {
-    edades.push(basededatos.alumnos[i].edad);
-  }
+  basededatos.alumnos.filter(alumno => edades.push(alumno.edad));
   return edades;
 }
-
 
 // /**
 //  * Devuelve la lista de alumnos con promedio mayor al numero pasado
 //  * por parametro.
 //  * @param {number} promedio
 //  */
-// export const alumnosConPromedioMayorA = (promedio) => {
-//   return [];
-// };
+export const alumnosConPromedioMayorA = (promedio) => {
+  let mayores = [];
+  basededatos.alumnos.filter(alumno => {
+    if (promedioAlumno(alumno.id) > promedio) {
+      mayores.push(alumno);
+    }
+  });
+  return mayores;
+};
+
+const promedioAlumno = (id) => {
+  let califAlumno = [];
+  basededatos.calificaciones.filter(calif => {
+    if (calif.alumno === id) califAlumno.push(calif.nota);
+  });
+  let promedio = califAlumno.reduce((a, b) => (a + b), 0) / califAlumno.length;
+
+  return promedio.toFixed(2);
+}
 
 // /**
 //  * Devuelve la lista de materias sin alumnos
