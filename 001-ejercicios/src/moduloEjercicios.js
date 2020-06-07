@@ -23,8 +23,18 @@ import basededatos from './basededatos';
  */
 export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
   // Ejemplo de como accedo a datos dentro de la base de datos
-  // console.log(basededatos.alumnos);
-  return [];
+  let arregloFinal = [];
+
+  let alumno = basededatos.alumnos.find(alumno => alumno.nombre === nombreAlumno);
+
+  if (alumno) {
+    let materiasAprobadas = basededatos.calificaciones.filter(c => c.alumno === alumno.id && c.nota >= 4);
+
+    materiasAprobadas.forEach(m => {
+      arregloFinal.push(basededatos.materias.find(a => a.id === m.materia));
+    })
+    return arregloFinal;
+  }
 };
 
 /**
@@ -62,15 +72,53 @@ export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
         { id: 3, nombre: 'Silvia Torre Negra' },
       ],
       alumnos: [
-         { id: 1, nombre: 'Rigoberto Manchu', edad: 22, provincia: 1 },
-         { id: 2, nombre: 'Alina Robles', edad: 21, provincia: 2 },
+        { id: 1, nombre: 'Rigoberto Manchu', edad: 22, provincia: 1 },
+        { id: 2, nombre: 'Alina Robles', edad: 21, provincia: 2 },
       ]
     }
  * @param {string} nombreUniversidad
  */
 export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
-  return {};
-};
+
+  let universidadFinal = [];
+  let profesores = [];
+  let alumnos = [];
+
+  let universidad = basededatos.universidades.find(universidad => universidad.nombre === nombreUniversidad);
+
+  if (universidad) {
+    // Buscar materias por Universidad
+    let materias = basededatos.materias.filter(materia => materia.universidad === universidad.id);
+
+    // Recorre todas las materias que dicta la Universidad
+    materias.forEach(m => {
+      let profesoresMateria = m.profesores;
+      let alumnosMateria = m.id;
+
+      // Recorre todos los profesores que participan en las materias e insertarlos en el arreglo
+      profesoresMateria.forEach(profeMateria => {
+        let profesor = basededatos.profesores.find(p => p.id == profeMateria && !(profesores.includes(p)))
+        if (profesor)
+          profesores.push(profesor)
+      })
+
+      let notasAlumnos = basededatos.calificaciones.filter(c => alumnosMateria === c.materia);
+
+      // Recorre todos las calificaciones para obtener datos de los alumnos e insertarlos en el arreglo
+      notasAlumnos.forEach(c => {
+        let alumno = basededatos.alumnos.find(alumno => alumno.id === c.alumno && !(alumnos.includes(alumno)))
+        if (alumno)
+          alumnos.push(alumno)
+      })
+    })
+
+    universidadFinal.materias = materias;
+    universidadFinal.profesores = profesores;
+    universidadFinal.alumnos = alumnos;
+
+    return universidadFinal;
+  }
+}
 
 // /**
 //  * Devuelve el promedio de edad de los alumnos.
