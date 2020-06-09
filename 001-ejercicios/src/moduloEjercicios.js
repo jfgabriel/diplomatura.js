@@ -1,5 +1,9 @@
 import basededatos from './basededatos';
 
+const getById = (tabla) => (id) => basededatos[tabla].find((i) => i.id === id);
+const getMateriasById = getById('materias');
+const promedioArray = (array) => array.reduce((a, b) => a + b) / array.length;
+
 /**
  * Obtiene la lista de materias aprobadas (nota >= 4) para el nombre de alumno dado.
  * En caso de no existir el alumno, devolver undefined.
@@ -22,44 +26,15 @@ import basededatos from './basededatos';
  * param {number} alumnoId el id del alumno
  */
 export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
-  // obtener el id del alumno
-  let id = obtenerIdAlumnoByNombre(nombreAlumno);
-  // obtener materias aprobadas
-  let materiasAprobadas = obtenerMateriasAlumnoById(id);
+
+  let id = basededatos.alumnos.find((i) => i.nombre === nombreAlumno).id;
+  
+  let materiasAprobadas = basededatos.calificaciones
+    .filter(cal => cal.alumno === id && cal.nota >= 4)
+    .map(i => getMateriasById(i.materia));
 
   return materiasAprobadas;
 };
-
-const obtenerIdAlumnoByNombre = (nombreAlumno) => {
-  for(let i=0; i < basededatos.alumnos.length; i++) {
-    if(basededatos.alumnos[i].nombre === nombreAlumno) {
-      return basededatos.alumnos[i].id
-    }
-  }
-  return 0;
-}
-
-const obtenerMateriasAlumnoById = (id) => {
-  let mat = [];
-  const listadoMaterias = [];
-
-  for(let i=0; i < basededatos.calificaciones.length; i++) {
-    if(basededatos.calificaciones[i].alumno === id && basededatos.calificaciones[i].nota >= 4) {
-      mat.push(basededatos.calificaciones[i].materia);
-    }
-  }
-
-  for(let i=0; i < basededatos.materias.length; i++) {
-    for(let j=0; j < mat.length; j++) {
-      if(mat[j] === basededatos.materias[i].id) {
-        listadoMaterias.push(basededatos.materias[i]);
-      }
-    }
-  }
-
-  return listadoMaterias;
-}
-
 
 /**
  * Devuelve informacion ampliada sobre una universidad.
@@ -163,16 +138,11 @@ export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
 //  * Devuelve el promedio de edad de los alumnos.
 //  */
 export const promedioDeEdad = () => {
-  const edades = arrayDeEdades(basededatos.alumnos);
-  let promedio = edades.reduce((a, b) => (a + b)) / edades.length;
-  return promedio.toFixed(2);
+  let promedio = basededatos.alumnos.map(al => al.edad);
+  return promedioArray(promedio).toFixed(2);
 };
 
-const arrayDeEdades = (a) => {
-  let edades = [];
-  a.filter(alumno => edades.push(alumno.edad));
-  return edades;
-}
+
 
 // /**
 //  * Devuelve la lista de alumnos con promedio mayor al numero pasado
@@ -246,8 +216,9 @@ export const promedioDeEdadByUniversidadId = (universidadId) => {
   });
   
   /// sacar promedio de edad de ese array
-  const edades = arrayDeEdades(arrayAlumnos);
-  promedio = edades.reduce((a, b) => (a + b), 0) / edades.length;
+  promedio = arrayAlumnos
+    .map(al => al.edad);
 
-  return promedio.toFixed(2);
+  return promedioArray(promedio).toFixed(2);
+
 };
