@@ -7,48 +7,52 @@ import {
   promedioDeEdadByUniversidadId,
 } from './moduloEjercicios';
 
-// // materiasAprobadasByNombreAlumno
-// console.log('------------------------------------------------------');
-// console.log('Ejecutando ejercicios materiasAprobadasByNombreAlumno.');
+// materiasAprobadasByNombreAlumno
+console.log('------------------------------------------------------');
+console.log('Ejecutando ejercicios materiasAprobadasByNombreAlumno.');
 
-// const materiasAprobadasPorSuzana = materiasAprobadasByNombreAlumno(
-//   'Suzana Mendez'
-// );
-// console.log('Materias aprobadas por Suzana:', materiasAprobadasPorSuzana);
+const materiasAprobadasPorSuzana = materiasAprobadasByNombreAlumno('Suzana Mendez');
+console.log('Materias aprobadas por Suzana:', materiasAprobadasPorSuzana);
 
-// const materiasAprobadasPorAlina = materiasAprobadasByNombreAlumno(
-//   'Alina Robles'
-// );
-// console.log('Materias aprobadas por Alina:', materiasAprobadasPorAlina);
+const materiasAprobadasPorAlina = materiasAprobadasByNombreAlumno('Alina Robles');
+console.log('Materias aprobadas por Alina:', materiasAprobadasPorAlina);
 
 // expandirInfoUniversidadByNombre
 console.log('------------------------------------------------------');
 console.log('Ejecutando ejercicios expandirInfoUniversidadByNombre.');
 
-const infoUniversidadComahue = expandirInfoUniversidadByNombre(
-  'Universidad del Comahue'
-);
+const infoUniversidadComahue = expandirInfoUniversidadByNombre('Universidad del Comahue');
 console.log('Info comahue:', infoUniversidadComahue);
 
-const infoUniversidadRio = expandirInfoUniversidadByNombre(
-  'Universidad de Rio Negro'
-);
+const infoUniversidadRio = expandirInfoUniversidadByNombre('Universidad de Rio Negro');
 console.log('Info rio negro:', infoUniversidadRio);
 
-// const promedioEdad = promedioDeEdad();
-// console.log('Promedio de Edad:',promedioEdad);
+// promedioDeEdad
+console.log('------------------------------------------------------');
+console.log('Ejecutando ejercicios promedioDeEdad.');
+const promedioEdad = promedioDeEdad();
+console.log('Promedio de Edad:',promedioEdad);
 
-// const promedioMayorA = alumnosConPromedioMayorA(5);
-// console.log('Alumnos con promedio mayor a 5:',promedioMayorA);
+// alumnosConPromedioMayorA
+console.log('------------------------------------------------------');
+console.log('Ejecutando ejercicios alumnosConPromedioMayorA.');
+const promedioMayorA = alumnosConPromedioMayorA(5);
+console.log('Alumnos con promedio mayor a 5:',promedioMayorA);
 
-// const promedioMayorAocho = alumnosConPromedioMayorA(8);
-// console.log('Alumnos con promedio mayor a 8:',promedioMayorAocho);
+const promedioMayorAocho = alumnosConPromedioMayorA(8);
+console.log('Alumnos con promedio mayor a 8:',promedioMayorAocho);
 
-// const materiasSinAlumnos = materiasSinAlumnosAnotados();
-// console.log('Materias sin alumnos anotados:',materiasSinAlumnos);
+// materiasSinAlumnosAnotados
+console.log('------------------------------------------------------');
+console.log('Ejecutando ejercicios materiasSinAlumnosAnotados.');
+const materiasSinAlumnos = materiasSinAlumnosAnotados();
+console.log('Materias sin alumnos anotados:',materiasSinAlumnos);
 
-// const edadUniversidad = promedioDeEdadByUniversidadId(1);
-// console.log('Promedio de edad universidad ID 1:',edadUniversidad);
+// promedioDeEdadByUniversidadId
+console.log('------------------------------------------------------');
+console.log('Ejecutando ejercicios promedioDeEdadByUniversidadId.');
+const edadUniversidad = promedioDeEdadByUniversidadId(1);
+console.log('Promedio de edad universidad ID 1:',edadUniversidad);
 
-// const edadUniversidadTwo = promedioDeEdadByUniversidadId(2);
-// console.log('Promedio de edad universidad ID 2:',edadUniversidadTwo);
+const edadUniversidadTwo = promedioDeEdadByUniversidadId(2);
+console.log('Promedio de edad universidad ID 2:',edadUniversidadTwo);
