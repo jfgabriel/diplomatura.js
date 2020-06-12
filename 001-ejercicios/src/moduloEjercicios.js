@@ -31,11 +31,7 @@ const promedioArray = (array) => {
       universidad: 2,
     }
   ]
-<<<<<<< HEAD
- * param {number} alumnoId el id del alumno
-=======
  * @param {nombreAlumno} nombreAlumno
->>>>>>> principal/master
  */
 export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
   
