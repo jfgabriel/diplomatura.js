@@ -12,14 +12,14 @@ Para ejecutar el codigo, hacemos lo siguiente:
   npm install
   ```
 
-- Ejecutamos el punto de entrada de nuestro programa que es index.js
+- Para correr el programa
 
   ```bash
   npm run start
   ```
 
-- O bien configurar e instalar Nodemon
+- O con Nodemon
 
   ```bash
-   npm i nodemon --save-dev
+   npm run watch
   ```
