@@ -1,4 +1,4 @@
-export const database = {
+export const basededatos = {
   universidades: [
     {
       id: 1,
@@ -82,4 +82,4 @@ export const database = {
   ],
 };
 
-export default database;
+export default basededatos;
