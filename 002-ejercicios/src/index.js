@@ -3,7 +3,7 @@ import { database } from './basededatos';
 //rodolfo 
 //rodolfo31343333
 
-
+console.log('rodolfo');
 
 
 
