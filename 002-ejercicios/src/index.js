@@ -36,4 +36,12 @@ import { database } from './basededatos';
 //     La función recibirá: 'nombre del alumno', 'nombre de la materia', 'nota'
 //     Si el alumno y/o la materia no existen deberán crearlos en sus respectivas tablas
 
-console.log("hola");
+export const universidadById = (id) =>{
+    return database.universidades.find(universidad=>universidad.id==id);
+
+}
+
+export const profesorById = (id) =>{
+    return database.universidades.find(universidad=>universidad.id==id);
+
+}
