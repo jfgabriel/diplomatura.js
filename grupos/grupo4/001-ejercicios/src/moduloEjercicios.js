@@ -1,4 +1,6 @@
-import basededatos from './basededatos';
+import basededatos, { database } from './basededatos';
+
+const NOTA_MINIMA = 4;
 
 /**
  * Obtiene la lista de materias aprobadas (nota >= 4) para el nombre de alumno dado.
@@ -22,9 +24,29 @@ import basededatos from './basededatos';
  * @param {nombreAlumno} nombreAlumno
  */
 export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
-  // Ejemplo de como accedo a datos dentro de la base de datos
-  // console.log(basededatos.alumnos);
-  return [];
+  const alumno = database.alumnos.find(
+    (alumno) => alumno.nombre === nombreAlumno
+  );
+
+  if (!alumno) {
+    return undefined;
+  }
+
+  const result = [];
+
+  basededatos.calificaciones
+    .filter((calificacion) => calificacion.alumno === alumno.id)
+    .forEach((calificacion) => {
+      if (calificacion.nota >= NOTA_MINIMA) {
+        result.push(
+          basededatos.materias.find(
+            (materia) => materia.id === calificacion.materia
+          )
+        );
+      }
+    });
+
+  return result;
 };
 
 /**
@@ -69,7 +91,39 @@ export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
  * @param {string} nombreUniversidad
  */
 export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
-  return {};
+  const universidad = basededatos.universidades.find(
+    (universidad) => universidad.nombre === nombreUniversidad
+  );
+
+  if (!universidad) {
+    return undefined;
+  }
+
+  // Clone object
+  const result = Object.assign({}, universidad);
+
+  result.materias = basededatos.materias.filter(
+    (materia) => materia.universidad === universidad.id
+  );
+
+  result.profesores = basededatos.profesores.filter((profesor) =>
+    basededatos.calificaciones.some((calificacion) =>
+      basededatos.materias.some(
+        (materia) =>
+          materia.id === calificacion.materia &&
+          materia.universidad === universidad.id &&
+          materia.profesores.indexOf(profesor.id) > -1
+      )
+    )
+  );
+
+  result.alumnos = basededatos.alumnos.filter((alumno) =>
+    basededatos.calificaciones.some(
+      (calificacion) => calificacion.alumno === alumno.id
+    )
+  );
+
+  return result;
 };
 
 // /**
