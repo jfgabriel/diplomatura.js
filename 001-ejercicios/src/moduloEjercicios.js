@@ -87,14 +87,14 @@ export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
 export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
 
   let universidad = getUniversidadesByName(nombreUniversidad);
-  let materiasArray = [];
-  let profesoresArray = [];
-  let alumnosArray = [];
+  let arrayMaterias = [];
+  let arrayProfesores = [];
+  let arrayAlumnos = [];
 
   basededatos.materias
     .filter((m) => {
       if(m.universidad === universidad.id) {
-        materiasArray = [...materiasArray, m];
+        arrayMaterias = [...arrayMaterias, m];
       }
     });
 
@@ -102,8 +102,8 @@ export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
     .filter((m) => {
       if(m.universidad === universidad.id) {
         for (const prof of m.profesores) {
-          if (!profesoresArray.find((i) => i.id === prof)) {
-            profesoresArray = [...profesoresArray, getProfesoresById(prof)];
+          if (!arrayProfesores.find((i) => i.id === prof)) {
+            arrayProfesores = [...arrayProfesores, getProfesoresById(prof)];
           }
         }
       }
@@ -114,17 +114,17 @@ export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
       if(m.universidad === universidad.id) {
         for (const calif of basededatos.calificaciones) {
           if (calif.materia === m.id) {
-            if (!alumnosArray.find((i) => i.id === calif.alumno)) {
-              alumnosArray = [...alumnosArray, getAlumnosById(calif.alumno)];
+            if (!arrayAlumnos.find((i) => i.id === calif.alumno)) {
+              arrayAlumnos = [...arrayAlumnos, getAlumnosById(calif.alumno)];
             }
           }
         }
       }
     });
 
-  universidad.materias   = materiasArray;
-  universidad.profesores = profesoresArray;
-  universidad.alumnos    = alumnosArray;
+  universidad.materias   = arrayMaterias;
+  universidad.profesores = arrayProfesores;
+  universidad.alumnos    = arrayAlumnos;
     
   return universidad;
   
@@ -134,8 +134,7 @@ export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
 //  * Devuelve el promedio de edad de los alumnos.
 //  */
 export const promedioDeEdad = () => {
-  let promedio = basededatos.alumnos.map(al => al.edad);
-  return promedioArray(promedio).toFixed(2);
+  return promedioArray(basededatos.alumnos.map(al => al.edad)).toFixed(2);
 };
 
 // /**
@@ -144,10 +143,12 @@ export const promedioDeEdad = () => {
 //  * @param {number} promedio
 //  */
 export const alumnosConPromedioMayorA = (promedio) => {
-  let mayores = basededatos.alumnos.filter(a => promedioAlumno(a.id) > promedio);
-  return mayores;
+  return basededatos.alumnos.filter(a => promedioAlumno(a.id) > promedio);
 };
 
+// /**
+//  * Devuelve el promedio de edad de un alumno.
+//  */
 const promedioAlumno = (id) => {
   let calif = basededatos.calificaciones
     .filter(c => c.alumno === id)
@@ -160,10 +161,7 @@ const promedioAlumno = (id) => {
 //  * Devuelve la lista de materias sin alumnos
 //  */
 export const materiasSinAlumnosAnotados = () => {
-  return basededatos.materias
-    .filter(m => basededatos.calificaciones
-      .find(c => c.materia === m.id)?.materia
-    );
+  return basededatos.materias.filter(m => basededatos.calificaciones.find(c => c.materia === m.id)?.materia);
 };
 
 // /**
@@ -171,34 +169,22 @@ export const materiasSinAlumnosAnotados = () => {
 //  * @param {number} universidadId
 //  */
 export const promedioDeEdadByUniversidadId = (universidadId) => {
-  let promedio = 0;
   let arrayAlumnos = [];
-  ///materia.id ==> calificaciones.materia calificaciones.alumno ==> alumno ==> armar array sin repetidos
+  
   basededatos.materias.filter(materia => {
-    let materiaId = materia.id;
     if(materia.universidad === universidadId) {
       basededatos.calificaciones.filter(calif => {
-        if(calif.materia === materiaId) {
+        if(calif.materia ===  materia.id) {
           let califId = calif.alumno;
           basededatos.alumnos.filter(alumno => {
             if(alumno.id === califId) {
               /// chequear si el alumno ya existe en el array
-              let flagIfAlumno = true;
-              arrayAlumnos.filter(al => {
-                if (al.id === alumno.id) flagIfAlumno = false;
-              })
-              if (flagIfAlumno) arrayAlumnos.push(alumno);
+              if (arrayAlumnos.filter(a => a.id === alumno.id).length <= 0) arrayAlumnos = [...arrayAlumnos, alumno];
             }
           });
         }
       });
     }
   });
-  
-  /// sacar promedio de edad de ese array
-  promedio = arrayAlumnos
-    .map(al => al.edad);
-
-  return promedioArray(promedio).toFixed(2);
-
+  return promedioArray(arrayAlumnos.map(al => al.edad)).toFixed(2);
 };
