@@ -20,7 +20,9 @@ const findProfesorById = (id) => {
 // 🤓 Tip: Comparar con la función del ejercicio (3) y ver si se les ocurre una función genérica que sirva para cualquier tabla
 
 // 5) Crear un objeto 'helpers' que contenga las funciones como métodos
-
+let helpers = {
+    
+}
 // 6) Mover helpers y el todo el co´digo a un módulo, creando un nuevo archivo helpers.js
 
 // 7) Crear un nuevo método en helpers que devuelva el último ID utilizado en una tabla
