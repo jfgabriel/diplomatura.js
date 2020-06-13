@@ -15,14 +15,14 @@ function getTabla(nombreTabla){
 
 //Inserte datos indicados en una tabla señalada. Bool optativo si la tabla tiene id
 function insertNew(nombreTabla,datos,usesId=true){
-    if ((typeof datos)==='string') datos={nombre: datos} //If sends a string 
+    if ((typeof datos)==='string') datos={nombre: datos} //If sends a string
 
     const tabla=getTabla(nombreTabla);
     const lastId=getLastId(tabla);
 
     const newObject=usesId?{id: lastId+1}:{};//Object to return
 
-    return Object.assign(newObject,datos); 
+    return Object.assign(newObject,datos);
 }
 
 //Params: Nombre de la tabla, valor y campo:
@@ -36,7 +36,7 @@ function getFromDB(nombreTabla,val,campo){
 
     return campo?
             tabla.find(elem=>elem[campo]==val)
-            : 
+            :
              val?
             tabla.find(elem=>elem.id===val)
             :
@@ -68,7 +68,7 @@ const insertarProvincia = (nombre)=>{
 };
 const getMateriaData    = (id)=>{//Convertido en function para llamar al this del helper
     const materia=getMaterias(id);
-    
+
     materia.universidad=getUniversidades(materia.universidad);
     if (!materia.universidad) return 'Universidad no encontrada'
     else materia.universidad=materia.universidad.nombre;
@@ -92,7 +92,7 @@ const getNotasDeAlumnos= function(){
                                         ,'')||'Sin calificaciones'
                     ].join('\n')
                     ).join('\n');
-    
+
 
     return  'NOTAS DE ALUMNOS\n'+
             '----------------\n'+
@@ -102,7 +102,7 @@ const getNotasDeAlumnos= function(){
 const calificarAlumnado= (nombreAlumno,nombreMateria,nota)=>{
     const alumno = getFromDB('alumnos',nombreAlumno,'nombre')||insertNew('alumnos',nombreAlumno);
     const materia = getFromDB('materias',nombreMateria,'nombre')||insertNew('materias',nombreMateria);
-    
+
     return insertNew('calificaciones', { alumno: alumno.id, materia: materia.id, nota},false);
 }
 
@@ -119,4 +119,3 @@ export const helpers={
     getNotasDeAlumnos,
     calificarAlumnado
 }
-
