@@ -4,19 +4,7 @@ import { database } from './basededatos';
 // 2) Implementar una función que obtenga una universidad por Id
 // 🤓 Tip: pueden ir probando las funciones usando console.log() asegurándose que los resultados sean los esperados
 
-var universidadById = function(value){
-
-    let uni =  database.universidades;
-    let obj = uni.find(obj => obj.id === value);
-    
-    // const value => (value) =
-    console.log(obj);
-   return obj;
-}
-
-universidadById(2);
-
-// 3) Implementar una función que obtenga un profesor por I
+// 3) Implementar una función que obtenga un profesor por Id
 
 // 4) Implementar una función que obtenga una materia por Id
 // 🤓 Tip: Comparar con la función del ejercicio (3) y ver si se les ocurre una función genérica que sirva para cualquier tabla
