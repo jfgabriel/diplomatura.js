@@ -5,10 +5,10 @@ import { database } from './basededatos';
 // 🤓 Tip: pueden ir probando las funciones usando console.log() asegurándose que los resultados sean los esperados
 
 // const getById = (table, id) => database[table].find(item => item.id === id);
-const getById =  (table) => (id) => database[table].find(item => item.id === id);
+// const getById =  (table) => (id) => database[table].find(item => item.id === id);
 
 // const getUniversidadById = (id) => database.universidades.find(item => item.id === id);
-const getUniversidadById = getById('universidades');
+// const getUniversidadById = getById('universidades');
 
 // -------------------------------------------------------- line for debug
 // console.log('---------------------------------');
@@ -25,7 +25,7 @@ const getUniversidadById = getById('universidades');
 // -------------------------------------------------------- end debug
 
 // 3) Implementar una función que obtenga un profesor por Id
-const getProfesorbyId = getById('profesores');
+// const getProfesorbyId = getById('profesores');
 
 // -------------------------------------------------------- line for debug
 // console.log('---------------------------------');
@@ -39,7 +39,7 @@ const getProfesorbyId = getById('profesores');
 // -------------------------------------------------------- end debug
 
 // 4) Implementar una función que obtenga una materia por Id
-const getMateriabyId = getById('materias');
+// const getMateriabyId = getById('materias');
 
 // -------------------------------------------------------- line for debug
 // console.log('---------------------------------');
@@ -55,12 +55,13 @@ const getMateriabyId = getById('materias');
 // 🤓 Tip: Comparar con la función del ejercicio (3) y ver si se les ocurre una función genérica que sirva para cualquier tabla
 
 // 5) Crear un objeto 'helpers' que contenga las funciones como métodos
-let helpers = {
-    getById,
-    getUniversidadById,
-    getProfesorbyId,
-    getMateriabyId,
-}
+// let helpers = {
+//     getById,
+//     getUniversidadById,
+//     getProfesorbyId,
+//     getMateriabyId,
+// }
+// 
 // -------------------------------------------------------- line for debug
 // console.log('---------------------------------');
 // console.log('---------------------------------');
@@ -73,16 +74,95 @@ let helpers = {
 // -------------------------------------------------------- end debug
 
 // 6) Mover helpers y el todo el co´digo a un módulo, creando un nuevo archivo helpers.js
+// Ver archivo helpers
 
 // 7) Crear un nuevo método en helpers que devuelva el último ID utilizado en una tabla
+// Ver archivo helpers
+// const getLastId = (table) =>  Math.max(...database[table].map(item => item.id)) ;
+// -------------------------------------------------------- line for debug
+// console.log('---------------------------------');
+// console.log('---------------------------------');
+
+// // let c = getLastId('universidades');
+
+
+// // let c =  Math.max(...database['materias'].map(item => item.id));
+
+// // let c =  database['materias']['id'];
+
+// // console.log(c);
+// // let c = database['materias' ]['id'];
+
+// console.log(getLastId('profesores'));  
+// // console.log(Math.max(...database['materias'].id));
+// // console.log(Math.max(...database['materias'].id));
+
+// console.log('---------------------------------');
+// console.log('---------------------------------');
+// -------------------------------------------------------- end debug
 
 // 8) Importar helpers desde su propio módulo
+import { helpers } from './helpers';
+// -------------------------------------------------------- line for debug
+// console.log('---------------------------------');
+// console.log('---------------------------------');
+// console.log(helpers.getLastId('profesores')); 
+// console.log('---------------------------------');
+// console.log('---------------------------------');
+// -------------------------------------------------------- end debug
 
 // 9) Implementar una función que permite insertar una nueva provincia en la base de datos
 //    La función tomará como parámetro el nombre de la provincia y devolverá el ID de la nueva provincia
-// 🤓 Tip: Reusar una o más funciones de helper
+// 🤓 Tip: Reusar una o más funciones de helpert
+const instertNewProvice = (newProvince) => {
+    
+    database.provincias.push({
+        id: helpers.getLastId('provincias')+1,
+        nombre: newProvince,
+    })
+    // console.log(database.provincias);
+
+    return  helpers.getLastId('provincias');
+}
+
+
+// -------------------------------------------------------- line for debug
+// console.log('---------------------------------');
+// console.log('---------------------------------');
+// // console.log(helpers.getLastId('provincias')); 
+// // console.log(database.provincias);
+// console.log(instertNewProvice('Mendoza'));
+// console.log('---------------------------------');
+// console.log('---------------------------------');
+// -------------------------------------------------------- end debug
 
 // 10) Implementar una función que reciba el id de una materia y devuelva la materia son los ids de universidad y profesores resueltos a sus nombres
+// const getUniandProfFromMateria = (idMateria) =>  tabla => database['Materia'].id
+// .map(item => item.id) ;/ .map(item => item.id) ;
+function getUniandProfFromMateria(idMateria){
+    let selectedMateria = helpers.getMateriabyId(idMateria);
+
+    console.log('---------------------------------');
+    console.log(selectedMateria);
+    console.log('---------------------------------');
+    let profesorName = helpers.getProfesorbyId(selectedMateria.profesores);
+    console.log(profesorName);
+    console.log('---------------------------------');
+    return
+}
+
+
+
+// -------------------------------------------------------- line for debug
+console.log('---------------------------------');
+console.log('---------------------------------');
+getUniandProfFromMateria(2);
+// console.log(;
+
+console.log('---------------------------------');
+console.log('---------------------------------');
+// -------------------------------------------------------- end debug
+
 
 // 11) Implementar una función que muestre en consola la información para todos los alumnos de la siguiente manera:
 // NOTAS DE ALUMNOS
