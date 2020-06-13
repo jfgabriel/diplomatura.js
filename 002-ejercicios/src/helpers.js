@@ -6,7 +6,10 @@ function getTabla(nombreTabla){
                    database[nombreTabla]
                  :
                    nombreTabla;
-    if (!tabla) return false,console.log('Tabla no encontrada. ¿El nombre es correcto?');
+    if (!tabla) {
+        console.log('Tabla no encontrada. ¿El nombre es correcto?')
+        return false;
+    }
     else return tabla;
 }
 
