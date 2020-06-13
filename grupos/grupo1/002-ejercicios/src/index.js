@@ -139,24 +139,38 @@ const instertNewProvice = (newProvince) => {
 // 10) Implementar una función que reciba el id de una materia y devuelva la materia son los ids de universidad y profesores resueltos a sus nombres
 // const getUniandProfFromMateria = (idMateria) =>  tabla => database['Materia'].id
 // .map(item => item.id) ;/ .map(item => item.id) ;
-function getUniandProfFromMateria(idMateria){
-    let selectedMateria = helpers.getMateriabyId(idMateria);
 
-    console.log('---------------------------------');
-    console.log(selectedMateria);
-    console.log('---------------------------------');
-    let profesorName = helpers.getProfesorbyId(selectedMateria.profesores);
-    console.log(profesorName);
-    console.log('---------------------------------');
-    return
+// function getUniandProfFromMateria(idMateria){
+//     let selectedMateria = helpers.getMateriabyId(idMateria);
+
+//     console.log('---------------------------------');
+//     console.log(selectedMateria);
+//     console.log('---------------------------------');
+//     let profesorName = helpers.getProfesorbyId(selectedMateria.profesores);
+//     console.log(profesorName);
+//     console.log('---------------------------------');
+//     return
+// }
+
+const getUniandProfFromMateria = (id) => {
+
+    let materia = helpers.getMateriabyId(id);
+
+    let nombre_universidad = helpers.getUniversidadById(materia.universidad).nombre;
+
+    let profesores = materia.profesores.map((profesor)=> helpers.getProfesorbyId(profesor).nombre);
+
+    materia.universidad = nombre_universidad;
+    materia.profesores = profesores;
+
+
+    return materia
 }
-
-
 
 // -------------------------------------------------------- line for debug
 console.log('---------------------------------');
 console.log('---------------------------------');
-getUniandProfFromMateria(2);
+console.log(getUniandProfFromMateria(4));
 // console.log(;
 
 console.log('---------------------------------');
