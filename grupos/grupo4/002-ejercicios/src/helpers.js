@@ -18,7 +18,7 @@ export const printResult = (...args) => {
  * @template TInstance
  * @param {TInstance[]} collection
  */
-const entity = (collection) => ({
+const baseEntity = (collection) => ({
   /**
    * @typedef {{
    *    [key: keyof TInstance]: any
@@ -63,6 +63,26 @@ const entity = (collection) => ({
   },
 
   /**
+   * 9) Implementar una función que permite insertar una nueva provincia en la base de datos.
+   *
+   * @param {TInstance} data
+   * @return {TInstance}
+   */
+  insert(data) {
+    collection.push(data);
+    return data;
+  },
+});
+
+/**
+ * @function
+ * @template TInstance
+ * @param {TInstance[]} collection
+ */
+const entity = (collection) => ({
+  ...baseEntity(collection),
+
+  /**
    * @param {TId} id
    * @return {TInstance}
    */
@@ -99,14 +119,15 @@ const entity = (collection) => ({
    * @param {TInstance} data
    * @return {TId}
    */
-  insert(data) {
+  add(data) {
     const id = this.getNextId();
     const newData = Object.assign({}, data, { id });
-    collection.push(newData);
+    this.insert(newData);
     return id;
   },
 });
 
+export const Calificaciones = baseEntity(database.calificaciones);
 export const Universidades = entity(database.universidades);
 export const Profesores = entity(database.profesores);
 
@@ -138,7 +159,7 @@ export const Materias = {
 };
 
 export const Provincias = entity(database.provincias);
-export const Calificaciones = entity(database.calificaciones);
+export const Alumnos = entity(database.alumnos);
 
 // 11) Implementar una función que muestre en consola la información para todos los alumnos de la siguiente manera:
 // NOTAS DE ALUMNOS
@@ -163,4 +184,37 @@ export const Totales = () => {
 
     console.info();
   }
+};
+
+/**
+ * 12) Implementar una función que guarde la calificación de un alumno y una materia.
+ *  - La función recibirá: 'nombre del alumno', 'nombre de la materia', 'nota'.
+ *  - Si el alumno y/o la materia no existen deberán crearlos en sus respectivas tablas.
+ *
+ * @param {string} nombreAlumno
+ * @param {string} nombreMateria
+ * @param {number} nota
+ */
+export const addNota = (nombreAlumno, nombreMateria, nota) => {
+  const alumno =
+    Alumnos.findOne({ nombre: nombreAlumno }) ||
+    Alumnos.getById(
+      Alumnos.add({
+        nombre: nombreAlumno,
+      })
+    );
+
+  const materia =
+    Materias.findOne({ nombre: nombreMateria }) ||
+    Materias.getById(
+      Materias.add({
+        nombre: nombreMateria,
+      })
+    );
+
+  Calificaciones.insert({
+    alumno: alumno.id,
+    materia: materia.id,
+    nota,
+  });
 };

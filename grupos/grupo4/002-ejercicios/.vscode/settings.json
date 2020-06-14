@@ -27,5 +27,14 @@
     "todo",
     "universidad",
     "utilizado"
-  ]
+  ],
+  "files.watcherExclude": {
+    "**/.history/**": true
+  },
+  "files.exclude": {
+    "**/.history": true
+  },
+  "search.exclude": {
+    "**/.history": true
+  }
 }
