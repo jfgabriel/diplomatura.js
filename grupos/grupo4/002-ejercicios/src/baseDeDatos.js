@@ -1,70 +1,131 @@
+/**
+ * @typedef {number} TId
+ *
+ * @typedef TModelUniversidad
+ * @property {TId} id
+ * @property {string} nombre
+ * @property {{
+ *    calle: string,
+ *    numero: number,
+ *    provincia: string
+ *  }} direccion
+ *
+ * @typedef {Object} TModelProfesor
+ * @property {TId} id
+ * @property {string} nombre
+ *
+ * @typedef {Object} TModelMateria
+ * @property {TId} id
+ * @property {string} nombre
+ * @property {TId[]} profesores
+ * @property {TId} universidad
+ *
+ * @typedef {Object} TModelProvincia
+ * @property {TId} id
+ * @property {string} nombre
+ *
+ * @typedef {Object} TAlumno
+ * @property {TId} id
+ * @property {string} nombre
+ * @property {number} edad
+ * @property {TId} provincia
+ *
+ * @typedef {Object} TModelCalificacion
+ * @property {TId} alumno
+ * @property {TId} materia
+ * @property {number} nota
+ */
+
 export const database = {
+  /**
+   * @type {TModelUniversidad[]}
+   */
   universidades: [
     {
       id: 1,
-      nombre: "Universidad del Comahue",
+      nombre: 'Universidad del Comahue',
       direccion: {
-        calle: "Av. Siempre viva",
+        calle: 'Av. Siempre viva',
         numero: 2043,
-        provincia: "Neuquen",
+        provincia: 'Neuquen',
       },
     },
     {
       id: 2,
-      nombre: "Universidad de Rio Negro",
-      direccion: { calle: "Av. Roca", numero: 3023, provincia: "Rio Negro" },
+      nombre: 'Universidad de Rio Negro',
+      direccion: { calle: 'Av. Roca', numero: 3023, provincia: 'Rio Negro' },
     },
   ],
+
+  /**
+   * @type {TModelProfesor[]}
+   */
   profesores: [
-    { id: 1, nombre: "Jorge Esteban Quito" },
-    { id: 2, nombre: "Marta Raca" },
-    { id: 3, nombre: "Silvia Torre Negra" },
-    { id: 4, nombre: "Ramon Martinez" },
+    { id: 1, nombre: 'Jorge Esteban Quito' },
+    { id: 2, nombre: 'Marta Raca' },
+    { id: 3, nombre: 'Silvia Torre Negra' },
+    { id: 4, nombre: 'Ramon Martinez' },
   ],
+
+  /**
+   * @type {TModelMateria[]}
+   */
   materias: [
     {
       id: 1,
-      nombre: "Análisis matemático",
+      nombre: 'Análisis matemático',
       profesores: [1, 2],
       universidad: 1,
     },
     {
       id: 2,
-      nombre: "Corte y confección de sabanas",
+      nombre: 'Corte y confección de sabanas',
       profesores: [3],
       universidad: 2,
     },
     {
       id: 3,
-      nombre: "Diseño de indumentaria",
+      nombre: 'Diseño de indumentaria',
       profesores: [4],
       universidad: 2,
     },
     {
       id: 4,
-      nombre: "Programación orientada a objetos",
+      nombre: 'Programación orientada a objetos',
       profesores: [1, 3],
       universidad: 1,
     },
     {
       id: 5,
-      nombre: "Ciencias Sociales",
+      nombre: 'Ciencias Sociales',
       profesores: [4],
       universidad: 1,
     },
   ],
+
+  /**
+   * @type {TModelProvincia[]}
+   */
   provincias: [
-    { id: 1, nombre: "Neuquen" },
-    { id: 2, nombre: "Rio Negro" },
+    { id: 1, nombre: 'Neuquen' },
+    { id: 2, nombre: 'Rio Negro' },
   ],
+
+  /**
+   * @type {TAlumno[]}
+   */
   alumnos: [
-    { id: 1, nombre: "Rigoberto Manchu", edad: 22, provincia: 1 },
-    { id: 2, nombre: "Alina Robles", edad: 21, provincia: 2 },
-    { id: 3, nombre: "Suzana Mendez", edad: 33, provincia: 2 },
-    { id: 4, nombre: "Adrian Soto", edad: 26, provincia: 1 },
-    { id: 5, nombre: "Martin Sarnaga", edad: 23, provincia: 2 },
-    { id: 6, nombre: "Pablo Tomafi", edad: 30, provincia: 2 },
+    { id: 1, nombre: 'Rigoberto Manchu', edad: 22, provincia: 1 },
+    { id: 2, nombre: 'Alina Robles', edad: 21, provincia: 2 },
+    { id: 3, nombre: 'Suzana Mendez', edad: 33, provincia: 2 },
+    { id: 4, nombre: 'Adrian Soto', edad: 26, provincia: 1 },
+    { id: 5, nombre: 'Martin Sarnaga', edad: 23, provincia: 2 },
+    { id: 6, nombre: 'Pablo Tomafi', edad: 30, provincia: 2 },
   ],
+
+  /**
+   * @type {TModelCalificacion[]}
+   */
   calificaciones: [
     { alumno: 1, materia: 1, nota: 5 },
     { alumno: 1, materia: 3, nota: 7.5 },
