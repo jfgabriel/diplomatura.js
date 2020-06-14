@@ -62,18 +62,36 @@ const entity = (collection) => ({
     collection.push(newData);
     return id;
   },
-
-  /**
-   * 10) Implementar una función que reciba el id de una materia
-   * devuelva la materia son los ids de universidad y profesores resueltos a sus nombres.
-   *
-   * @param {TId} id
-   * @return {TCollection}
-   */
-  join(id) {},
 });
 
 export const Universidades = entity(database.universidades);
 export const Profesores = entity(database.profesores);
-export const Materias = entity(database.materias);
+
+export const Materias = {
+  ...entity(database.materias),
+
+  /**
+   * 10) Implementar una función que reciba el id de una materia y
+   * devuelva la materia son los ids de universidad y profesores
+   * resueltos a sus nombres.
+   *
+   * @param {TId} id
+   * @return {import('./baseDeDatos').TModelMateria & {
+   *    profesores: string[],
+   *    universidad: string
+   *  }}
+   */
+  getByIdMap(id) {
+    const materia = this.getById(id);
+
+    materia.profesores = materia.profesores.map(
+      (profesorId) => Profesores.getById(profesorId)?.nombre
+    );
+
+    materia.universidad = Universidades.getById(materia.universidad)?.nombre;
+
+    return materia;
+  },
+};
+
 export const Provincias = entity(database.provincias);

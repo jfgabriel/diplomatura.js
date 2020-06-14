@@ -15,6 +15,7 @@ const provinciaId = Provincias.insert({ nombre: 'Tierra del Fuego' });
 console.info('Provincia:', Provincias.getById(provinciaId));
 
 // 10) Implementar una función que reciba el id de una materia y devuelva la materia son los ids de universidad y profesores resueltos a sus nombres
+console.info('Materia:', Materias.getByIdMap(1));
 
 // 11) Implementar una función que muestre en consola la información para todos los alumnos de la siguiente manera:
 // NOTAS DE ALUMNOS
