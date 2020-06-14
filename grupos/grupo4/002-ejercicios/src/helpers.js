@@ -8,23 +8,66 @@ import { database } from './baseDeDatos';
  * @typedef {import('./baseDeDatos').TId} TId
  */
 
+export const printResult = (...args) => {
+  console.info('\n' + '='.repeat(40) + '\n');
+  console.info(...args);
+};
+
 /**
  * @function
- * @template TCollection
- * @param {TCollection} collection
+ * @template TInstance
+ * @param {TInstance[]} collection
  */
 const entity = (collection) => ({
   /**
-   * @typedef TInstance
-   * @type {TCollection[0]}
+   * @typedef {{
+   *    [key: keyof TInstance]: any
+   * }} TInstanceFilter
    */
+
+  /**
+   * @private
+   * @param {TInstanceFilter} filter
+   * @return {(TInstance) => boolean}
+   */
+  _checkProperties(filter) {
+    return (instance) => {
+      for (const [key, value] of Object.entries(filter)) {
+        if (instance[key] !== value) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+  },
+
+  /**
+   * Get first match.
+   *
+   * @param {TInstanceFilter} filter
+   * @return {TInstance | undefined}
+   */
+  findOne(filter) {
+    return collection.find(this._checkProperties(filter));
+  },
+
+  /**
+   * Get all matches.
+   *
+   * @param {TInstanceFilter} filter
+   * @return {TInstance[]}
+   */
+  find(filter) {
+    return collection.filter(this._checkProperties(filter));
+  },
 
   /**
    * @param {TId} id
    * @return {TInstance}
    */
   getById(id) {
-    return collection.find((instance) => instance.id === id);
+    return this.findOne({ id });
   },
 
   /**
@@ -95,3 +138,29 @@ export const Materias = {
 };
 
 export const Provincias = entity(database.provincias);
+export const Calificaciones = entity(database.calificaciones);
+
+// 11) Implementar una función que muestre en consola la información para todos los alumnos de la siguiente manera:
+// NOTAS DE ALUMNOS
+// ----------------
+// RIGOBERTO MANCHU        <-- En mayúsculas
+// Análisis matemático: 5
+// ....
+// ALUMNO 2
+// ...
+export const Totales = () => {
+  printResult();
+  console.info('NOTAS DE ALUMNOS');
+  console.info('----------------');
+
+  for (const alumno of database.alumnos) {
+    console.info(alumno.nombre.toUpperCase());
+
+    Calificaciones.find({ alumno: alumno.id }).forEach((calificacion) => {
+      const materia = Materias.getById(calificacion.materia);
+      console.info(`${materia.nombre}: ${calificacion.nota.toFixed(2)}`);
+    });
+
+    console.info();
+  }
+};
