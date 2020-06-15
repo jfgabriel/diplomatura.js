@@ -1,0 +1,42 @@
+{
+  "cSpell.words": [
+    "Crear",
+    "Implementar",
+    "Importar",
+    "Profesores",
+    "Provincias",
+    "Universidades",
+    "devuelva",
+    "funci",
+    "función",
+    "insertar",
+    "m",
+    "materias",
+    "método",
+    "n",
+    "nombre",
+    "nombres",
+    "nueva",
+    "nuevo",
+    "objeto",
+    "permite",
+    "profesor",
+    "provincia",
+    "reciba",
+    "resueltos",
+    "todo",
+    "universidad",
+    "utilizado"
+  ],
+  "files.watcherExclude": {
+    "**/.history/**": true,
+    "**/dist/**": true
+  },
+  "files.exclude": {
+    "**/.history": true
+  },
+  "search.exclude": {
+    "**/.history": true,
+    "**/dist": true
+  }
+}
