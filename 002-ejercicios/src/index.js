@@ -6,13 +6,10 @@ import { database } from './basededatos';
 //nico
 //rodolfo31343333
 
-<<<<<<< HEAD
 console.log('rodolfo');
 
 
 
-=======
->>>>>>> c1704caf87766369ec6daee91b4891574707e045
 // 2) Implementar una función que obtenga una universidad por Id
 // 🤓 Tip: pueden ir probando las funciones usando console.log() asegurándose que los resultados sean los esperados
 
