@@ -1,12 +1,18 @@
 // 1) Importar el objeto 'database' del archivo "./basededatos"
 import { database } from './basededatos';
 //rodolfo 
+//rodolfo3
+//nico232
+//nico
 //rodolfo31343333
 
+<<<<<<< HEAD
 console.log('rodolfo');
 
 
 
+=======
+>>>>>>> c1704caf87766369ec6daee91b4891574707e045
 // 2) Implementar una función que obtenga una universidad por Id
 // 🤓 Tip: pueden ir probando las funciones usando console.log() asegurándose que los resultados sean los esperados
 
