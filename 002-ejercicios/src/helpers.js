@@ -13,21 +13,24 @@ function getTabla(nombreTabla){
         console.log('Tabla no encontrada. ¿El nombre es correcto?');
 }
 
-//Inserte datos indicados en una tabla señalada. Bool optativo si la tabla tiene id
+//Insertar datos indicados en una tabla señalada. Bool optativo si la tabla tiene id
 function insertNew(nombreTabla,datos,usesId=true){
-    if ((typeof datos)==='string') datos={nombre: datos} //If sends a string
+    const nuevaInfo=((typeof datos)==='string')?
+                     {nombre: datos}
+                    :
+                     datos;
 
     const tabla=getTabla(nombreTabla);
     const lastId=getLastId(tabla);
 
     const newObject=usesId?{id: lastId+1}:{};//Object to return
 
-    return Object.assign(newObject,datos);
+    return Object.assign(newObject,nuevaInfo);
 }
 
 //Params: Nombre de la tabla, valor y campo:
 //1- Si viene el CAMPO busca el VALOR que en el CAMPO
-//2- Si NO VIENE CAMPO, busca por ID
+//2- Si NO VIENE CAMPO, busca VAL por ID
 //3- Si no viene VALOR, busca todo
 function getFromDB(nombreTabla,val,campo){
     const tabla = getTabla(nombreTabla);
@@ -35,7 +38,7 @@ function getFromDB(nombreTabla,val,campo){
     if (!val && campo) return console.log('Si viene el campo envíe también el valor'); //Can't send campo if not send val too
 
     return campo?
-            tabla.find(elem=>elem[campo]==val)
+            tabla.find(elem=>elem[campo]===val)
             :
              val?
             tabla.find(elem=>elem.id===val)
@@ -43,22 +46,21 @@ function getFromDB(nombreTabla,val,campo){
             tabla;
 }
 
-//Dada una tabla obtener el último id insertado
-function getLastId(nombreTabla){
-    return getTabla(nombreTabla).reduce((last,elem)=>
-        Math.max(elem.id,last)
-    ,0)
-}//o return getTabla(nombreTabla).slice(-1)[0];
-
 /////
 // -----> Funciones a exportar
 ////
 
-const getUniversidades  = (id)=>getFromDB('universidades',id);
-const getProfesores     = (id)=>getFromDB('profesores',id);
-const getMaterias       = (id)=>getFromDB('materias',id);
+//Dada una tabla obtener el último id insertado
+const getLastId = (nombreTabla)=>{
+    return getTabla(nombreTabla).reduce((last,elem)=>
+        Math.max(elem.id,last)
+    ,0)
+}//o return getTabla(nombreTabla).slice(-1)[0].id;
+
+const getUniversidades  = (id)=>getFromDB('universidades' ,id);
+const getProfesores     = (id)=>getFromDB('profesores'    ,id);
+const getMaterias       = (id)=>getFromDB('materias'      ,id);
 const getCalificaciones = (id)=>getFromDB('calificaciones',id);
-const getLastId         = (prop)=>getLastId(prop);
 const insertarProvincia = (nombre)=>{
     const newObject=insertNew('provincias',nombre);
     database.provincias.push(newObject);
@@ -66,7 +68,7 @@ const insertarProvincia = (nombre)=>{
     console.log(database.provincias);
     return newObject;
 };
-const getMateriaData    = (id)=>{//Convertido en function para llamar al this del helper
+const getMateriaData    = (id)=>{
     const materia=getMaterias(id);
 
     materia.universidad=getUniversidades(materia.universidad);

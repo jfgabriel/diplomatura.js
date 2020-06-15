@@ -191,41 +191,7 @@ function innerJoin(elementos,idsArray){
 }
 
 export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
-  // Decorador urinario 
-  const urinary = fn => {
-    return (...args) => fn(args[0]);
-  }
-
-  const indexOf=(elemento)=>(needle)=>{
-    console.log('IndexOf---------')
-    console.log(elemento)
-    console.log(needle)
-    console.log('EndIndexOf---------')
-    return elemento.indexOf(needle);
-  }
-  const obtenerValor=(elemento)=>(valor)=>(patron)=>{
-    console.log('Obtener valor---------')
-    console.log(elemento)
-    console.log(valor)
-    console.log(elemento[valor])
-    console.log(patron)
-    console.log('EndObtener valor---------')
-    return !patron?
-            elemento[valor]
-           :
-            patron(elemento[valor]);
-  }
-  const obtenerElemento=(tabla)=>(elemento)=>{
-    return tabla.find(x=>x[elemento]==);
-  };
-
-  const buscarUniversidad=obtenerElemento=>obtenerValor;
-
-  let infoUniversidad=buscarUniversidad(basededatos.universidades)('nombre')(nombreUniversidad)(indexOf);
-  console.log('test '+JSON.stringify(infoUniversidad))
-  return
-
-  //let infoUniversidad={};
+  let infoUniversidad={};
   const universidad=basededatos.universidades.filter(universidad=>universidad.nombre.indexOf(nombreUniversidad)>-1)[0];
   
   if (!universidad) 
