@@ -38,5 +38,6 @@
   "search.exclude": {
     "**/.history": true,
     "**/dist": true
-  }
+  },
+  "editor.formatOnSave": true
 }
