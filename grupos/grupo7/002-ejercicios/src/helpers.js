@@ -1,5 +1,5 @@
 // 1) Importar el objeto 'database' del archivo "./basededatos"
-import { database } from './basededatos';
+import { database } from './baseDeDatos';
 
 // 2) Implementar una función que obtenga una universidad por Id
 const getObjetoById = (tabla) => (id) => tabla.find((item)=> item.id===id);
