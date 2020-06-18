@@ -185,7 +185,48 @@ const getUniandProfFromMateria = (id) => {
 // Análisis matemático: 5
 // ....
 // ALUMNO 2
-// ...
+// // ...
+const notasAlumnos = () => {
+    console.log("NOTAS DE ALUMNOS");
+    console.log("----------------");
+
+    let alumnos = database.alumnos;
+    
+    alumnos.forEach(alumno => {
+        
+        console.log(alumno.nombre.toUpperCase());
+        
+        let notas = database.calificaciones;
+
+            notas.forEach(nota => {
+                if (nota.alumno === alumno.id) {
+                    
+                    console.log(helpers.getMateriabyId(nota.materia).nombre + ": " + nota.nota);
+            
+                }
+            });
+
+            console.log("....");
+        }
+    );
+
+}
+
+
+
+
+// -------------------------------------------------------- line for debug
+console.log('---------------------------------');
+console.log('---------------------------------');
+
+notasAlumnos();
+
+
+console.log('---------------------------------');
+console.log('---------------------------------');
+// -------------------------------------------------------- end debug
+
+
 
 // 12) Implementar una función que guarde la calificación de un alumno y una materia
 //     La función recibirá: 'nombre del alumno', 'nombre de la materia', 'nota'
