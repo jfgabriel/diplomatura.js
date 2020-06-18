@@ -215,19 +215,121 @@ const notasAlumnos = () => {
 
 
 
-// -------------------------------------------------------- line for debug
-console.log('---------------------------------');
-console.log('---------------------------------');
+// // -------------------------------------------------------- line for debug
+// console.log('---------------------------------');
+// console.log('---------------------------------');
 
-notasAlumnos();
+// notasAlumnos();
 
 
-console.log('---------------------------------');
-console.log('---------------------------------');
-// -------------------------------------------------------- end debug
+// console.log('---------------------------------');
+// console.log('---------------------------------');
+// // -------------------------------------------------------- end debug
 
 
 
 // 12) Implementar una función que guarde la calificación de un alumno y una materia
 //     La función recibirá: 'nombre del alumno', 'nombre de la materia', 'nota'
 //     Si el alumno y/o la materia no existen deberán crearlos en sus respectivas tablas
+
+
+function insterGrade(nombreAlumno, nombreMateria, nota){
+    let alumno = database.alumnos.find(alumno => alumno.nombre===nombreAlumno);
+    let materia = database.materias.find(materia => materia.nombre===nombreMateria);
+
+    if(!alumno){
+        let id = helpers.getLastId("alumnos");
+
+        let objetoAlumno = {
+            id: id+1,
+            nombre: nombreAlumno,
+        };
+        database.alumnos.push(objetoAlumno);
+
+        alumno = objetoAlumno;
+    }
+
+    if(!materia){
+        let id = helpers.getLastId("materias");
+
+        let objetoMateria = {
+            id: id+1,
+            nombre: nombreMateria,
+        };
+        database.materias.push(objetoMateria);
+        materia = objetoMateria;
+    }
+    let nuevaNota = {
+        alumno:  alumno.id,
+        materia: materia.id,
+        nota: nota,
+    }
+    database.calificaciones.push(nuevaNota);
+    
+    return
+}
+
+
+
+// -------------------------------------------------------- line for debug
+console.log('---------------------------------');
+console.log('---------------------------------');
+
+insterGrade("Gachi Pachi", "Analisis 1", 7);
+insterGrade("Pablo Tomafi", "Analisis 1", 5);
+insterGrade("Pablo Tomafi", "Diseño de indumentaria", 8);
+insterGrade("Coqui Argento", "Programación orientada a objetos", 6);
+console.log('---------------------------------');
+console.log('---------------------------------');
+notasAlumnos();
+
+console.log('---------------------------------');
+console.log('---------------------------------');
+// -------------------------------------------------------- end debug
+// const insertarNotas = (nombreAlumno, nombreMateria, nota) => {
+
+// 	let alumno = database.alumnos.find(alumno => alumno.nombre === nombreAlumno);
+// 	let materia = database.materias.find(materia => materia.nombre === nombreMateria);
+//
+
+// 	let nuevoAlumno = {};
+// 	if (!alumno) {
+// 		let ultimoIdAlumno = helpers.obtenerByIdMaxTabla('alumnos');
+
+// 		nuevoAlumno = {
+// 			id: ultimoIdAlumno+1,
+// 			nombre: nombreAlumno,
+// 			//edad: 0,
+// 			//provincia: 0,
+// 		};
+
+// 		database.alumnos.push(nuevoAlumno);
+// 	}
+
+// 	let nuevaMateria = {};
+// 	if (!materia) {
+// 		let ultimoIdMateria = helpers.obtenerByIdMaxTabla('materias');
+
+// 		nuevaMateria = {
+// 			id: ultimoIdMateria+1,
+// 			nombre: nombreMateria,
+// 			//profesores: [],
+// 			//universidad: 0,
+// 		};
+
+// 		database.materias.push(nuevaMateria);
+// 	}
+
+// 	let nuevaIdMateria = nuevaMateria.id;
+
+// 	let nuevaCalificacion = {
+// 		alumno: (alumno ? alumno.id : nuevoAlumno.id),
+// 		materia:  (materia ? materia.id : nuevaMateria.id),
+// 		nota: nota
+// 	};
+
+// 	database.calificaciones.push(nuevaCalificacion)
+
+// 	return database.calificaciones;
+
+// }
