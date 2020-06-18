@@ -272,17 +272,17 @@ function insterGrade(nombreAlumno, nombreMateria, nota){
 
 
 // -------------------------------------------------------- line for debug
-console.log('---------------------------------');
-console.log('---------------------------------');
+// console.log('---------------------------------');
+// console.log('---------------------------------');
 
-insterGrade("Gachi Pachi", "Analisis 1", 7);
-insterGrade("Pablo Tomafi", "Analisis 1", 5);
-insterGrade("Pablo Tomafi", "Diseño de indumentaria", 8);
-insterGrade("Coqui Argento", "Programación orientada a objetos", 6);
-console.log('---------------------------------');
-console.log('---------------------------------');
-notasAlumnos();
+// insterGrade("Gachi Pachi", "Analisis 1", 7);
+// insterGrade("Pablo Tomafi", "Analisis 1", 5);
+// insterGrade("Pablo Tomafi", "Diseño de indumentaria", 8);
+// insterGrade("Coqui Argento", "Programación orientada a objetos", 6);
+// console.log('---------------------------------');
+// console.log('---------------------------------');
+// notasAlumnos();
 
-console.log('---------------------------------');
-console.log('---------------------------------');
+// console.log('---------------------------------');
+// console.log('---------------------------------');
 // -------------------------------------------------------- end debug
