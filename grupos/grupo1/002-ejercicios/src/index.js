@@ -168,13 +168,13 @@ const getUniandProfFromMateria = (id) => {
 }
 
 // -------------------------------------------------------- line for debug
-console.log('---------------------------------');
-console.log('---------------------------------');
-console.log(getUniandProfFromMateria(4));
-// console.log(;
+// console.log('---------------------------------');
+// console.log('---------------------------------');
+// console.log(getUniandProfFromMateria(4));
+// // console.log(;
 
-console.log('---------------------------------');
-console.log('---------------------------------');
+// console.log('---------------------------------');
+// console.log('---------------------------------');
 // -------------------------------------------------------- end debug
 
 
