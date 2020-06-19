@@ -50,6 +50,7 @@
       "**/dist/**": true,
       "**/package-lock.json": true
     },
+    "editor.formatOnSave": true,
     "[jsonc]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
