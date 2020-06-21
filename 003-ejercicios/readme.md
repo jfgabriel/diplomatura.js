@@ -14,7 +14,7 @@ Escribir una clase Collection que representa una colección de elementos. Esta c
 - Debe tener un método `delete` para poder eliminar un elemento
 - Debe tener un método `has` para poder determinar un elemento existe en la colección
 
-## 2. Vector (TAREA PARA EL HOGAR / no realizar en clase)
+## 2. Vector (_TAREA PARA EL HOGAR_)
 
 Escribir una clase Vector que represente un espacio de dos dimensiones x e y. Esta clase debe:
 
@@ -45,32 +45,18 @@ Consumir la API https://jsonplaceholder.typicode.com/users y mostrar por consola
 - Convertir los resultados a un objeto utilizando resultados.json()
 - Mostra por consola el nombre del usuario y la ciudad donde vive
 
-## 5. Promise ALL (TAREA PARA EL HOGAR)
+## 5. Delay (_TAREA PARA EL HOGAR_)
 
-function Promise_all(promises) {
-return new Promise((resolve, reject) => {
-// Your code here.
+Crear una función `delay` que devuelva una Promise que resuelva en un `mensaje` después de `n` millisegundos.
+Tip: utilizar el constructor que nos permite obtener una referenci a una función `resolve` que nos permite resolver la promesa
+new Promise(resolve => {
+resolve(....)
 });
 }
 
-// Test code.
-Promise_all([]).then(array => {
-console.log("This should be []:", array);
-});
-function soon(val) {
-return new Promise(resolve => {
-setTimeout(() => resolve(val), Math.random() \* 500);
-});
-}
-Promise_all([soon(1), soon(2), soon(3)]).then(array => {
-console.log("This should be [1, 2, 3]:", array);
-});
-Promise_all([soon(1), Promise.reject("X"), soon(3)])
-.then(array => {
-console.log("We should not get here");
-})
-.catch(error => {
-if (error != "X") {
-console.log("Unexpected failure:", error);
-}
-});
+## 6. Muchas promesas (_TAREA PARA EL HOGAR_)
+
+Crear un programa que construya 3 promesas con la función `delay` del ejercicio anterior (con 3 mensajes y tiempos diferentes) y que muestre
+los tres mensajes cuando todas las promesas hayan resuelto.
+
+_Tip: investigar y utilizar `Promise.all`_
