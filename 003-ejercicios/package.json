@@ -16,8 +16,5 @@
     "@babel/node": "^7.8.7",
     "@babel/preset-env": "^7.9.6",
     "nodemon": "^2.0.4"
-  },
-  "dependencies": {
-    "node-fetch": "^2.6.0"
   }
 }
