@@ -6,12 +6,12 @@ import { database } from './basededatos';
 //nico
 //rodolfo31343333
 
-console.log('rodolfo');
-
-
 
 // 2) Implementar una función que obtenga una universidad por Id
 // 🤓 Tip: pueden ir probando las funciones usando console.log() asegurándose que los resultados sean los esperados
+
+const universidadById = (uniId)=>database.universidades.find(elem => elem.id===uniId)
+//console.log(universidadById(2))
 
 // 3) Implementar una función que obtenga un profesor por Id
 
