@@ -19,12 +19,42 @@ import basededatos from './basededatos';
       universidad: 2,
     }
   ]
- * @param {nombreAlumno} nombreAlumno
+ * @param {number} alumnoId el id del alumno
  */
 export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
   // Ejemplo de como accedo a datos dentro de la base de datos
-  // console.log(basededatos.alumnos);
-  return [];
+  let alumnos = basededatos.alumnos;
+  let calificaciones = basededatos.calificaciones;
+  let materias = basededatos.materias;
+  let idalumno;
+  let idmaterias = [];
+  let response = [];
+
+  //Busco id de alumno
+  for (let i in alumnos) {
+    if (alumnos[i].nombre === nombreAlumno) {
+      idalumno = alumnos[i].id;
+      break;
+    }
+  }
+
+  if (!idalumno) return idalumno; //undefined
+
+  // Busco materias aprobadas
+  for (let i in calificaciones) {
+    if (calificaciones[i].alumno === idalumno && calificaciones[i].nota > 4) {
+      idmaterias.push(calificaciones[i].materia);
+    }
+  }
+
+  // Agrego las materias al response
+  for (let i in materias) {
+    if (idmaterias.includes(materias[i].id)) {
+      response.push(materias[i]);
+    }
+  }
+
+  return response;
 };
 
 /**
@@ -69,7 +99,65 @@ export const materiasAprobadasByNombreAlumno = (nombreAlumno) => {
  * @param {string} nombreUniversidad
  */
 export const expandirInfoUniversidadByNombre = (nombreUniversidad) => {
-  return {};
+  let universidades = basededatos.universidades;
+  let materias = basededatos.materias;
+  let profesores = basededatos.profesores;
+  let alumnos = basededatos.alumnos;
+  let calificaciones = basededatos.calificaciones;
+  let iduniversidad;
+  let idprofesores = [];
+  let idmaterias = []
+  let idalumnos = []
+  let response = [];
+  let responseMaterias = [];
+  let responseProfesores = [];
+  let responseAlumnos = [];
+
+  //Matcheo universidad
+  for (let i in universidades) {
+    if (universidades[i].nombre === nombreUniversidad) {
+      iduniversidad = universidades[i].id;
+      response = universidades[i];
+      break;
+    }
+  }
+
+  //Busco profes de materias
+  for (let i in materias) {
+    if (materias[i].universidad === iduniversidad) {
+      idmaterias.push(materias[i].id)
+      materias[i].profesores = materias[i].profesores.toString(); //Chequear esto, si no se ve como "[Array]"
+      responseMaterias.push(materias[i]);
+      for (let x in materias[i].profesores) {
+
+        if (!idprofesores.includes(materias[i].profesores[x])){
+          idprofesores.push(materias[i].profesores[x]);
+          if (profesores[materias[i].profesores[x]]) {
+            responseProfesores.push(profesores[materias[i].profesores[x]]);
+          }
+        }
+      }
+    }
+  }
+
+  if (!idmaterias) return idmaterias;
+
+  // Busco alumnos x calificaciones... buuu
+  for (let i in calificaciones) {
+    if (idmaterias.includes(calificaciones[i].materia)
+      && !idalumnos.includes(calificaciones[i].alumno)
+      && materias[calificaciones[i].materia].universidad === iduniversidad) { // Sucede que hay varios alumnos cursando en ambas universidades y me estaba volviendo loco
+
+      idalumnos.push(calificaciones[i].alumno)
+      responseAlumnos.push(alumnos[calificaciones[i].alumno]);
+
+    }
+  }
+
+  response.materias = responseMaterias;
+  response.profesores = responseProfesores;
+  response.alumnos = responseAlumnos;
+  return response;
 };
 
 // /**
