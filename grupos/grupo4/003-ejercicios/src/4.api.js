@@ -19,6 +19,6 @@ export function run() {
           city: address.city,
         }))
       )
-      .then((result) => console.info(result))
+      .then((result) => console.info('Resultado:', result))
   );
 }
