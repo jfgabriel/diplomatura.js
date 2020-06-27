@@ -1,7 +1,7 @@
 import { printTitle } from './utils';
-import collection from './1.collection';
-import vector from './2.vector';
-import delay from './3.delay';
+import { run as collection } from './1.collection';
+import { run as vector } from './2.vector';
+import { run as delay } from './3.delay';
 
 console.clear();
 console.info('='.repeat(80));

@@ -21,7 +21,7 @@ export class Collection {
   }
 }
 
-export default () => {
+export function run() {
   const original = ['fox', 'red'];
   const c = new Collection(original);
 
@@ -33,4 +33,4 @@ export default () => {
   console.info(c);
 
   console.info(original);
-};
+}

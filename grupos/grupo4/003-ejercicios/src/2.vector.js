@@ -27,11 +27,11 @@ export class Vector {
   }
 }
 
-export default () => {
+export function run() {
   const v1 = new Vector(2, 3);
   console.info(v1);
 
   const v2 = new Vector(5, 6);
   const v3 = v1.sumar(v2);
   console.info(v3);
-};
+}
