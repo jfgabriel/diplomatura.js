@@ -4,6 +4,7 @@ import { run as vector } from './2.vector';
 import { run as delay } from './3.delay';
 import { run as api } from './4.api';
 import { getRemoteData } from './5.api-async';
+import delayAgain from './6.delay-async';
 
 console.clear();
 console.info('='.repeat(80));
@@ -23,4 +24,7 @@ console.info('='.repeat(80));
 
   printTitle('5. Consumir una API con async/await');
   await getRemoteData();
+
+  printTitle('6. Delay (Again?)');
+  await delayAgain();
 })();

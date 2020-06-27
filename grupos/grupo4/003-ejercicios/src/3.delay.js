@@ -1,9 +1,7 @@
 export function delay(message, time) {
-  console.time(message);
-
   return new Promise((resolve) => {
     setTimeout(() => {
-      console.timeEnd(message);
+      console.info(message);
       resolve();
     }, time);
   });
