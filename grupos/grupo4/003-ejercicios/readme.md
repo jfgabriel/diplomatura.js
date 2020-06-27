@@ -33,35 +33,36 @@ Escribir una clase Vector que represente un espacio de dos dimensiones x e y. Es
 ## 3. Delay con callbacks
 
 - Experimentar con la función setTimeout para que muestre un mensaje después de 3000 milisegundos.
-   ```
-   setTimeout(() =>  {.... do something ...}, delay_in_milliseconds);
-   ```
+
+  ```
+  setTimeout(() =>  {.... do something ...}, delay_in_milliseconds);
+  ```
 
 - Crear una función `delay` que tome dos parámetros `mensaje` y `milisegundos` y muestre un mensaje después del tiempo indicado.
-   
+
 - Crear una función `run` con el siguiente código
 
-   ```
-   console.log(1);
-   delay('Terminó 1', 1000);
-   console.log(2);
-   delay('Terminó 2', 1000);
-   console.log(3);
-   delay('Terminó 3', 1000);
+  ```
+  console.log(1);
+  delay('Terminó 1', 1000);
+  console.log(2);
+  delay('Terminó 2', 1000);
+  console.log(3);
+  delay('Terminó 3', 1000);
   ```
 
   Luego invocarla con `run()`. ¿Cuál es el resultado?
 
 - Modificar nuestra función `run` con el siguiente código. Ejecutarla y observar el resultado.
 
-   ```
-   console.log(1);
-   delay('Terminó 1', 3000);
-   console.log(2);
-   delay('Terminó 2', 2000);
-   console.log(3);
-   delay('Terminó 3', 1000);
-   ```
+  ```
+  console.log(1);
+  delay('Terminó 1', 3000);
+  console.log(2);
+  delay('Terminó 2', 2000);
+  console.log(3);
+  delay('Terminó 3', 1000);
+  ```
 
 ## 4. Consumir una API con Promise Chaining
 
@@ -78,6 +79,7 @@ Consumir la API https://jsonplaceholder.typicode.com/users y mostrar por consola
 - Mostrar por consola el nombre del usuario y la ciudad donde vive
 
 ## 5. Consumir una API con asyc/await
+
 - Copiar el código de el ejercicio 4 en el cuerpo de una nueva función asincrónica `async function getRemoteData()`.
 
 - Modificar el cuerpo de la función para utilizar async/await en vez de Promise chaining.
@@ -86,7 +88,7 @@ Consumir la API https://jsonplaceholder.typicode.com/users y mostrar por consola
 
 - Modificar nuestra función `delay` para que utilice Promises. `delay` tomará un sólo parámetro `segundos` y debe devolver una Promise que resuelva cuando el tiempo ha finalizado.
 
-- Una vez modificada, cambiar nuestra función run() para que muestre en orden los siguientes mensajes. 
+- Una vez modificada, cambiar nuestra función run() para que muestre en orden los siguientes mensajes.
 
   ```
   1
@@ -102,8 +104,9 @@ Consumir la API https://jsonplaceholder.typicode.com/users y mostrar por consola
 #### Tip 2: Si usamos async/await tenemos que convertir nuestra función run a asincrónica: `async run(...){ .... }`
 
 #### Tip 3: utilizar el constructor de Promise que nos permite obtener una referencia una función `resolve` que nos permite resolver la promesa
+
 ```
-return new Promise(resolve => { 
+return new Promise(resolve => {
      .... something ...
      resolve( ... something ...)
      .... something ...
