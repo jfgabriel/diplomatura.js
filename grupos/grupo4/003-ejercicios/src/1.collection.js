@@ -60,7 +60,7 @@ export const collectionTest = {
     //indicar que el varlor existe:
     let valor = -2;
     if (miColeccion.has(valor)) {
-      console.log('El valor ' + valor + ' existe!');
+      console.log('El valor ', valor, ' existe!');
     } else {
       console.log('El valor ' + valor + ' NO existe!');
     }
