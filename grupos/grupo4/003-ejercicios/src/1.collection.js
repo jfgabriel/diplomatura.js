@@ -33,13 +33,7 @@ export class Collection {
   }
 
   print() {
-    console.log('Lista de elementos:');
-    let elementos = '';
-    this.listaElementos.forEach((element) => {
-      elementos += element.toString() + ', ';
-    });
-    elementos = elementos.substr(0, elementos.length - 2);
-    console.log('    [' + elementos + ']');
+    console.log('Lista de elementos:', this.listaElementos.join(',');
   }
 }
 
