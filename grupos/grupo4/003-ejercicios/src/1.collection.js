@@ -26,7 +26,7 @@ export class Collection {
   }
 
   delete(elemento) {
-    const posicion = this.listaElementos.findIndex((x) => x == elemento);
+    const posicion = this.listaElementos.findIndex((x) => x === elemento);
     if (posicion >= 0) {
       this.listaElementos.splice(posicion, 1);
     }
