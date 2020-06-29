@@ -30,7 +30,6 @@ const run2 = () => {
 
 export const testSetTimeout = {
   test() {
-    //run();
     run2();
   },
 };
