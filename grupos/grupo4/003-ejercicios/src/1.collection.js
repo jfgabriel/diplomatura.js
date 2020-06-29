@@ -33,7 +33,7 @@ export class Collection {
   }
 
   print() {
-    console.log('Lista de elementos:', this.listaElementos.join(',');
+    console.log('Lista de elementos:', this.listaElementos.join(','));
   }
 }
 
