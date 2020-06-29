@@ -67,7 +67,7 @@ export const collectionTest = {
 
     valor = 300;
     if (miColeccion.has(valor)) {
-      console.log('El valor ' + valor + ' existe!');
+      console.log('El valor', valor, 'existe!');
     } else {
       console.log('El valor ' + valor + ' NO existe!');
     }
