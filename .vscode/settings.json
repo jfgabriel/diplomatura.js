@@ -1,0 +1,23 @@
+{
+  "files.watcherExclude": {
+    "**/.history/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/build/**": true,
+    "**/dist/**": true,
+    "**/package-lock.json": true
+  },
+  "files.exclude": {
+    "**/.history": true
+  },
+  "search.exclude": {
+    "**/.git": true,
+    "**/.history/**": true,
+    "**/node_modules/**": true,
+    "**/build/**": true,
+    "**/dist/**": true,
+    "**/package-lock.json": true
+  },
+  "editor.formatOnSave": true
+}
