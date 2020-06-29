@@ -8,7 +8,6 @@ export const testApi = {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then((resultado) => resultado.json()) // equivalente a: function(resultado){return resultado.json()}
       .then((json) => {
-        //console.log(json); //mostrar json completo
         const cantUsuarios = Object.keys(json).length;
         console.log('Cantidad de Usuarios: ' + cantUsuarios);
         json.forEach((element) => {
