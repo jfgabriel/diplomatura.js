@@ -32,7 +32,7 @@ export class Collection {
     }
   }
 
-  toString() {
+  print() {
     console.log('Lista de elementos:', this.listaElementos.join(','));
   }
 }
