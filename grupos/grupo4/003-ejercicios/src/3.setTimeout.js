@@ -7,19 +7,7 @@ export const delay = (mensaje, milisegundos) => {
   }, milisegundos);
 };
 
-//Crear una función `run` con el siguiente código
-
 const run = () => {
-  console.log(1);
-  delay('Terminó 1', 1000);
-  console.log(2);
-  delay('Terminó 2', 1000);
-  console.log(3);
-  delay('Terminó 3', 1000);
-};
-
-//- Modificar nuestra función `run` con el siguiente código. Ejecutarla y observar el resultado.
-const run2 = () => {
   console.log(1);
   delay('Terminó 1', 3000);
   console.log(2);
@@ -30,6 +18,6 @@ const run2 = () => {
 
 export const testSetTimeout = {
   test() {
-    run2();
+    run();
   },
 };
