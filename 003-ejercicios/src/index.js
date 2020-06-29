@@ -73,7 +73,7 @@ console.log('Ultimo mensaje');
 
 
 //*********Prueba para 5.asycAwait******
-getRemoteData();
+//getRemoteData();
 //**************************************
 
 
