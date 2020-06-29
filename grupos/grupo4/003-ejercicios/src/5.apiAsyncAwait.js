@@ -5,16 +5,15 @@ async function getRemoteData() {
     const response = await fetch('https://jsonplaceholder.typicode.com/users');
 
     const json = await response.json();
-
-    //console.log(json);
-
     const cantUsuarios = Object.keys(json).length;
-    console.log('Cantidad de Usuarios: ' + cantUsuarios);
-    json.forEach((element) => {
-      console.log('  ' + element.name + ' vive en ' + element.address.city);
-    });
+    console.log('Cantidad de Usuarios:', cantUsuarios);
+    let jsonUsuarios = json.map(({ name, address }) => ({
+      name,
+      city: address.city,
+    }));
+    console.log(jsonUsuarios);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   } finally {
     console.log(
       'Finalmente https://jsonplaceholder.typicode.com/users  en 5.apiAsyncAwait.js concluyó'
