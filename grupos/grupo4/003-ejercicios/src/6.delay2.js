@@ -6,7 +6,6 @@ export const delay2 = (message, time) => {
     }, time);
   });
 };
-
 export const testDelay2 = {
   async run() {
     const msg1 = await delay2(1, 1000);

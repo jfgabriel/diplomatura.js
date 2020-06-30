@@ -6,6 +6,7 @@ import { testDelay } from './3.delay';
 import { testApi } from './4.api';
 import { testApi2 } from './5.api2';
 import { testDelay2 } from './6.delay2';
+
 // Test Ejercicio 1
 // testCollection.test();
 

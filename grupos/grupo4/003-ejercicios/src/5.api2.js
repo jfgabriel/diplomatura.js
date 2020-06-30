@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-
 export const getRemoteData = async () => {
   try {
     return await (
@@ -9,7 +8,6 @@ export const getRemoteData = async () => {
     throw new Error(error);
   }
 };
-
 export const testApi2 = {
   async test() {
     try {

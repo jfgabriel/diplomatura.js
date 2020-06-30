@@ -1,11 +1,9 @@
 import fetch from 'node-fetch';
-
 export const Api = {
   fetch: fetch('https://jsonplaceholder.typicode.com/users')
     .then((resp) => resp.json())
     .catch((err) => err.json()),
 };
-
 export const testApi = {
   test() {
     // Api.fetch.then((result) => console.log(result));

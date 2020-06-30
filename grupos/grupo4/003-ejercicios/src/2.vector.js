@@ -24,7 +24,6 @@ export class Vector {
     return new Vector(this.X + vectorNew.X, this.Y + vectorNew.Y);
   }
 }
-
 export const testVector = {
   test() {
     const vector1 = new Vector('1', 2);

@@ -25,7 +25,6 @@ export class Collection {
     };
   }
 }
-
 export const testCollection = {
   test() {
     const myCollection = new Collection(['una lista']);
