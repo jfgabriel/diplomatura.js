@@ -2,10 +2,16 @@ class Vector {
   constructor(x = null, y = nul) {
     this.x = x;
     this.y = y;
-    return this;
   }
 
-  //getters???
+  getX(){
+    return this.x;
+  }
+
+
+  getY(){
+    return this.y;
+  }
 
   sumar(vector = null) {
     let response = {
