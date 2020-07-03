@@ -11,13 +11,16 @@
      */
     { "path": "grupos/grupo4/001-ejercicios", "name": "001-ejercicios" },
     { "path": "grupos/grupo4/002-ejercicios", "name": "002-ejercicios" },
-    { "path": "grupos/grupo4/003-ejercicios", "name": "003-ejercicios" }
+    { "path": "grupos/grupo4/003-ejercicios", "name": "003-ejercicios" },
+    { "path": "grupos/grupo4/004-ejercicios", "name": "004-ejercicios" }
   ],
   "extensions": {
     "recommendations": [
       "esbenp.prettier-vscode",
       "mohsen1.prettify-json",
-      "dbaeumer.vscode-eslint"
+      "dbaeumer.vscode-eslint",
+      "xyz.local-history",
+      "tgreen7.vs-code-node-require"
     ]
   },
   "settings": {

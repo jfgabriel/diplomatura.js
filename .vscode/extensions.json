@@ -2,6 +2,8 @@
   "recommendations": [
     "esbenp.prettier-vscode",
     "mohsen1.prettify-json",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "xyz.local-history",
+    "tgreen7.vs-code-node-require"
   ]
 }
