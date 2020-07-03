@@ -1,4 +1,8 @@
 import express from 'express';
+import moment from 'moment';
+import os from 'os';
+
+const serverCurrentTime = moment().format();
 const app = express();
 import postsRoutes from './controllers/posts';
 import albumRoutes from './controllers/albums';
@@ -10,7 +14,7 @@ app.use('/albums', albumRoutes);
 
 // Implementar el endpoint de stats aca. GET "/"
 app.get('/', function (req, res) {
-  res.json({ mensaje: 'Hello world!' });
+  res.json({ serverCurrentTime: serverCurrentTime });
 });
 
 app.listen(PORT);
