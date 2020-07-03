@@ -18,10 +18,18 @@ class Vector {
         this.y = y;
     }
 
+    get getx() {
+        return this.x;
+    }
+
+    get gety() {
+        return this.y;
+    }
+
     sumar(vector) {
         return {
-            x: vector.x + this.x,
-            y: vector.y + this.y
+            x: vector.x + this.getx,
+            y: vector.y + this.gety
         }
     }
 }
