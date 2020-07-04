@@ -6,11 +6,13 @@ const serverCurrentTime = moment().format();
 const app = express();
 import postsRoutes from './controllers/posts';
 import albumRoutes from './controllers/albums';
+import usersRoutes from './controllers/users';
 
 const PORT = 8080;
 
 app.use('/posts', postsRoutes);
 app.use('/albums', albumRoutes);
+app.use('/users', usersRoutes);
 
 // Implementar el endpoint de stats aca. GET "/"
 app.get('/', function (req, res) {
