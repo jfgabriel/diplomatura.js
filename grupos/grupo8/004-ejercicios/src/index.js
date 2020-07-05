@@ -2,6 +2,7 @@ import express from 'express';
 import moment from 'moment';
 import postsRoutes from './controllers/posts';
 import albumRoutes from './controllers/albums';
+import userRoutes from './controllers/userInfo';
 const app = express();
 const m = moment();
 const os = require('os');
@@ -11,8 +12,9 @@ const PORT = 8080;
 
 app.use('/posts', postsRoutes);
 app.use('/albums', albumRoutes);
+app.use('/userInfo', userRoutes);
 
-// Implementar el endpoint de stats aca. GET "/"
+//Implementar el endpoint de stats aca. GET "/"
 app.get('/', function (req, res) {
   const result = {
       serverCurrentTime: new Date(), //Crea la fecha actual
@@ -28,6 +30,9 @@ app.get('/', function (req, res) {
     };
     res.json(result);
 });
+
+
+
 
 app.listen(PORT);
 console.log(`Express started on port ${PORT}`);
