@@ -1,13 +1,17 @@
 import express from 'express';
+import albumsAPI from '../helpers/albumsApiHelper';
 
-var albumsApi = express.Router();
+const routes = express.Router();
 
-albumsApi.get('/', function (req, res) {
-  res.send('Hola albums!.');
+routes.get('/', async (req, res) => {
+  const data = await albumsAPI.list();
+  res.send(data);
 });
 
-albumsApi.get('/:id', function (req, res) {
-  res.send(`Hola album ${req.params.id}.`);
+routes.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const data = await albumsAPI.get(id);
+  res.send(data);
 });
 
-export default albumsApi;
+export default routes;

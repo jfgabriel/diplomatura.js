@@ -1,13 +1,17 @@
 import express from 'express';
+import postsAPI from '../helpers/postsApiHelper';
 
-var postApi = express.Router();
+const routes = express.Router();
 
-postApi.get('/', function (req, res) {
-  res.send('Hola posts!.');
+routes.get('/', async (req, res) => {
+  const data = await postsAPI.list();
+  res.send(data);
 });
 
-postApi.get('/:id', function (req, res) {
-  res.send(`Hola post ${req.params.id}.`);
+routes.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const data = await postsAPI.get(id);
+  res.send(data);
 });
 
-export default postApi;
+export default routes;
