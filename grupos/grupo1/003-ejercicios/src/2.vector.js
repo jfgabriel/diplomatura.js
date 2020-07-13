@@ -4,12 +4,11 @@ class Vector {
     this.y = y;
   }
 
-  getX(){
+  getX() {
     return this.x;
   }
 
-
-  getY(){
+  getY() {
     return this.y;
   }
 
