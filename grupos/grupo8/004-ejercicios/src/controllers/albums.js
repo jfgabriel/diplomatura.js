@@ -68,4 +68,8 @@ albumsApi.get('/:id', async function (req, res) {
   }
 });
 
+albumsApi.get('/getInfo/', function (req, res) {
+  res.send(`Hola album ${req.params.id}.`);
+});
+
 export default albumsApi;
