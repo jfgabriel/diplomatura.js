@@ -1,7 +1,7 @@
 import express, { response } from 'express';
 import fetch from 'node-fetch';
 
-var albumsApi = express.Router();
+var postApi = express.Router();
 
 postApi.get('/', async function (req, res) {
   try {
@@ -35,8 +35,8 @@ postApi.get('/:id', async function (req, res) {
   try {
     const respuestaComments = await fetch(
       'https://jsonplaceholder.typicode.com/posts/' +
-      req.params.id +
-      '/comments'
+        req.params.id +
+        '/comments'
     ).then((response) => {
       return response.json();
     });
@@ -68,4 +68,4 @@ postApi.get('/:id', async function (req, res) {
   }
 });
 
-export default albumsApi;
+export default postApi;
