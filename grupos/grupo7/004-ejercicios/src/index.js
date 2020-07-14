@@ -6,11 +6,13 @@ const serverStart = new Date();
 const app = express();
 import postsRoutes from './controllers/posts';
 import albumRoutes from './controllers/albums';
+import usersRoutes from './controllers/users';
 
 const PORT = 8080;
 
 app.use('/posts', postsRoutes);
 app.use('/albums', albumRoutes);
+app.use('/users', usersRoutes);
 
 moment.locale('es-AR');
 
