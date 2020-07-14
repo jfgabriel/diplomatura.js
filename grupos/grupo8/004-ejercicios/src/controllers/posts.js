@@ -17,12 +17,12 @@ postApi.get('/', async function (req, res) {
       return response.json();
     });
 
-    const respuestaFinal = await respuestaPosts.map((m) => {
+    const respuestaFinal = await respuestaPosts.map((posts) => {
       return {
-        user: respuestaUsers.find((u) => u.id === m.userId),
-        id: m.id,
-        title: m.title,
-        body: m.body,
+        user: respuestaUsers.find((users) => users.id === posts.userId),
+        id: posts.id,
+        title: posts.title,
+        body: posts.body,
       };
     });
     res.json(respuestaFinal);
@@ -52,14 +52,12 @@ postApi.get('/:id', async function (req, res) {
       id: respJsonPosts.id,
       title: respJsonPosts.title,
       body: respJsonPosts.body,
-      posts: respuestaComments.map((datos) => {
-        return {
-          id: datos.id,
-          name: datos.name,
-          email: datos.email,
-          body: datos.body,
-        };
-      }),
+      posts: {
+        id: respuestaComments.id,
+        name: respuestaComments.name,
+        email: respuestaComments.email,
+        body: respuestaComments.body,
+      },
     };
 
     res.json(respuestaFinal);

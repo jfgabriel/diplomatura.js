@@ -17,16 +17,13 @@ albumsApi.get('/', async function (req, res) {
 
     let respuestaJsonUsuario = await respuestaUsuario.json();
 
-    const salida = dataAlbum.map(p => {
-
+    const salida = dataAlbum.map((p) => {
       return {
-        usuario: respuestaJsonUsuario.find(u => u.id === p.userId),
+        usuario: respuestaJsonUsuario.find((u) => u.id === p.userId),
         id: p.id,
-        title: p.title
-
-      }
-    })
-
+        title: p.title,
+      };
+    });
 
     res.json(salida);
   } catch (error) {
@@ -36,31 +33,31 @@ albumsApi.get('/', async function (req, res) {
 
 albumsApi.get('/:id', async function (req, res) {
   try {
-    let dataAlbum = await (await fetch(
-      'https://jsonplaceholder.typicode.com/albums/' + req.params.id
-    )).json();
+    let dataAlbum = await (
+      await fetch(
+        'https://jsonplaceholder.typicode.com/albums/' + req.params.id
+      )
+    ).json();
 
-    let dataFotos = await (await fetch(
-      'https://jsonplaceholder.typicode.com/albums/' + req.params.id + '/photos'
-    )).json();
+    let dataFotos = await (
+      await fetch(
+        'https://jsonplaceholder.typicode.com/albums/' +
+          req.params.id +
+          '/photos'
+      )
+    ).json();
 
     const salida = {
-
       userId: dataAlbum.userId,
       id: dataAlbum.id,
       title: dataAlbum.title,
-      photo: dataFotos.map(f =>
-        ({
-          id: f.id,
-          title: f.title,
-          url: f.url,
-          thumbnailUrl: f.thumbnailUrl
-        })
-      )
-
-    }
-
-
+      photo: dataFotos.map((f) => ({
+        id: f.id,
+        title: f.title,
+        url: f.url,
+        thumbnailUrl: f.thumbnailUrl,
+      })),
+    };
 
     res.json(salida);
   } catch (error) {
