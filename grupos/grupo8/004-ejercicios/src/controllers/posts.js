@@ -52,14 +52,12 @@ postApi.get('/:id', async function (req, res) {
       id: respJsonPosts.id,
       title: respJsonPosts.title,
       body: respJsonPosts.body,
-      posts: respuestaComments.map((datos) => {
-        return {
-          id: datos.id,
-          name: datos.name,
-          email: datos.email,
-          body: datos.body,
-        };
-      }),
+      posts: {
+        id: respuestaComments.id,
+        name: respuestaComments.name,
+        email: respuestaComments.email,
+        body: respuestaComments.body,
+      },
     };
 
     res.json(respuestaFinal);
