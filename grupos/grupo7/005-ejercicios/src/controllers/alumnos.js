@@ -1,15 +1,16 @@
 import express from 'express';
+import { getDataFromCollection } from '../db.js';
 
 const router = express.Router();
 
-router.get('/', function (req, res) {
-  // Completar
-  res.json({});
+router.get('/', async function (req, res) {
+  const alumnos = await getDataFromCollection('alumnos');
+  res.json(alumnos);
 });
 
-router.get('/:id', function (req, res) {
-  // Completar
-  res.json({});
+router.get('/:id', async function (req, res) {
+  const alumnos = await getDataFromCollection('alumnos', req.params.id);
+  res.json(alumnos);
 });
 
 router.post('/', function (req, res) {

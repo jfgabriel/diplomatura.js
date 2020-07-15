@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use('/alumnos', alumnosRoutes);
 
 app.get('/', function (req, res) {
-  res.json({ mensaje: 'Bienvenido al servidor de la Universidad' });
+  res.json({ mensaje: 'Bienvenido al servidor de la Universidad - Grupo 7' });
 });
 
 app.listen(PORT);
