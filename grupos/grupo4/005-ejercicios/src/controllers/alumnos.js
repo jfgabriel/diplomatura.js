@@ -4,8 +4,16 @@ import { AlumnoRepository } from '../repository/alumnoRepository';
 const router = express.Router();
 
 router.get('/', function (req, res) {
+  const nombre = req.query.nombre;
+  console.log(nombre);
   const alumnoRepo = new AlumnoRepository();
-  const result = alumnoRepo.getAll();
+  let result = undefined;
+  if (nombre) {
+    result = alumnoRepo.getBy('nombre', nombre);
+  } else {
+    result = alumnoRepo.getAll();
+  }
+
   result.then((json) => res.send(json));
 });
 
@@ -36,17 +44,17 @@ router.get('/:id', function (req, res) {
   //result.then((json) => res.send(json));
 });
 
-router.get('/:nombre', function (req, res) {
-  const nombre = req.params.nombre;
-  const alumnoRepo = new AlumnoRepository();
-  alumnoRepo.getBy('nombre', nombre, (err, alumno) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.json(alumno);
-    }
-  });
-});
+//router.get('/:nombre', function (req, res) {
+//  const nombre = req.params.nombre;
+//  const alumnoRepo = new AlumnoRepository();
+//  alumnoRepo.getBy('nombre', nombre, (err, alumno) => {
+//    if (err) {
+//     res.send(err);
+//    } else {
+//      res.json(alumno);
+//    }
+//  });
+//});
 
 router.post('/', function (req, res) {
   // TIP: En req.body viene los datos
