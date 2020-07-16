@@ -1,13 +1,16 @@
 import express from 'express';
-import { 
-  getDataFromCollectionFilterId, 
-  getDataFromCollectionFilterName 
+import {
+  getDataFromCollectionFilterId,
+  getDataFromCollectionFilterName,
+  insertData,
+  updateData,
+  deleteData
 } from '../db.js';
 
 const router = express.Router();
 
 router.get('/', async function (req, res) {
-  
+
   const nombre = req.query.nombre;
   if (nombre) {
     const alumnos = await getDataFromCollectionFilterName('alumnos', nombre);
@@ -16,7 +19,7 @@ router.get('/', async function (req, res) {
     const alumnos = await getDataFromCollectionFilterId('alumnos');
     res.json(alumnos);
   }
-  
+
 });
 
 router.get('/:id', async function (req, res) {
@@ -25,25 +28,24 @@ router.get('/:id', async function (req, res) {
   res.json(alumnos);
 });
 
-router.post('/', function (req, res) {
-  // TIP: En req.body viene los datos
-
-  // Completar
-  res.json({});
+router.post('/', async function (req, res) {
+  const { body } = req;
+  const nuevoAlumno = await insertData('alumnos', req);
+  res.json(nuevoAlumno);
 });
 
-router.put('/', function (req, res) {
-  // TIP: En req.body viene los datos
+router.put('/:id', async function (req, res) {
+  const { id } = req.params;
+  const { body } = req;
 
-  // Completar
-  res.json({});
+  const editAlumno = await updateData('alumnos', id , body);
+  res.json(editAlumno);
 });
 
-router.delete('/', function (req, res) {
-  // TIP: En req.body viene los datos
-
-  // Completar
-  res.json({});
+router.delete('/:id', async function (req, res) {
+  const { id } = req.params;
+  const deleteAlumno = await deleteData('alumnos', id);
+  res.json(deleteAlumno);
 });
 
 export default router;

@@ -13,14 +13,5 @@ router.get('/:id', async function (req, res) {
   res.json(provincias);
 });
 
-router.post('/', function (req, res) {
-  // TIP: En req.body viene los datos
-
-  // Completar
-  res.json({});
-});
-
-// Completar el resto de los métodos
-// router....
 
 export default router;
