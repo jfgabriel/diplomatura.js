@@ -3,13 +3,13 @@ import bodyParser from 'body-parser';
 import alumnosRoutes from './controllers/alumnos';
 import calificacionesRoutes from './controllers/calificaciones';
 
-import {connect} from './connection';
-
 const PORT = 8080;
 const app = express();
 app.use(bodyParser.json());
 
 app.use('/alumnos', alumnosRoutes);
+app.use('/profesores', profesoresRoutes);
+app.use('/materias', materiasRoutes);
 app.use('/calificaciones', calificacionesRoutes);
 
 app.get('/', function (req, res) {
