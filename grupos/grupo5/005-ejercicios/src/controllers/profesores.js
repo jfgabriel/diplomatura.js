@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { connect } from '../connection'; //Importamos el metodo connect
+import {connect} from '../connection'; //Importamos el metodo connect
 
 const router = express.Router();
 
@@ -8,7 +8,8 @@ router.get('/', async (req, res) => {
   try {
     const db = await connect(); //Me devuelve una conexion a la base de datos
     const salida = await db.collection('profesores').find({}).toArray();
-    res.json({ salida });
+
+    res.json(salida);
   } catch (e) {
     console.log(e);
   }
