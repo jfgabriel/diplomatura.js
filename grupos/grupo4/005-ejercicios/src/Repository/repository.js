@@ -1,4 +1,5 @@
 import { connect } from '../helpers/helper';
+import { ObjectId } from 'mongodb';
 
 const URL_DEFAULT_CONNECTION = 'mongodb://localhost:27017';
 const DEFAULT_DATABASE = 'diplomatura';
@@ -13,31 +14,35 @@ export class Repository {
   }
 
   /**
-   * Obtener todos los documentos
-   * @return {json<T>}
+   * @return [MongoClient, Collection<Any>]
    */
-  async getAll() {
+  async _getConexion() {
     const client = await connect(URL_DEFAULT_CONNECTION);
     const db = client.db(DEFAULT_DATABASE);
     const coleccion = db.collection(this._nombreColeccion);
+    return [client, coleccion];
+  }
+
+  /**
+   * Obtener todos los documentos
+   * @return [{json<T>}] Arreglo de documentos
+   */
+  async getAll() {
+    const [client, coleccion] = await this._getConexion(); //desconstructor
     const resultado = await coleccion.find({}).toArray();
-    client.close();
+    await client.close();
     return resultado;
   }
 
   /**
    * Obtener documento por id
-   * @param {int} idElemento
-   * @return {json<T>}
+   * @param {string} id
+   * @return {json<T>} documento
    */
-  async getById(idElemento) {
-    const id = (idElemento = Number);
-    const client = await connect(URL_DEFAULT_CONNECTION);
-    const db = client.db(DEFAULT_DATABASE);
-    const coleccion = db.collection(this._nombreColeccion);
-    const consulta = { id: id };
-    const resultado = await coleccion.findOne(consulta);
-    client.close();
+  async getById(id) {
+    const [client, coleccion] = await this._getConexion(); //desconstructor
+    const resultado = await coleccion.findOne({ _id: new ObjectId(id) });
+    await client.close();
     return resultado;
   }
 
@@ -45,87 +50,79 @@ export class Repository {
    * Obtener documento por id
    * @param {string} clave
    * @param {any} valor
-   * @return {[json<T>]}
+   * @return {[json<T>]} arreglo de documentos encontrados
    */
-  async getBy(clave, valor) {
-    const client = await connect(URL_DEFAULT_CONNECTION);
-    const db = client.db(DEFAULT_DATABASE);
-    const coleccion = db.collection(this._nombreColeccion);
-    const key = clave;
-    const value = valor;
-    //const resultado = await coleccion.find({ [key]: value }).toArray();
-
-    //like + insesitive
-    const resultado = await coleccion
-      .find({ [key]: { $regex: new RegExp(`${value}*`, 'i') } })
-      .toArray();
-
-    client.close();
+  async find(clave, valor) {
+    const [client, coleccion] = await this._getConexion(); //desconstructor
+    const resultado = await coleccion.find({ [clave]: valor }).toArray();
+    await client.close();
     return resultado;
   }
 
-  /**
-   * Obtener documento por id
-   * @return {int}
-   */
-  async getMaxId() {
-    //como se obtiene en mongodb el max?
-    const all = await this.getAll();
-    const ids = all.map((e) => e.id);
-    const maxId = Math.max.apply(null, ids);
-    return maxId;
-  }
+  // /**
+  //  * Obtener documento por id
+  //  * @return {int}
+  //  */
+  // async getMaxId() {
+  //   const [client, coleccion] = await this._getConexion(); //desconstructor
+  //   const resultado = await coleccion
+  //     .find({})
+  //     .sort({ id: -1 })
+  //     .limit(1)
+  //     .select('id');
+  //   await client.close();
+  //   return resultado[0].id;
+  // }
+
+  // /**
+  //  * Obtiene un id para un nuevo documento
+  //  * @return {int}
+  //  */
+  // async getNewId() {
+  //   const id = await this.getMaxId();
+  //   return id + 1;
+  // }
 
   /**
-   * Obtiene un id para un nuevo documento
-   * @return {int}
-   */
-  async getNewId() {
-    return this.getMaxId() + 1;
-  }
-
-  /**
-   * almacena un documento. Genera el Id del documento.
-   * @param {json<T>}
+   * almacena un documento.
+   * @param {json<T>} documento
+   * @return {json<T>} documento guardado
    */
   async save(documento) {
-    const nuevoId = getNewId();
-    documento.id = nuevoId;
-
-    const client = await connect(URL_DEFAULT_CONNECTION);
-    const db = client.db(DEFAULT_DATABASE);
-    const coleccion = db.collection(this._nombreColeccion);
+    const [client, coleccion] = await this._getConexion(); //desconstructor
     const resultado = await coleccion.insertOne(documento);
-    client.close();
-    return resultado;
+    const id = resultado.insertedId;
+    await client.close();
+    return await this.getById(id);
   }
 
   /**
-   * actualiza un documento identificando su id
-   * @param {json<T>}
+   * actualiza un documento identificado por su id
+   * @param {string} id
+   * @param {json<T>} documento
+   * @return {json<T>} documento anterior
    */
-  async updateById(documento) {
-    const client = await connect(URL_DEFAULT_CONNECTION);
-    const db = client.db(DEFAULT_DATABASE);
-    const coleccion = db.collection(this._nombreColeccion);
-    const resultado = await coleccion.replaceOne(
-      { id: documento.id },
-      documento
+  async updateById(id, documento) {
+    const [client, coleccion] = await this._getConexion(); //desconstructor
+    const resultado = await coleccion.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: documento }
     );
-    client.close();
+    await client.close();
     return resultado;
   }
 
   /**
    * actualiza un documento identificando su id
-   * @param {json<T>}
+   * @param {String} id
+   * @return {json<T>} documento eliminado
    */
-  async deleteById(documento) {
-    const client = await connect(URL_DEFAULT_CONNECTION);
-    const db = client.db(DEFAULT_DATABASE);
-    const coleccion = db.collection(this._nombreColeccion);
-    const resultado = await coleccion.deleteOne({ id: documento.id });
-    client.close();
+  async deleteById(id) {
+    const [client, coleccion] = await this._getConexion(); //desconstructor
+    const resultado = await coleccion.findOneAndDelete({
+      _id: new ObjectId(id),
+    });
+    await client.close();
     return resultado;
   }
 }

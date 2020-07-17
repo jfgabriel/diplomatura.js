@@ -1,84 +1,48 @@
 import express from 'express';
-import { AlumnoRepository } from '../repository/alumnoRepository';
+import { Repository } from '../repository/repository';
+import EscapeStringRegexp from 'escape-string-regexp';
 
 const router = express.Router();
+const repositorio = new Repository('alumnos');
 
-router.get('/', function (req, res) {
+router.get('/', async function (req, res) {
   const nombre = req.query.nombre;
-  console.log(nombre);
-  const alumnoRepo = new AlumnoRepository();
-  let result = undefined;
+  let result;
   if (nombre) {
-    result = alumnoRepo.getBy('nombre', nombre);
+    result = await repositorio.find(
+      'nombre',
+      new RegExp(`.*${EscapeStringRegexp(nombre)}.*`, 'i')
+    );
   } else {
-    result = alumnoRepo.getAll();
+    result = await repositorio.getAll();
   }
-
-  result.then((json) => res.send(json));
+  res.json(result);
 });
 
-router.get('/:id', function (req, res) {
+router.get('/:id', async function (req, res) {
   const id = req.params.id;
-  const alumnoRepo = new AlumnoRepository();
-  alumnoRepo.getById(id, (err, alumno) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.json(alumno);
-    }
-    //if (err) {
-    //  return res.status(500).json({
-    //    ok: false,
-    //    mensaje: 'Se produjo un error al consultar el alumno ',
-    //    id,
-    //    error: err,
-    //  });
-    // } else {
-    //  return res.status(200).json({
-    //    ok: true,
-    //    mje: 'Exito',
-    //    alumno: alumno,
-    //  });
-    //}
-  });
-  //result.then((json) => res.send(json));
+  const documento = await repositorio.getById(id);
+  res.json(documento);
 });
 
-//router.get('/:nombre', function (req, res) {
-//  const nombre = req.params.nombre;
-//  const alumnoRepo = new AlumnoRepository();
-//  alumnoRepo.getBy('nombre', nombre, (err, alumno) => {
-//    if (err) {
-//     res.send(err);
-//    } else {
-//      res.json(alumno);
-//    }
-//  });
-//});
-
-router.post('/', function (req, res) {
-  // TIP: En req.body viene los datos
-  let alumno = {}; //obtener el json de req.body!!!!!!???
-  const alumnoRepo = new AlumnoRepository();
-  alumnoRepo.save(alumno, (err, alumno) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.json(alumno);
-    }
-  });
+router.post('/', async function (req, res) {
+  const documento = req.body; //express transforma a json el body
+  const result = await repositorio.save(documento);
+  res.json(result);
 });
 
-router.delete('/:id', function (req, res) {
+router.put('/:id', async function (req, res) {
   const id = req.params.id;
-  const alumnoRepo = new AlumnoRepository();
-  alumnoRepo.delete(id, (err, alumno) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.json(alumno);
-    }
-  });
+  const documento = req.body; //express transforma a json el body
+  const result = await repositorio.updateById(id, documento);
+  res.json(result);
+});
+
+router.delete('/:id', async function (req, res) {
+  const id = req.params.id;
+  console.log(id);
+  const result = await repositorio.deleteById(id);
+  res.json(result);
 });
 
 export default router;

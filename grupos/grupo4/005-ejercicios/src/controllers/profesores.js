@@ -1,28 +1,47 @@
 import express from 'express';
-import { ProfesorRepository } from '../repository/profesorRepository';
+import { Repository } from '../repository/repository';
+import EscapeStringRegexp from 'escape-string-regexp';
 
 const router = express.Router();
+const repositorio = new Repository('profesores');
 
-router.get('/', function (req, res) {
-  const profesorRepo = new ProfesorRepository();
-  const result = profesorRepo.getAll();
-  result.then((json) => res.send(json));
+router.get('/', async function (req, res) {
+  const nombre = req.query.nombre;
+  let result;
+  if (nombre) {
+    result = await repositorio.find(
+      'nombre',
+      new RegExp(`.*${EscapeStringRegexp(nombre)}.*`, 'i')
+    );
+  } else {
+    result = await repositorio.getAll();
+  }
+  res.json(result);
 });
 
-router.get('/:id', function (req, res) {
-  const profesorRepo = new ProfesorRepository();
-  const result = profesorRepo.getById(req.params.id);
-  result.then((json) => res.send(json));
+router.get('/:id', async function (req, res) {
+  const id = req.params.id;
+  const documento = await repositorio.getById(id);
+  res.json(documento);
 });
 
-//router.post('/', function (req, res) {
-//  // TIP: En req.body viene los datos
-//
-//  // Completar
-//  res.json({});
-//});
+router.post('/', async function (req, res) {
+  const documento = req.body; //express transforma a json el body
+  const result = await repositorio.save(documento);
+  res.json(result);
+});
 
-// Completar el resto de los métodos
-// router....
+router.put('/:id', async function (req, res) {
+  const id = req.params.id;
+  const documento = req.body; //express transforma a json el body
+  const result = await repositorio.updateById(id, documento);
+  res.json(result);
+});
+
+router.delete('/:id', async function (req, res) {
+  const id = req.params.id;
+  const result = await repositorio.delete(id);
+  res.json(result);
+});
 
 export default router;
