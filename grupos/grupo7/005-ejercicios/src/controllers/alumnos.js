@@ -10,8 +10,7 @@ import {
 const router = express.Router();
 
 router.get('/', async function (req, res) {
-
-  const nombre = req.query.nombre;
+  const { nombre } = req.query;
   if (nombre) {
     const alumnos = await getDataFromCollectionFilterName('alumnos', nombre);
     res.json(alumnos);
@@ -19,7 +18,6 @@ router.get('/', async function (req, res) {
     const alumnos = await getDataFromCollectionFilterId('alumnos');
     res.json(alumnos);
   }
-
 });
 
 router.get('/:id', async function (req, res) {
@@ -37,7 +35,6 @@ router.post('/', async function (req, res) {
 router.put('/:id', async function (req, res) {
   const { id } = req.params;
   const { body } = req;
-
   const editAlumno = await updateData('alumnos', id , body);
   res.json(editAlumno);
 });
