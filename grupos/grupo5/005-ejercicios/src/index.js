@@ -2,8 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import alumnosRoutes from './controllers/alumnos';
 
-import {connect} from './connection';
-
 const PORT = 8080;
 const app = express();
 app.use(bodyParser.json());
