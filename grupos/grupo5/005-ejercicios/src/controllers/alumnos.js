@@ -58,14 +58,12 @@ router.get('/:nombre', async (req, res) => {
   }
 });
 
+
+//Crear un alumno son los datos enviados en body, y devolver el nuevo alumno insertado
 router.post('/', async (req, res) => {
   try{
   // TIP: En req.body viene los datos
     const db = await connect();
-    //let nombre = req.body.nombre;
-   // let edad = req.body.edad;
-   // let provincia = req.body.provincia;
-
     const alumno = {
       id:req.body.id, 
       nombre:req.body.nombre, 
@@ -88,6 +86,27 @@ router.post('/', async (req, res) => {
   //eprecationWarning: collection.insert is deprecated. Use insertOne, insertMany or bulkWrite instead.
 });
 
+
+//Actualizar el alumno indicado en "id" con los datos enviados en body, y devolver el alumno modificado
+router.put('/:id', async (req, res) => {
+  try{
+  const id = parseInt(req.params.id); 
+  const updateAlumno ={
+    nombre:req.body.nombre,
+    edad:req.body.edad
+  };
+  const db = await connect();
+  await db.collection('alumnos').updateOne({'id':id}, {$set:updateAlumno});
+  const salida = await db.collection('alumnos').findOne({'id':id});
+  res.json({salida});
+  }
+  catch(error){
+    console.log(error);
+  }
+});
+
+
+//Eliminar el alumno indicado en "id" y devolver un objeto JSON {ok: true}
 router.delete('/:id', async (req, res) => {
   try{
   const id = parseInt(req.params.id); 
@@ -108,7 +127,6 @@ router.delete('/:id', async (req, res) => {
   catch(error){
     console.log(error);
   }
-
 });
 
 //actualizar alumno.-
