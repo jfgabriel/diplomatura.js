@@ -7,6 +7,9 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/alumnos', alumnosRoutes);
+app.use('/profesores', alumnosRoutes);
+app.use('/materias', alumnosRoutes);
+app.use('/calificaciones', alumnosRoutes);
 
 app.get('/', function (req, res) {
   res.json({ mensaje: 'Bienvenido al servidor de la Universidad' });
