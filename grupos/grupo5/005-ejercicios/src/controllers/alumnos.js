@@ -45,7 +45,7 @@ router.get('/:nombre', async (req, res) => {
   try{
    const nombre =   req.params.nombre; //es un string
     const db = await connect(); //Me devuelve una conexion a la base de datos
-    const salida = await db.collection('alumnos').find({'nombre': /nombre/}).toArray();   
+    const salida = await db.collection('alumnos').find({'nombre': nombre}).toArray();   
     if (!salida){
       res.status(404).json({
           message: 'No se registra el Alumno'
@@ -98,7 +98,9 @@ router.put('/:id', async (req, res) => {
   const db = await connect();
   await db.collection('alumnos').updateOne({'id':id}, {$set:updateAlumno});
   const salida = await db.collection('alumnos').findOne({'id':id});
+  
   res.json({salida});
+  
   }
   catch(error){
     console.log(error);
