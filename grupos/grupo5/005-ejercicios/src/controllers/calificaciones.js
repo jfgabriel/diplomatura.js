@@ -1,85 +1,111 @@
 import express from 'express';
 
-import {connect} from '../connection'; //Importamos el metodo connect
+import { connect } from '../connection'; //Importamos el metodo connect
 
 const router = express.Router();
 
+router.post('/', async (req, res) => {
+  //agrega una calificación
+  try {
+    const db = await connect();
+
+    const calificacion = {
+      alumno: parseInt(req.body.alumno),
+      materia: parseInt(req.body.materia),
+      nota: parseInt(req.body.nota),
+    };
+    const salida = await db
+      .collection('calificaciones')
+      .insertOne(calificacion);
+    res.json(salida.ops[0]);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 router.get('/', async (req, res) => {
-  try{
+  //lista todos
+  try {
     const db = await connect(); //Me devuelve una conexion a la base de datos
     const salida = await db.collection('calificaciones').find({}).toArray();
-    res.json({salida});
-  }
-  catch(e){
+    res.json({ salida });
+  } catch (e) {
     console.log(e);
   }
 });
 
 router.get('/busqueda', async (req, res) => {
-  try{
-    const id = parseInt(req.params.id); //es un string
+  //busqueda por body
+  try {
     const db = await connect(); //Me devuelve una conexion a la base de datos
-    const salida = await db.collection('calificaciones').find({'alumno': req.body.alumno, 'materia': req.body.materia}).toArray();
+    const salida = await db
+      .collection('calificaciones')
+      .find({
+        alumno: parseInt(req.body.alumno),
+        materia: parseInt(req.body.materia),
+      })
+      .toArray();
     res.json(salida);
-  }
-  catch(e){
-    console.log(e);
-  }
-});
-/*
-localhost:8080/buscar.json?id=1&name=carlitos*/
-router.get('/:alumno/:materia', async (req, res) => {
-  try{
-    const db = await connect(); //Me devuelve una conexion a la base de datos
-    const salida = await db.collection('calificaciones').find({'alumno': parseInt(req.params.alumno), 'materia': parseInt(req.params.materia)}).toArray();
-    res.json(salida);
-  }
-  catch(e){
+  } catch (e) {
     console.log(e);
   }
 });
 
+router.get('/:alumno/:materia', async (req, res) => { //busqueda por header
+  try {
+    const db = await connect(); //Me devuelve una conexion a la base de datos
+    const salida = await db
+      .collection('calificaciones')
+      .find({
+        alumno: parseInt(req.params.alumno),
+        materia: parseInt(req.params.materia),
+      })
+      .toArray();
+    res.json(salida);
+  } catch (e) {
+    console.log(e);
+  }
+});
 
-router.post('/', async (req, res) => {
-  try{
-  // TIP: En req.body viene los datos
-    const db = await connect();
-    //let nombre = req.body.nombre;
-   // let edad = req.body.edad;
-   // let provincia = req.body.provincia;
+router.put('/:alumno/:materia/:nota', async (req, res) => {
+  //actualiza una calificación (entra alumno, materia y la nota a actualizar)
+  try {
+    const alum = parseInt(req.params.alumno);
+    const mat = parseInt(req.params.materia);
+    const not = parseInt(req.params.nota);
 
-    const calificacion = {
-      alumno: req.body.alumno, 
-      materia: req.body.materia, 
-      nota: req.body.nota
+    const updateCalificacion = {
+      alumno: alum,
+      materia: mat,
+      nota: not,
     };
-    const salida = await db.collection('calificaciones').insertOne(calificacion);
-    res.json(salida.ops[0]);
-  }
-  catch(e){
-    console.log(e);
-  }
+    const db = await connect();
+    await db
+      .collection('calificaciones')
+      .updateOne({ alumno: alum, materia: mat }, { $set: updateCalificacion });
+    const salida = await db
+      .collection('calificaciones')
+      .findOne({ alumno: alum, materia: mat });
 
-  //Error con el insert
-  //eprecationWarning: collection.insert is deprecated. Use insertOne, insertMany or bulkWrite instead.
-});
-
-router.delete('/', async (req, res) => {
-  try{
-  const id = parseInt(req.params.id); 
-  const db = await connect();
-  const salida = await db.collection('calificaciones').deleteOne({'alumno': req.body.alumno, 'materia': req.body.materia});
-  res.json(salida);
-  
-  //onsole.log(salida);
-  }
-  catch(error){
+    res.json({ salida });
+  } catch (error) {
     console.log(error);
   }
-
 });
 
-// Completar el resto de los métodos
-// router....
+router.delete('/:alumno/:materia/:nota', async (req, res) => {
+  //borra una calificación
+  try {
+    const db = await connect();
+    const salida = await db.collection('calificaciones').deleteOne({
+      alumno: parseInt(req.params.alumno),
+      materia: parseInt(req.params.materia),
+      nota: parseInt(req.params.nota)
+    });
+    res.json(salida);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 export default router;
