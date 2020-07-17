@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try{
     const db = await connect(); //Me devuelve una conexion a la base de datos
-    const salida = await db.collection('alumnos').find({}).toArray();
+    const salida = await db.collection('calificaciones').find({}).toArray();
     res.json({salida});
   }
   catch(e){
@@ -15,17 +15,32 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/busqueda', async (req, res) => {
   try{
     const id = parseInt(req.params.id); //es un string
     const db = await connect(); //Me devuelve una conexion a la base de datos
-    const salida = await db.collection('alumnos').findOne({'id':id});
+    const salida = await db.collection('calificaciones').find({'alumno': req.body.alumno, 'materia': req.body.materia}).toArray();
     res.json(salida);
   }
   catch(e){
     console.log(e);
   }
 });
+/*
+localhost:8080/buscar.json?id=1&name=carlitos*/
+router.get('/:alumno/:materia', async (req, res) => {
+  try{
+    console.log("aca va:" +req.params);
+    console.log("aca va2:" +req.params.materia);
+    const db = await connect(); //Me devuelve una conexion a la base de datos
+    const salida = await db.collection('calificaciones').find({'alumno': parseInt(req.params.alumno), 'materia': parseInt(req.params.materia)}).toArray();
+    res.json(salida);
+  }
+  catch(e){
+    console.log(e);
+  }
+});
+
 
 router.post('/', async (req, res) => {
   try{
@@ -35,13 +50,12 @@ router.post('/', async (req, res) => {
    // let edad = req.body.edad;
    // let provincia = req.body.provincia;
 
-    const alumno = {
-      id:req.body.id, 
-      nombre:req.body.nombre, 
-      edad:req.body.edad, 
-      provincia:req.body.provincia
+    const calificacion = {
+      alumno: req.body.alumno, 
+      materia: req.body.materia, 
+      nota: req.body.nota
     };
-    const salida = await db.collection('alumnos').insertOne(alumno);
+    const salida = await db.collection('calificaciones').insertOne(calificacion);
     res.json(salida.ops[0]);
   }
   catch(e){
@@ -52,11 +66,11 @@ router.post('/', async (req, res) => {
   //eprecationWarning: collection.insert is deprecated. Use insertOne, insertMany or bulkWrite instead.
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/', async (req, res) => {
   try{
   const id = parseInt(req.params.id); 
   const db = await connect();
-  const salida = await db.collection('alumnos').deleteOne({'id':id});
+  const salida = await db.collection('calificaciones').deleteOne({'alumno': req.body.alumno, 'materia': req.body.materia});
   res.json(salida);
   
   //onsole.log(salida);
@@ -65,23 +79,6 @@ router.delete('/:id', async (req, res) => {
     console.log(error);
   }
 
-});
-
-router.put('/:id', async (req, res) => {
-  try{
-  const id = parseInt(req.params.id); 
-  const updateAlumno ={
-    nombre:req.body.nombre,
-    edad:req.body.edad
-  };
-  const db = await connect();
-  await db.collection('alumnos').updateOne({'id':id}, {$set:updateAlumno});
-  const salida = await db.collection('alumnos').findOne({'id':id});
-  res.json({salida});
-  }
-  catch(error){
-    console.log(error);
-  }
 });
 
 // Completar el resto de los métodos
