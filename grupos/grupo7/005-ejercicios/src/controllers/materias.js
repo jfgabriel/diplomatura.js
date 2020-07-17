@@ -4,7 +4,7 @@ import {
   getDataFromCollectionFilterName,
   insertData,
   updateData,
-  deleteData
+  deleteData,
 } from '../db.js';
 
 const router = express.Router();
@@ -14,7 +14,7 @@ router.get('/', async function (req, res) {
   if (nombre) {
     const materias = await getDataFromCollectionFilterName('materias', nombre);
     res.json(materias);
-  }else{
+  } else {
     const materias = await getDataFromCollectionFilterId('materias');
     res.json(materias);
   }
@@ -35,7 +35,7 @@ router.post('/', async function (req, res) {
 router.put('/:id', async function (req, res) {
   const { id } = req.params;
   const { body } = req;
-  const editMateria = await updateData('materias', id , body);
+  const editMateria = await updateData('materias', id, body);
   res.json(editMateria);
 });
 

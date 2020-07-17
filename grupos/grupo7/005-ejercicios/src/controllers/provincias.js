@@ -4,7 +4,7 @@ import {
   getDataFromCollectionFilterName,
   insertData,
   updateData,
-  deleteData
+  deleteData,
 } from '../db.js';
 
 const router = express.Router();
@@ -12,9 +12,12 @@ const router = express.Router();
 router.get('/', async function (req, res) {
   const { nombre } = req.query;
   if (nombre) {
-    const provincias = await getDataFromCollectionFilterName('provincias', nombre);
+    const provincias = await getDataFromCollectionFilterName(
+      'provincias',
+      nombre
+    );
     res.json(provincias);
-  }else{
+  } else {
     const provincias = await getDataFromCollectionFilterId('provincias');
     res.json(provincias);
   }
@@ -35,7 +38,7 @@ router.post('/', async function (req, res) {
 router.put('/:id', async function (req, res) {
   const { id } = req.params;
   const { body } = req;
-  const editProvincia = await updateData('provincias', id , body);
+  const editProvincia = await updateData('provincias', id, body);
   res.json(editProvincia);
 });
 

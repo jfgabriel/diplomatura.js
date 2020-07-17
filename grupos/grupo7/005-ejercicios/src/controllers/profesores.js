@@ -4,7 +4,7 @@ import {
   getDataFromCollectionFilterName,
   insertData,
   updateData,
-  deleteData
+  deleteData,
 } from '../db.js';
 
 const router = express.Router();
@@ -12,9 +12,12 @@ const router = express.Router();
 router.get('/', async function (req, res) {
   const { nombre } = req.query;
   if (nombre) {
-    const profesores = await getDataFromCollectionFilterName('profesores', nombre);
+    const profesores = await getDataFromCollectionFilterName(
+      'profesores',
+      nombre
+    );
     res.json(profesores);
-  }else{
+  } else {
     const profesores = await getDataFromCollectionFilterId('profesores');
     res.json(profesores);
   }
@@ -35,7 +38,7 @@ router.post('/', async function (req, res) {
 router.put('/:id', async function (req, res) {
   const { id } = req.params;
   const { body } = req;
-  const editProfesor = await updateData('profesores', id , body);
+  const editProfesor = await updateData('profesores', id, body);
   res.json(editProfesor);
 });
 

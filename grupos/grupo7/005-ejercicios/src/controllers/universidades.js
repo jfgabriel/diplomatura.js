@@ -4,7 +4,7 @@ import {
   getDataFromCollectionFilterName,
   insertData,
   updateData,
-  deleteData
+  deleteData,
 } from '../db.js';
 
 const router = express.Router();
@@ -12,9 +12,12 @@ const router = express.Router();
 router.get('/', async function (req, res) {
   const { nombre } = req.query;
   if (nombre) {
-    const universidades = await getDataFromCollectionFilterName('universidades', nombre);
+    const universidades = await getDataFromCollectionFilterName(
+      'universidades',
+      nombre
+    );
     res.json(universidades);
-  }else{
+  } else {
     const universidades = await getDataFromCollectionFilterId('universidades');
     res.json(universidades);
   }
@@ -22,7 +25,10 @@ router.get('/', async function (req, res) {
 
 router.get('/:id', async function (req, res) {
   const { id } = req.params;
-  const universidades = await getDataFromCollectionFilterId('universidades', id);
+  const universidades = await getDataFromCollectionFilterId(
+    'universidades',
+    id
+  );
   res.json(universidades);
 });
 
@@ -35,7 +41,7 @@ router.post('/', async function (req, res) {
 router.put('/:id', async function (req, res) {
   const { id } = req.params;
   const { body } = req;
-  const editUni = await updateData('universidades', id , body);
+  const editUni = await updateData('universidades', id, body);
   res.json(editUni);
 });
 

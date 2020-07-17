@@ -4,19 +4,22 @@ import {
   getDataFromCollectionFilterName,
   insertData,
   updateData,
-  deleteData
+  deleteData,
 } from '../db.js';
 
 const router = express.Router();
 
 router.get('/', async function (req, res) {
-    const calificaciones = await getDataFromCollectionFilterId('calificaciones');
-    res.json(calificaciones);
+  const calificaciones = await getDataFromCollectionFilterId('calificaciones');
+  res.json(calificaciones);
 });
 
 router.get('/:id', async function (req, res) {
   const { id } = req.params;
-  const calificaciones = await getDataFromCollectionFilterId('calificaciones', id);
+  const calificaciones = await getDataFromCollectionFilterId(
+    'calificaciones',
+    id
+  );
   res.json(calificaciones);
 });
 
@@ -29,7 +32,7 @@ router.post('/', async function (req, res) {
 router.put('/:id', async function (req, res) {
   const { id } = req.params;
   const { body } = req;
-  const editCal = await updateData('calificaciones', id , body);
+  const editCal = await updateData('calificaciones', id, body);
   res.json(editCal);
 });
 

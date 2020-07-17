@@ -4,7 +4,7 @@ import {
   getDataFromCollectionFilterName,
   insertData,
   updateData,
-  deleteData
+  deleteData,
 } from '../db.js';
 
 const router = express.Router();
@@ -14,7 +14,7 @@ router.get('/', async function (req, res) {
   if (nombre) {
     const alumnos = await getDataFromCollectionFilterName('alumnos', nombre);
     res.json(alumnos);
-  }else{
+  } else {
     const alumnos = await getDataFromCollectionFilterId('alumnos');
     res.json(alumnos);
   }
@@ -35,7 +35,7 @@ router.post('/', async function (req, res) {
 router.put('/:id', async function (req, res) {
   const { id } = req.params;
   const { body } = req;
-  const editAlumno = await updateData('alumnos', id , body);
+  const editAlumno = await updateData('alumnos', id, body);
   res.json(editAlumno);
 });
 
