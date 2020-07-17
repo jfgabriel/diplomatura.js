@@ -21,7 +21,7 @@ router.get('/:nombre', async (req, res) => {
   try{
     const nombre = req.params.nombre; //es un string. parseInt para pasar a entero
     const db = await connect(); //Me devuelve una conexion a la base de datos
-    const salida = await db.collection('alumnos').findOne({'nombre':nombre});
+    const salida = await db.collection('alumnos').find({'nombre':nombre}).toArray();
     res.json(salida);
   }
   catch(e){
