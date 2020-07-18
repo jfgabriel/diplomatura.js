@@ -1,32 +1,25 @@
 import express from 'express';
-import { connect } from '../connection';
-
+import { helpers } from '../helpers';
 const router = express.Router();
 
 /* Devuelve todas las calificaciones  */
 router.get('/', async function (req, res) {
-  const db = await connect();
-  const result = await db.collection('calificaciones').find().toArray();
+  const result = await helpers.getCollection('calificaciones');
   res.json(result);
 });
 
 /* Devuelve las calificaciones de un alumno */
-router.get('/:id', async function (req, res) {
-  const db = await connect();
-  const idStudent = parseInt(req.params.id);
-  const result = await db
-    .collection('calificaciones')
-    .find({ alumno: idStudent })
-    .toArray();
+router.get('/:alumno', async function (req, res) {
+  const idStudent = parseInt(req.params.alumno);
 
-  const resultStudent = await db.collection('alumnos').find({}).toArray();
-  const resultAsign = await db.collection('materias').find({}).toArray();
+  //Buscamos las calificaciones del alumno
+  const result = await helpers.getCollectionId(idStudent, 'calificaciones');
 
-  const resultSearch = result.map((r) => {
+  const resultSearch = result.map((datos) => {
     return {
-      alumno: resultStudent.find((alumno) => alumno.id === r.alumno).nombre,
-      materia: resultAsign.find((materia) => materia.id === r.materia).nombre,
-      nota: r.nota,
+      alumno: datos.alumno,
+      materia: datos.materia,
+      nota: datos.nota,
     };
   });
 
@@ -35,48 +28,42 @@ router.get('/:id', async function (req, res) {
 
 /* Crear una calificacion con los datos del alumno, materia y nota, y mostrarla*/
 router.post('/', async function (req, res) {
-  const db = await connect();
-
   const qualitfication = {
     alumno: parseInt(req.body.alumno),
     materia: parseInt(req.body.materia),
     nota: parseInt(req.body.nota),
   };
 
-  const resultInsert = await db
-    .collection('calificaciones')
-    .insertOne(qualitfication);
+  const resultInsert = await helpers.postCollection(
+    qualitfication,
+    'calificaciones'
+  );
 
-  res.json(resultInsert.ops);
+  res.json(resultInsert);
 });
 
 /* Actualiza calificación del alumno */
 router.put('/:id', async function (req, res) {
-  const db = await connect();
-
   const idAlumno = parseInt(req.params.id);
-  const notaNueva = parseInt(req.body.nota);
-
-  const resultUpdate = await db
-    .collection('calificaciones')
-    .findOneAndUpdate({ alumno: id }, { $set: { nota: notaNueva } });
-
-  res.json(resultUpdate.value);
+  const datos = req.body;
+  const resultUpdate = await helpers.putCollection(
+    idAlumno,
+    datos,
+    'calificaciones'
+  );
+  res.json(resultUpdate);
 });
 
 /* Eliminar calificación de un alumno */
 router.delete('/:id', async function (req, res) {
-  const db = await connect();
-
   const idAlumno = parseInt(req.params.id);
 
-  const resultDelete = await db
-    .collection('calificaciones')
-    .deleteOne({ alumno: idAlumno });
+  const resultDelete = await helpers.deleteCollection(
+    idAlumno,
+    'calificaciones'
+  );
 
-  resultDelete.deletedCount > 0
-    ? res.json({ ok: true })
-    : res.json({ ok: false });
+  res.json({ ok: resultDelete.deletedCount > 0 });
 });
 
 export default router;
