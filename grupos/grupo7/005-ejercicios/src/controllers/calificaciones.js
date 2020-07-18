@@ -1,7 +1,6 @@
 import express from 'express';
 import {
-  getDataFromCollectionFilterId,
-  getDataFromCollectionFilterName,
+  getDataFilterId,
   insertData,
   updateData,
   deleteData,
@@ -10,17 +9,14 @@ import {
 const router = express.Router();
 
 router.get('/', async function (req, res) {
-  const calificaciones = await getDataFromCollectionFilterId('calificaciones');
-  res.json(calificaciones);
+  const cal = await getDataFilterId('calificaciones');
+  res.json(cal);
 });
 
 router.get('/:id', async function (req, res) {
   const { id } = req.params;
-  const calificaciones = await getDataFromCollectionFilterId(
-    'calificaciones',
-    id
-  );
-  res.json(calificaciones);
+  const cal = await getDataFilterId('calificaciones', id);
+  res.json(cal);
 });
 
 router.post('/', async function (req, res) {

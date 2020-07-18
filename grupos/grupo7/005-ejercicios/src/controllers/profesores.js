@@ -1,7 +1,7 @@
 import express from 'express';
 import {
-  getDataFromCollectionFilterId,
-  getDataFromCollectionFilterName,
+  getDataFilterId,
+  getDataFilterName,
   insertData,
   updateData,
   deleteData,
@@ -12,20 +12,17 @@ const router = express.Router();
 router.get('/', async function (req, res) {
   const { nombre } = req.query;
   if (nombre) {
-    const profesores = await getDataFromCollectionFilterName(
-      'profesores',
-      nombre
-    );
+    const profesores = await getDataFilterName('profesores', nombre);
     res.json(profesores);
   } else {
-    const profesores = await getDataFromCollectionFilterId('profesores');
+    const profesores = await getDataFilterId('profesores');
     res.json(profesores);
   }
 });
 
 router.get('/:id', async function (req, res) {
   const { id } = req.params;
-  const profesores = await getDataFromCollectionFilterId('profesores', id);
+  const profesores = await getDataFilterId('profesores', id);
   res.json(profesores);
 });
 

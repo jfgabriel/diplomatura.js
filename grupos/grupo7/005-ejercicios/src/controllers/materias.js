@@ -1,7 +1,7 @@
 import express from 'express';
 import {
-  getDataFromCollectionFilterId,
-  getDataFromCollectionFilterName,
+  getDataFilterId,
+  getDataFilterName,
   insertData,
   updateData,
   deleteData,
@@ -12,17 +12,17 @@ const router = express.Router();
 router.get('/', async function (req, res) {
   const { nombre } = req.query;
   if (nombre) {
-    const materias = await getDataFromCollectionFilterName('materias', nombre);
+    const materias = await getDataFilterName('materias', nombre);
     res.json(materias);
   } else {
-    const materias = await getDataFromCollectionFilterId('materias');
+    const materias = await getDataFilterId('materias');
     res.json(materias);
   }
 });
 
 router.get('/:id', async function (req, res) {
   const { id } = req.params;
-  const materias = await getDataFromCollectionFilterId('materias', id);
+  const materias = await getDataFilterId('materias', id);
   res.json(materias);
 });
 

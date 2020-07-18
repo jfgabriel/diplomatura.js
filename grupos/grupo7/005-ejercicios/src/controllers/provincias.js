@@ -1,7 +1,7 @@
 import express from 'express';
 import {
-  getDataFromCollectionFilterId,
-  getDataFromCollectionFilterName,
+  getDataFilterId,
+  getDataFilterName,
   insertData,
   updateData,
   deleteData,
@@ -12,20 +12,17 @@ const router = express.Router();
 router.get('/', async function (req, res) {
   const { nombre } = req.query;
   if (nombre) {
-    const provincias = await getDataFromCollectionFilterName(
-      'provincias',
-      nombre
-    );
+    const provincias = await getDataFilterName('provincias', nombre);
     res.json(provincias);
   } else {
-    const provincias = await getDataFromCollectionFilterId('provincias');
+    const provincias = await getDataFilterId('provincias');
     res.json(provincias);
   }
 });
 
 router.get('/:id', async function (req, res) {
   const { id } = req.params;
-  const provincias = await getDataFromCollectionFilterId('provincias', id);
+  const provincias = await getDataFilterId('provincias', id);
   res.json(provincias);
 });
 

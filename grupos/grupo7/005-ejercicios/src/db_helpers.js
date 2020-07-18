@@ -1,14 +1,15 @@
 import { connect } from './connection';
+import { ObjectId } from 'mongodb';
 
-export async function getDataFromCollectionFilterId(collection, id = 0) {
-  let findVal = {};
-  if (id > 0) {
-    findVal.id = +id;
+export async function getDataFilterId(col, id = 0) {
+  let findObj = {};
+  if (id) {
+    findObj._id = new ObjectId(id);
   }
 
   try {
     const db = await connect();
-    const databasesList = db.collection(collection).find(findVal).toArray();
+    const databasesList = db.collection(col).find(findObj).toArray();
     return databasesList;
   } catch (err) {
     if (process.env.ENVIRONMENT === 'dev') {
@@ -18,18 +19,15 @@ export async function getDataFromCollectionFilterId(collection, id = 0) {
   }
 }
 
-export async function getDataFromCollectionFilterName(collection, name = '') {
-  let findVal = {};
+export async function getDataFilterName(col, name = '') {
+  let findObj = {};
   if (name !== '') {
-    findVal = { nombre: new RegExp(name) };
+    findObj.nombre = new RegExp(name);
   }
 
   try {
     const db = await connect();
-    const databasesList = await db
-      .collection(collection)
-      .find(findVal)
-      .toArray();
+    const databasesList = await db.collection(col).find(findObj).toArray();
     return databasesList;
   } catch (err) {
     if (process.env.ENVIRONMENT === 'dev') {
@@ -39,11 +37,11 @@ export async function getDataFromCollectionFilterName(collection, name = '') {
   }
 }
 
-export async function insertData(collection, newItem) {
+export async function insertData(col, elem) {
   try {
     const db = await connect();
-    await client.db().collection(collection).insertOne(newItem);
-    return newItem;
+    await client.db().collection(col).insertOne(elem);
+    return elem;
   } catch (err) {
     if (process.env.ENVIRONMENT === 'dev') {
       console.error(err);
@@ -52,13 +50,11 @@ export async function insertData(collection, newItem) {
   }
 }
 
-export async function updateData(collection, id, updatedItem) {
+export async function updateData(col, id, elem) {
   try {
     const db = await connect();
-    await db
-      .collection(collection)
-      .updateOne({ id: +id }, { $set: updatedItem });
-    return updatedItem;
+    await db.collection(col).updateOne({ id: +id }, { $set: elem });
+    return elem;
   } catch (err) {
     if (process.env.ENVIRONMENT === 'dev') {
       console.error(err);
@@ -67,10 +63,10 @@ export async function updateData(collection, id, updatedItem) {
   }
 }
 
-export async function deleteData(collection, id) {
+export async function deleteData(col, id) {
   try {
     const db = await connect();
-    const deleteResult = await db.collection(collection).deleteOne({ id: +id });
+    const deleteResult = await db.collection(col).deleteOne({ id: +id });
     return { ok: deleteResult.deletedCount };
   } catch (err) {
     if (process.env.ENVIRONMENT === 'dev') {

@@ -1,7 +1,7 @@
 import express from 'express';
 import {
-  getDataFromCollectionFilterId,
-  getDataFromCollectionFilterName,
+  getDataFilterId,
+  getDataFilterName,
   insertData,
   updateData,
   deleteData,
@@ -12,23 +12,17 @@ const router = express.Router();
 router.get('/', async function (req, res) {
   const { nombre } = req.query;
   if (nombre) {
-    const universidades = await getDataFromCollectionFilterName(
-      'universidades',
-      nombre
-    );
+    const universidades = await getDataFilterName('universidades', nombre);
     res.json(universidades);
   } else {
-    const universidades = await getDataFromCollectionFilterId('universidades');
+    const universidades = await getDataFilterId('universidades');
     res.json(universidades);
   }
 });
 
 router.get('/:id', async function (req, res) {
   const { id } = req.params;
-  const universidades = await getDataFromCollectionFilterId(
-    'universidades',
-    id
-  );
+  const universidades = await getDataFilterId('universidades', id);
   res.json(universidades);
 });
 
