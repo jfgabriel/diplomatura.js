@@ -44,10 +44,13 @@ export const helpers = {
     try {
       const db = await connect();
       if (coleccion === 'calificaciones') {
-        console.log('entro', data);
         const update = await db
           .collection(coleccion)
-          .findOneAndUpdate({ alumno: idUpdate }, { $set: data });
+          .findOneAndUpdate(
+            { alumno: idUpdate },
+            { $set: data },
+            { returnOriginal: false }
+          );
         return update.value;
       } else {
         const update = await db
@@ -62,7 +65,7 @@ export const helpers = {
     } catch (error) {}
   },
 
-  deleteCalificacion: async function (idDelete, coleccion) {
+  deleteDocument: async function (idDelete, coleccion) {
     const db = await connect();
     if (coleccion === 'calificaciones') {
       return await db.collection(coleccion).deleteOne({ alumno: idDelete });
