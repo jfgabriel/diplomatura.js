@@ -58,10 +58,7 @@ router.put('/:id', async function (req, res) {
 router.delete('/:id', async function (req, res) {
   const idAlumno = parseInt(req.params.id);
 
-  const resultDelete = await helpers.deleteCollection(
-    idAlumno,
-    'calificaciones'
-  );
+  const resultDelete = await helpers.deleteDocument(idAlumno, 'calificaciones');
 
   res.json({ ok: resultDelete.deletedCount > 0 });
 });
