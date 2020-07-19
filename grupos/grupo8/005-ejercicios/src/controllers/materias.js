@@ -1,26 +1,23 @@
 import express from 'express';
-import { connect } from '../connection';
+import { helpers } from '../helpers';
 
 // Conexion a la BD
-const db = connect();
 const router = express.Router();
 
 //Obtiene todas las materias
 router.get('/', async (req, res) => {
-  (await db)
-    .collection('materias')
-    .find()
-    .toArray()
-    .then((elem) => res.json(elem));
+  const result = await helpers.getCollection('materias');
+  res.json(result);
 });
 
 //Obtiene materia por nombre
-router.get('/:nombre', async function (req, res) {
-  (await db)
-    .collection('materias')
-    .find({ nombre: req.params.nombre })
-    .toArray()
-    .then((elem) => res.json(elem));
+router.get('/:id', async function (req, res) {
+  const result = await helpers.getCollectionId(
+    parseInt(req.params.id),
+    'materias'
+  );
+
+  res.json(result);
 });
 
 // Ingresa una nueva materia.
@@ -32,37 +29,34 @@ router.post('/', async function (req, res) {
     universidad: req.body.universidad,
   };
 
-  (await db)
-    .collection('materias')
-    .insert(req.body)
-    .then((elem) => res.json(elem));
+  const resultInsert = await helpers.postCollection(materia, 'materias');
+
+  res.json(resultInsert);
 });
 
 // Actualiza una materia buscandola por ID
 router.put('/:id', async function (req, res) {
-  (await db)
-    .collection('materias')
-    .findOneAndUpdate(
-      { id: parseInt(req.params.id) },
-      {
-        $set: {
-          profesores: req.body.profesores,
-          universidad: req.body.universidad,
-        },
-      }
-    )
-    .then((elem) => res.json(elem));
+  const datos = {
+    profesores: req.body.profesores,
+    universidad: req.body.universidad,
+  };
+
+  const resultUpdate = await helpers.putCollection(
+    parseInt(req.params.id),
+    datos,
+    'materias'
+  );
+
+  res.json(resultUpdate);
 });
 
 //Elimina una materia por ID
 router.delete('/:id', async function (req, res) {
-  const result = (await db)
-    .collection('materias')
-    .deleteOne({ id: parseInt(req.params.id) });
-
-  (await result).deletedCount > 0
-    ? res.json({ ok: true })
-    : res.json({ ok: false });
+  const resultDetele = await helpers.deleteDocument(
+    parseInt(req.params.id),
+    'materias'
+  );
+  res.json({ ok: resultDetele.deletedCount > 0 });
 });
 
 export default router;
