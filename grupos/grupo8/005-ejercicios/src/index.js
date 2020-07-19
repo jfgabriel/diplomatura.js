@@ -18,9 +18,5 @@ app.get('/', function (req, res) {
   res.json({ mensaje: 'Bienvenido al servidor de la Universidad' });
 });
 
-app.post('/materias', (req, res) => {
-  console.log('Hellooooooooooooooooooooo');
-});
-
 app.listen(PORT);
 console.log(`Express started on port ${PORT}`);
