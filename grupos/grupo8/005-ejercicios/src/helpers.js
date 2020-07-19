@@ -18,7 +18,7 @@ export const helpers = {
     try {
       const db = await connect();
       return await db.collection(item).find({}).toArray();
-    } catch (error) { }
+    } catch (error) {}
   },
 
   getCollectionId: async function (data, coleccion) {
@@ -29,7 +29,7 @@ export const helpers = {
       } else {
         return await db.collection(coleccion).find({ id: data }).toArray();
       }
-    } catch (error) { }
+    } catch (error) {}
   },
 
   postCollection: async function (data, coleccion) {
@@ -37,7 +37,7 @@ export const helpers = {
       const db = await connect();
       const insert = await db.collection(coleccion).insertOne(data);
       return insert.ops;
-    } catch (error) { }
+    } catch (error) {}
   },
 
   putCollection: async function (idUpdate, data, coleccion) {
@@ -62,7 +62,7 @@ export const helpers = {
           );
         return update.value;
       }
-    } catch (error) { }
+    } catch (error) {}
   },
 
   deleteDocument: async function (idDelete, coleccion) {

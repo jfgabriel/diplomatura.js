@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import alumnosRoutes from './controllers/alumnos';
+import materiasRoutes from './controllers/materias';
 import profesoresRoutes from './controllers/profesores';
 import calificacionesRoutes from './controllers/calificaciones';
 
@@ -9,6 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/alumnos', alumnosRoutes);
+app.use('/materias', materiasRoutes);
 app.use('/profesores', profesoresRoutes);
 app.use('/calificaciones', calificacionesRoutes);
 
