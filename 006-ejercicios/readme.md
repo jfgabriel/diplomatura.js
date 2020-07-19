@@ -1,14 +1,12 @@
 # Ejercicios 006: DOM
 
-Este proyecto utiliza Parcel (https://parceljs.org/) que es un blundler para Javascript
-
-Contiene tres archivos:
+Este proyecto utiliza Parcel (https://parceljs.org/) que es un blundler para Javascript. Contiene tres archivos:
 
 - index.html: documento HTML principal
 - src/index.js: documento Javascript principal
 - src/style.css: hoja de estilos CSS
 
-Parcel automáticamente genera un servidor web que corre en el puerto `1234`. El servidor tiene `hot-reload`, es decir, cada vez que detecta un cambio en un archivo, la página se actualiza automáticamnete en el browser sin necesidad de refrescar ni el servidor ni el browser.
+Parcel automáticamente genera un servidor web que corre en el puerto `1234`. El servidor tiene `hot-reload`, es decir, cada vez que detecta un cambio en un archivo, la página se actualiza automáticamente en el browser sin necesidad de refrescar ni el servidor ni el navegador.
 
 ## Cómo ejecutar el proyecto
 
@@ -24,7 +22,7 @@ Antes de comenzar este (y los demás ejercicios):
 - Navegar desde aquí `http://localhost:1234/index2.html`
 - Quizás sea necesario reiniciar el servidor para que reconozca el nuevo archivo.
 
-Escribir un script que genera dinámicamente una tabla con la siguiente estructura detro del elemento `<div id="app"></div>`
+Escribir un script que genere dinámicamente una tabla con la siguiente estructura detro del elemento `<div id="app"></div>`
 
 ```html
 <table>
@@ -42,7 +40,7 @@ Escribir un script que genera dinámicamente una tabla con la siguiente estructu
 </table>
 ```
 
-La tabla debe generar a partir del siguiente array:
+La tabla debe generarse a partir del siguiente array:
 
 ```javascript
 const MOUNTAINS = [
@@ -60,7 +58,7 @@ const MOUNTAINS = [
 
 Modificar el script anterior para que la tabla se genere cuando hago click en un boton `Generate now!`. Agregar, además, un botón secundario `¡Generar ahora!` que genere, alternativamente, la cabecera de la tabla en castellano.
 
-Importante: al hacer click en cualquiera de los botones, el contenido actual del elemento `app` debería reemplazarse por el neuvo contenido.
+Importante: al hacer click en cualquiera de los botones, el contenido actual del elemento `app` debería reemplazarse por el nuevo contenido.
 
 ## Ejercicio 3: Implementar una lista de compras
 
@@ -72,20 +70,18 @@ Importante: al hacer click en cualquiera de los botones, el contenido actual del
 
 2. Agregar un campo de texto (INPUT) y un botón (BUTTON) que permita agregar nuevos items a la lista
 
-3. Agregar a cada item un botón pequeño que permita eliminar el item actual de la lista.
+3. Agregar a cada item un botón pequeño que permita eliminar el item seleccionado de la lista.
 
-4. Agregar estilos a los botones. El botón para agregar debe tener un color de fondo verde, y el botón de eliminar colo rojo. Agregar los estilos en src/style.css
+4. Agregar estilos a los botones: el botón para agregarun item debe tener un color de fondo verde, mientras que el botón de eliminar debe ser rojo.
 
 5. Investigar `localStorage API` para permitir persistir los datos entre refrescos de la página. Es posible que necesiten utilizar las funciones `JSON.parse` y `JSON.stringify` para convertir un objeto a string (y viceversa).
 
 ## Ejercicio 4: Jugando con globos
 
-El ejercicio consiste en implementar un juego con globos.
-
-Dibujar en la pantalla un número aleatorios de circulos de diferentes colores. El usuario puede explotarlo haciendo click sobre ellos. Cuando no quede ningún globo en pantalla mostrar un mensaje de finalización.
+El ejercicio consiste en implementar un juego con globos que muestre globos de diferentes colores y permita al usuario explotarlos. Cuando no quede ningún globo en pantalla mostrar un mensaje de finalización.
 
 - Dibujar un número aleario de globos entre 10 y 30. Tip utilizar `Math.random`
-- Implementar cada glovo con un elemento `DIV`. Investigar las propiedad css `border-radius` para generar el efecto apropiado
+- Implementar cada globo con un elemento `DIV`. Investigar las propiedad css `border-radius` para generar el efecto apropiado
 - Dibujar globos rojos, azules y amarillos intercaladamente
 - Cada vez que el usuario hace clic sobre un globo, el mismo debe desaparecer de la pantalla.
 - Cuando ya no queden globos mostrar el mensaje `¡Ganaste!`
