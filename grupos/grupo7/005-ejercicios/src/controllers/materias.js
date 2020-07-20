@@ -4,8 +4,8 @@ import { helpers } from '../db_helpers.js';
 const parseData = (el) => {
   return {
     nombre: el.nombre,
-    edad: el.edad,
-    provincia: el.provincia,
+    profesores: el.profesores,
+    universidad: el.universidad,
   };
 };
 
@@ -14,37 +14,37 @@ const router = express.Router();
 router.get('/', async function (req, res) {
   const { nombre } = req.query;
   if (nombre) {
-    const alumnos = await helpers.getDataFilterName('alumnos', nombre);
-    res.json(alumnos);
+    const materias = await helpers.getDataFilterName('materias', nombre);
+    res.json(materias);
   } else {
-    const alumnos = await helpers.getDataFilterId('alumnos');
-    res.json(alumnos);
+    const materias = await helpers.getDataFilterId('materias');
+    res.json(materias);
   }
 });
 
 router.get('/:id', async function (req, res) {
   const { id } = req.params;
-  const alumnos = await helpers.getDataFilterId('alumnos', id);
-  res.json(alumnos);
+  const materias = await helpers.getDataFilterId('materias', id);
+  res.json(materias);
 });
 
 router.post('/', async function (req, res) {
   const { body } = req;
-  const nuevoAlumno = await helpers.insertData('alumnos', parseData(body));
-  res.json(nuevoAlumno);
+  const nuevoMateria = await helpers.insertData('materias', parseData(body));
+  res.json(nuevoMateria);
 });
 
 router.put('/:id', async function (req, res) {
   const { id } = req.params;
   const { body } = req;
-  const editAlumno = await helpers.updateData('alumnos', id, parseData(body));
-  res.json(editAlumno);
+  const editMateria = await helpers.updateData('materias', id, parseData(body));
+  res.json(editMateria);
 });
 
 router.delete('/:id', async function (req, res) {
   const { id } = req.params;
-  const deleteAlumno = await helpers.deleteData('alumnos', id);
-  res.json(deleteAlumno);
+  const deleteMateria = await helpers.deleteData('materias', id);
+  res.json(deleteMateria);
 });
 
 export default router;
