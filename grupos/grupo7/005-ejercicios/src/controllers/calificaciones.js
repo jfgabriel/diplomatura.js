@@ -1,41 +1,44 @@
 import express from 'express';
-import {
-  getDataFilterId,
-  insertData,
-  updateData,
-  deleteData,
-} from '../db_helpers.js';
+import { helpers } from '../db_helpers.js';
+
+const parseData = (el) => {
+  return {
+    alumno: el.alumno,
+    materia: el.materia,
+    nota: el.nota,
+  };
+};
 
 const router = express.Router();
 
 router.get('/', async function (req, res) {
-  const cal = await getDataFilterId('calificaciones');
+  const cal = await helpers.getDataFilterId('calificaciones');
   res.json(cal);
 });
 
 router.get('/:id', async function (req, res) {
   const { id } = req.params;
-  const cal = await getDataFilterId('calificaciones', id);
+  const cal = await helpers.getDataFilterId('calificaciones', id);
   res.json(cal);
 });
 
 router.post('/', async function (req, res) {
   const { body } = req;
-  const nuevaCal = await insertData('calificaciones', req);
-  res.json(nuevaCal);
+  const newCal = await helpers.insertData('calificaciones', parseData(body));
+  res.json(newCal);
 });
 
 router.put('/:id', async function (req, res) {
   const { id } = req.params;
   const { body } = req;
-  const editCal = await updateData('calificaciones', id, body);
-  res.json(editCal);
+  const edCal = await helpers.updateData('calificaciones', id, parseData(body));
+  res.json(edCal);
 });
 
 router.delete('/:id', async function (req, res) {
   const { id } = req.params;
-  const deleteCal = await deleteData('calificaciones', id);
-  res.json(deleteCal);
+  const delCal = await helpers.deleteData('calificaciones', id);
+  res.json(delCal);
 });
 
 export default router;

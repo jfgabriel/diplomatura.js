@@ -1,7 +1,7 @@
 import { connect } from './connection';
 import { ObjectId } from 'mongodb';
 
-export async function getDataFilterId(col, id = 0) {
+async function getDataFilterId(col, id = 0) {
   let findObj = {};
   if (id) {
     findObj._id = new ObjectId(id);
@@ -19,7 +19,7 @@ export async function getDataFilterId(col, id = 0) {
   }
 }
 
-export async function getDataFilterName(col, name = '') {
+async function getDataFilterName(col, name = '') {
   let findObj = {};
   if (name !== '') {
     findObj.nombre = new RegExp(name);
@@ -37,7 +37,7 @@ export async function getDataFilterName(col, name = '') {
   }
 }
 
-export async function insertData(col, elem) {
+async function insertData(col, elem) {
   try {
     const db = await connect();
     await client.db().collection(col).insertOne(elem);
@@ -50,10 +50,11 @@ export async function insertData(col, elem) {
   }
 }
 
-export async function updateData(col, id, elem) {
+async function updateData(col, id, elem) {
+  const _id = new ObjectId(id);
   try {
     const db = await connect();
-    await db.collection(col).updateOne({ id: +id }, { $set: elem });
+    await db.collection(col).updateOne({ _id }, { $set: elem });
     return elem;
   } catch (err) {
     if (process.env.ENVIRONMENT === 'dev') {
@@ -63,10 +64,11 @@ export async function updateData(col, id, elem) {
   }
 }
 
-export async function deleteData(col, id) {
+async function deleteData(col, id) {
+  const _id = new ObjectId(id);
   try {
     const db = await connect();
-    const deleteResult = await db.collection(col).deleteOne({ id: +id });
+    const deleteResult = await db.collection(col).deleteOne({ _id });
     return { ok: deleteResult.deletedCount };
   } catch (err) {
     if (process.env.ENVIRONMENT === 'dev') {
@@ -75,3 +77,11 @@ export async function deleteData(col, id) {
     return 'Hubo un error en el pedido a la base de datos';
   }
 }
+
+export const helpers = {
+  getDataFilterId,
+  getDataFilterName,
+  insertData,
+  updateData,
+  deleteData,
+};

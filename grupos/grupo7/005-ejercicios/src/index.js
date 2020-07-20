@@ -6,8 +6,7 @@ import materiasRoutes from './controllers/materias';
 import profesoresRoutes from './controllers/profesores';
 import provinciasRoutes from './controllers/provincias';
 import universidadesRoutes from './controllers/universidades';
-
-require('dotenv').config();
+import {} from 'dotenv/config';
 
 const PORT = 8080;
 const app = express();
