@@ -8,7 +8,12 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const db = await connect(); //Me devuelve una conexion a la base de datos
-    const salida = await db.collection('alumnos').find({}).toArray();
+    const options = {};
+    if (req.query.nombre) {
+      options.nombre = req.query.nombre;
+    }
+
+    const salida = await db.collection('alumnos').find(options).toArray();
     if (!salida) {
       res.status(404).json({
         message: 'Error obtenido de la lista de Alumnos',
@@ -23,23 +28,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-//obtener un alumno por id
-router.get('/:id', async (req, res) => {
-  try {
-    const id = parseInt(req.params.id); //es un string
-    const db = await connect(); //Me devuelve una conexion a la base de datos
-    const salida = await db.collection('alumnos').findOne({ id: id });
-    if (!salida) {
-      res.status(404).json({
-        message: 'No se registra el Alumno',
-      });
-    }
-    res.json({ salida });
-  } catch (e) {
-    console.log(e);
-  }
-});
-
 router.get('/:nombre', async (req, res) => {
   try {
     const nombre = req.params.nombre; //es un string
@@ -48,6 +36,23 @@ router.get('/:nombre', async (req, res) => {
       .collection('alumnos')
       .find({ nombre: nombre })
       .toArray();
+    if (!salida) {
+      res.status(404).json({
+        message: 'No se registra el Alumno',
+      });
+    }
+    res.json(salida);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+//obtener un alumno por id
+router.get('/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id); //es un string
+    const db = await connect(); //Me devuelve una conexion a la base de datos
+    const salida = await db.collection('alumnos').findOne({ id: id });
     if (!salida) {
       res.status(404).json({
         message: 'No se registra el Alumno',
@@ -148,5 +153,4 @@ router.put('/:id', async (req, res) => {
 
 // Completar el resto de los métodos
 // router....
-
 export default router;
