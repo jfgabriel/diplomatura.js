@@ -13,7 +13,8 @@
     { "path": "grupos/grupo4/002-ejercicios", "name": "002-ejercicios" },
     { "path": "grupos/grupo4/003-ejercicios", "name": "003-ejercicios" },
     { "path": "grupos/grupo4/004-ejercicios", "name": "004-ejercicios" },
-    { "path": "grupos/grupo4/005-ejercicios", "name": "005-ejercicios" }
+    { "path": "grupos/grupo4/005-ejercicios", "name": "005-ejercicios" },
+    { "path": "grupos/grupo4/006-ejercicios", "name": "006-ejercicios" }
     
   ],
   "extensions": {
