@@ -165,7 +165,7 @@ Ej:
 Similar al anterior, pero esta vez vamos a mostrar el album dado, mas sus photos.
 
 // con esta url puedo obtener las photos de un album, en este caso album 1 y remover el albumId que seria redundante.
-https://jsonplaceholder.typicode.com/albums/1/photos
+
 
 ```json
 [
