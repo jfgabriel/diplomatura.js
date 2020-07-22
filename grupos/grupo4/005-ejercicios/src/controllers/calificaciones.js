@@ -1,18 +1,14 @@
 import express from 'express';
 import { Repository } from '../repository/repository';
-import EscapeStringRegexp from 'escape-string-regexp';
 
 const router = express.Router();
 const repositorio = new Repository('calificaciones');
 
 router.get('/', async function (req, res) {
-  const nombre = req.query.nombre;
+  const idAlumno = req.query.idAlumno;
   let result;
-  if (nombre) {
-    result = repositorio.find(
-      'nombre',
-      new RegExp(`.*${EscapeStringRegexp(nombre)}.*`, 'i')
-    );
+  if (idAlumno) {
+    result = repositorio.find('alumno', new RegExp(`${idAlumno}`, 'i'));
   } else {
     result = await repositorio.getAll();
   }
