@@ -15,7 +15,7 @@
     { "path": "grupos/grupo4/004-ejercicios", "name": "004-ejercicios" },
     { "path": "grupos/grupo4/005-ejercicios", "name": "005-ejercicios" },
     { "path": "grupos/grupo4/006-ejercicios", "name": "006-ejercicios" }
-    
+
   ],
   "extensions": {
     "recommendations": [
@@ -47,8 +47,9 @@
       "**/.git/subtree-cache/**": true,
       "**/node_modules/**": true,
       "**/build/**": true,
+      "**/.cache/**": true,
       "**/dist/**": true,
-      "**/package-lock.json": true
+      "**/package-lock.json": true,
     },
     "search.exclude": {
       "**/.git": true,
@@ -56,6 +57,7 @@
       "**/node_modules/**": true,
       "**/build/**": true,
       "**/dist/**": true,
+      "**/.cache/**": true,
       "**/package-lock.json": true
     },
     "editor.formatOnSave": true,
