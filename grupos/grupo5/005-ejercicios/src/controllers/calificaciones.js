@@ -51,8 +51,7 @@ router.get('/busqueda', async (req, res) => {
   }
 });
 
-router.get('/:alumno/:materia', async (req, res) => {
-  //busqueda por header
+router.get('/:alumno/:materia', async (req, res) => { //busqueda por header
   try {
     const db = await connect(); //Me devuelve una conexion a la base de datos
     const salida = await db
