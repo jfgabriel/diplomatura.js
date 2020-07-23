@@ -1,3 +1,9 @@
+# Instalaciones:
+
+npm i mongodb --save
+npm install --save express
+npm install --save escape-string-regexp
+
 # Ejercicios 005: API de universidad
 
 Implementar una API REST que implemente CRUD (o ABM en castellano) de:
@@ -12,6 +18,8 @@ Implementar una API REST que implemente CRUD (o ABM en castellano) de:
 La estructura de datos debe ser similar a la del ejercicio 002, pero puede modificarse si encuentran una estructura mejor
 
 Los datos deben guardase en una base local MongoDB. Para este ejercicio utilizar una conexión directa a MongoDB (no utilizar Mongoose).
+
+Observación sobre resolución: se eliminaron las claves id de las colecciones, y se reemplazaron las referencias por la clave \_id.
 
 ## API REST
 

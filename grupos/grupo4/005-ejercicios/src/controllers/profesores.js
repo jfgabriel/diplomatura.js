@@ -3,7 +3,7 @@ import { Repository } from '../repository/repository';
 import EscapeStringRegexp from 'escape-string-regexp';
 
 const router = express.Router();
-const repositorio = new Repository('alumnos');
+const repositorio = new Repository('profesores');
 
 router.get('/', async function (req, res) {
   const nombre = req.query.nombre;
@@ -40,8 +40,7 @@ router.put('/:id', async function (req, res) {
 
 router.delete('/:id', async function (req, res) {
   const id = req.params.id;
-  console.log(id);
-  const result = await repositorio.deleteById(id);
+  const result = await repositorio.delete(id);
   res.json(result);
 });
 
