@@ -1,4 +1,5 @@
 import express from 'express';
+import { ObjectId } from 'mongodb';
 
 import { connect } from '../connection'; //Importamos el metodo connect
 
@@ -34,15 +35,16 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/busqueda', async (req, res) => {
-  //busqueda por body
+router.get('/:id', async (req, res) => {
+  //busqueda
   try {
+    var id = req.params.id;
+    var o_id = new ObjectId(id);
     const db = await connect(); //Me devuelve una conexion a la base de datos
     const salida = await db
       .collection('calificaciones')
       .find({
-        alumno: parseInt(req.body.alumno),
-        materia: parseInt(req.body.materia),
+        _id: o_id,
       })
       .toArray();
     res.json(salida);
@@ -51,28 +53,12 @@ router.get('/busqueda', async (req, res) => {
   }
 });
 
-router.get('/:alumno/:materia', async (req, res) => { //busqueda por header
-  try {
-    const db = await connect(); //Me devuelve una conexion a la base de datos
-    const salida = await db
-      .collection('calificaciones')
-      .find({
-        alumno: parseInt(req.params.alumno),
-        materia: parseInt(req.params.materia),
-      })
-      .toArray();
-    res.json(salida);
-  } catch (e) {
-    console.log(e);
-  }
-});
-
-router.put('/:alumno/:materia/:nota', async (req, res) => {
+router.put('/', async (req, res) => {
   //actualiza una calificación (entra alumno, materia y la nota a actualizar)
   try {
-    const alum = parseInt(req.params.alumno);
-    const mat = parseInt(req.params.materia);
-    const not = parseInt(req.params.nota);
+    const alum = parseInt(req.body.alumno);
+    const mat = parseInt(req.body.materia);
+    const not = parseInt(req.body.nota);
 
     const updateCalificacion = {
       alumno: alum,
@@ -93,14 +79,14 @@ router.put('/:alumno/:materia/:nota', async (req, res) => {
   }
 });
 
-router.delete('/:alumno/:materia/:nota', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   //borra una calificación
   try {
+    var id = req.params.id;
+    var o_id = new ObjectId(id);
     const db = await connect();
     const salida = await db.collection('calificaciones').deleteOne({
-      alumno: parseInt(req.params.alumno),
-      materia: parseInt(req.params.materia),
-      nota: parseInt(req.params.nota)
+      _id: o_id,
     });
     res.json(salida);
   } catch (error) {
