@@ -1,1 +1,2 @@
-document.getElementById('app').innerHTML = 'Hello World!';
+const appDiv = document.getElementById('app');
+appDiv.innerHTML = 'Hello World!';

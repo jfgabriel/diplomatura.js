@@ -1,3 +1,32 @@
 body {
   font-family: sans-serif;
 }
+
+.addButton {
+  background-color: green;
+  color: white;
+}
+
+.deleteButton {
+  background-color: red;
+}
+
+.globo {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  float: left;
+  margin: 5px;
+}
+
+.globo0 {
+  background-color: red;
+}
+
+.globo1 {
+  background-color: blue;
+}
+
+.globo2 {
+  background-color: yellow;
+}
