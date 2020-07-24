@@ -4,14 +4,10 @@ let postApi = express.Router();
 
 postApi.get('/', async function (req, res) {
   try {
-    let posts = await fetch(
-      'https://jsonplaceholder.typicode.com/posts'
-    );
+    let posts = await fetch('https://jsonplaceholder.typicode.com/posts');
     let postsJson = await posts.json();
 
-    let users = await fetch(
-      'https://jsonplaceholder.typicode.com/users'
-    );
+    let users = await fetch('https://jsonplaceholder.typicode.com/users');
     let usersJson = await users.json();
 
     let response = await postsJson.map((post) => {
