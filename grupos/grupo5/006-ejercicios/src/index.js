@@ -1,3 +1,4 @@
+document.getElementById('app').innerHTML = 'Hello World!';
 const MOUNTAINS = [
   { name: 'Kilimanjaro', height: 5895, place: 'Tanzania' },
   { name: 'Everest', height: 8848, place: 'Nepal' },
@@ -7,7 +8,16 @@ const MOUNTAINS = [
   { name: 'Popocatepetl', height: 5465, place: 'Mexico' },
   { name: 'Mont Blanc', height: 4808, place: 'Italy/France' },
 ];
-
+/*
+document.getElementById('app').innerHTML += '<table> <tr>  <th>name</th>  <th>height</th>   <th>place</th>  </tr>';
+for (let i = 0; i < MOUNTAINS.length; i++) {
+    document.getElementById('app').innerHTML += '<tr>';
+    document.getElementById('app').innerHTML += '<td>'+ MOUNTAINS[i].name +'</td>';
+    document.getElementById('app').innerHTML += '<td>'+ MOUNTAINS[i].height +'</td>';
+    document.getElementById('app').innerHTML += '<td>'+ MOUNTAINS[i].place +'</td>';
+    document.getElementById('app').innerHTML = '</tr>';
+}
+document.getElementById('app').innerHTML = '</table>';**/
 function mostrarOcultarTablas1() {
   mostrado = 0;
   elem = document.getElementById('app');

@@ -2,8 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import alumnosRoutes from './controllers/alumnos';
 import calificacionesRoutes from './controllers/calificaciones';
-import profesoresRoutes from './controllers/profesores';
 import materiasRoutes from './controllers/materias';
+import profesoresRoutes from './controllers/profesores';
 
 const PORT = 8080;
 const app = express();
