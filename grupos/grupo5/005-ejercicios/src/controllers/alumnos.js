@@ -132,45 +132,6 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-//actualizar alumno.-
-router.put('/:id', async (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const updateAlumno = {
-      nombre: req.body.nombre,
-      edad: req.body.edad,
-    };
-    const db = await connect();
-    await db
-      .collection('alumnos')
-      .updateOne({ id: id }, { $set: updateAlumno });
-    const salida = await db.collection('alumnos').findOne({ id: id });
-    res.json({ salida });
-  } catch (error) {
-=======
-router.put('/:id', async (req, res) => {
-  try{
-  const id = parseInt(req.params.id); 
-  const updateAlumno ={
-    nombre:req.body.nombre,
-    edad:req.body.edad
-  };
-  const db = await connect();
-  await db.collection('alumnos').updateOne({'id':id}, {$set:updateAlumno});
-  const salida = await db.collection('alumnos').findOne({'id':id});
-  res.json({salida});
-  }
-  catch(error){
->>>>>>> origin/master
-    console.log(error);
-  }
-});
-
 // Completar el resto de los métodos
 // router....
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 export default router;
