@@ -7,9 +7,43 @@
   </head>
 
   <body>
-    <div id="app"></div>
-    <div id="tabla"></div>
+          
+<input id="pinchable1"  type="button" value="Generate now!"  />
+<input id="pinchable2"  type="button" value="Generar ahora!"/>
+ 
+   <div id="app" style="display: none">  
+          <table id="idTable" width=300 border="2" bgcolor=blue  > 
+            <tr>
+              <th>name</th>
+              <th>height</th>
+              <th>place</th>
+            </tr>
+          </table>
 
+        </div>
+        
+ 
+    <div id="tabla" style="display: none">
+      <table id="idTable" width=300 border="2" bgcolor=blue  > 
+      <tr>
+        <th>Nombre</th>
+        <th>Altura</th>
+        <th>Sitio</th>
+      </tr>
+    </table>
+    </div>
+
+    <div id="lista">
+      <input  type="text" id="myText" name="nombredelacaja">
+      <input id="agregarLista"  type="button" value="Cargar"/>
+      <ul id="myList">
+      </ul>
+    </div>
+
+   
+
+
+    
     <script src="src/index.js"></script>
   </body>
 </html>

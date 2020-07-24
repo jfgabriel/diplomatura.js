@@ -4,32 +4,81 @@ import { connect } from '../connection'; //Importamos el metodo connect
 
 const router = express.Router();
 
-//devolver todos alumnos
+//consultar todo los alumnos
 router.get('/', async (req, res) => {
   try {
     const db = await connect(); //Me devuelve una conexion a la base de datos
+<<<<<<< HEAD
     const salida = await db.collection('alumnos').find({}).toArray();
     res.json({ salida });
+=======
+    const options = {};
+    if (req.query.nombre) {
+      options.nombre = req.query.nombre;
+    }
+
+    const salida = await db.collection('alumnos').find(options).toArray();
+    if (!salida) {
+      res.status(404).json({
+        message: 'Error obtenido de la lista de Alumnos',
+        //https://expressjs.com/es/guide/error-handling.html
+        //http://ottocol.github.io/ADI_1516/practicas/2_intro_Node/enunciado.html
+      });
+      db.close();
+    }
+    res.json(salida);
+>>>>>>> master
   } catch (e) {
     console.log(e);
   }
 });
 
-//devolver todos los alumnos cuyo nombre es XXX (considerar mayúsculas y minúsculas)
 router.get('/:nombre', async (req, res) => {
   try {
+<<<<<<< HEAD
     const nombre = req.params.nombre; //es un string. parseInt para pasar a entero
+=======
+    const nombre = req.params.nombre; //es un string
+>>>>>>> master
     const db = await connect(); //Me devuelve una conexion a la base de datos
     const salida = await db
       .collection('alumnos')
       .find({ nombre: nombre })
       .toArray();
+<<<<<<< HEAD
+=======
+    if (!salida) {
+      res.status(404).json({
+        message: 'No se registra el Alumno',
+      });
+    }
+>>>>>>> master
     res.json(salida);
   } catch (e) {
     console.log(e);
   }
 });
 
+<<<<<<< HEAD
+=======
+//obtener un alumno por id
+router.get('/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id); //es un string
+    const db = await connect(); //Me devuelve una conexion a la base de datos
+    const salida = await db.collection('alumnos').findOne({ id: id });
+    if (!salida) {
+      res.status(404).json({
+        message: 'No se registra el Alumno',
+      });
+    }
+    res.json({ salida });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+>>>>>>> master
 //Crear un alumno son los datos enviados en body, y devolver el nuevo alumno insertado
 router.post('/', async (req, res) => {
   try {
@@ -42,6 +91,11 @@ router.post('/', async (req, res) => {
       provincia: req.body.provincia,
     };
     const salida = await db.collection('alumnos').insertOne(alumno);
+    if (!salida) {
+      res.status(404).json({
+        message: 'No se pudo insertar el Alumno',
+      });
+    }
     res.json(salida.ops[0]);
   } catch (e) {
     console.log(e);
@@ -64,6 +118,10 @@ router.put('/:id', async (req, res) => {
       .collection('alumnos')
       .updateOne({ id: id }, { $set: updateAlumno });
     const salida = await db.collection('alumnos').findOne({ id: id });
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     res.json({ salida });
   } catch (error) {
     console.log(error);
@@ -76,6 +134,7 @@ router.delete('/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     const db = await connect();
     const salida = await db.collection('alumnos').deleteOne({ id: id });
+<<<<<<< HEAD
     res.json({ ok: true });
   } catch (error) {
     console.log(error);
@@ -96,11 +155,25 @@ router.put('/:id', async (req, res) => {
       .updateOne({ id: id }, { $set: updateAlumno });
     const salida = await db.collection('alumnos').findOne({ id: id });
     res.json({ salida });
+=======
+    if (!salida) {
+      res.status(404).json({
+        message: 'No se pudo eliminar el Alumno',
+      });
+    }
+    if (salida) {
+      res.status(200).json({
+        message: 'ok:true',
+      });
+    }
+    res.json(salida);
+>>>>>>> master
   } catch (error) {
     console.log(error);
   }
 });
 
+<<<<<<< HEAD
 //Eliminar el alumno indicado en "id" y devolver un objeto JSON {ok: true}
 router.delete('/:id', async (req, res) => {
   try {
@@ -113,4 +186,8 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+=======
+// Completar el resto de los métodos
+// router....
+>>>>>>> master
 export default router;
