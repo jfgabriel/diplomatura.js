@@ -1,5 +1,5 @@
 // 1) Importar el objeto 'database' del archivo "./basededatos"
-import { database } from './basededatos';
+import { helpers } from './helpers';
 
 // 2) Implementar una función que obtenga una universidad por Id
 // 🤓 Tip: pueden ir probando las funciones usando console.log() asegurándose que los resultados sean los esperados
@@ -35,3 +35,17 @@ import { database } from './basededatos';
 // 12) Implementar una función que guarde la calificación de un alumno y una materia
 //     La función recibirá: 'nombre del alumno', 'nombre de la materia', 'nota'
 //     Si el alumno y/o la materia no existen deberán crearlos en sus respectivas tablas
+
+console.log('\nejercicio 7: Obtener ultimo id en alumnos');
+console.log(helpers.getLastId('alumnos'));
+console.log('\nejercicio 9: Insertar provincia y devolver su id');
+console.log(helpers.insertarProvincia('Provincita inventada'));
+console.log('\nejercicio 10: Dada una materia traer nombre de universidad y profesores');
+console.log(helpers.getMateriaData(1));
+console.log('\nejercicio 11: Traer las notas de todos los alumnos');
+console.log(helpers.getNotasDeAlumnos());
+console.log('ejercicio 12: Guardar calificación de alumno y materia, si no existen crear en cada caso');
+console.log(helpers.calificarAlumnado('Pablo Tomafi','Una cualquiera',8))
+console.log(helpers.calificarAlumnado('Pablo Tomafi','Análisis matemático',9))
+console.log(helpers.calificarAlumnado('Alina Robles','Programación orientada a objetos',10))
+
