@@ -30,8 +30,8 @@ async function index(req, res) {
 
 async function display(req, res) {
   try {
-    const query = { _id: new ObjectId(req.params.id) };
     await Helpers.findOne(collectionName, query).then((doc) => {
+      const query = { _id: new ObjectId(req.params.id) };
       if (doc) {
         console.log(doc);
       } else {
@@ -46,31 +46,40 @@ async function display(req, res) {
 }
 
 async function update(req, res) {
-  const updateData = Helpers.paramsBuilder(validParams, req.body);
-  const query = { _id: new ObjectId(req.params.id) };
-  const opts = { returnOriginal: false };
-
-  await Helpers.update(collectionName, query, updateData, opts)
-    .then((doc) => {
-      console.log(doc);
-      res.json(doc);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.json(err);
-    });
+  try {
+    const updateData = Helpers.paramsBuilder(validParams, req.body);
+    const query = { _id: new ObjectId(req.params.id) };
+    const opts = { returnOriginal: false };
+    await Helpers.update(collectionName, query, updateData, opts)
+      .then((doc) => {
+        console.log(doc);
+        res.json(doc);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.json(err);
+      });
+  } catch (err) {
+    console.log(err);
+    res.json(err);
+  }
 }
 
 async function destroy(req, res) {
-  const query = { _id: new ObjectId(req.params.id) };
-  await Helpers.destroy(collectionName, query)
-    .then((doc) => {
-      res.json(doc.result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.json(err);
-    });
+  try {
+    const query = { _id: new ObjectId(req.params.id) };
+    await Helpers.destroy(collectionName, query)
+      .then((doc) => {
+        res.json(doc.result);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.json(err);
+      });
+  } catch (err) {
+    console.log(err);
+    res.json(err);
+  }
 }
 
 export default {
