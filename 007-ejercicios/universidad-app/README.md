@@ -9,6 +9,8 @@ La idea es construir un componente por tipo de listado <ListaAlumnos /> <ListaPr
 
 Ejemplo de lo que se pide (ejercicio 1 y 2 ) https://youtu.be/o1m4Xr_HbxM
 
+La app cuenta con la libreria de css bootstrap instalada.
+
 ## Como Correr la app
 
 ```bash
