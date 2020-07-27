@@ -1,68 +1,38 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Ejercicios 007 React Web
 
-## Available Scripts
+## Intro
 
-In the project directory, you can run:
+Utilizando la base de datos del ejercicio 2 (alumnos, profesores, materias y calificaciones) vamos a construir 1 pantalla, que contenga 4 botones, que permita cambiar entre 4 listados distintos. Uno de alumnos, unos de profesores, uno de materias y uno de calificaciones.
+Cuando clickeamos en unos de los elementos de la lista, debera mostrar una pantalla con informacion del elemento clickeado. Ya sea un alumno, un profesor, una materia o una calificacion.
 
-### `yarn start`
+La idea es construir un componente por tipo de listado <ListaAlumnos /> <ListaProfesores /> y uno <DetalleAlumno>. <DetalleProfesor>
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Como Correr la app
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```bash
+npm install
+npm run start
+```
 
-### `yarn test`
+## 1 - Crear listados
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+En este ejercicio, vamos a crear 4 listados distintos, uno de alumnos, uno de profesores, uno de materias y uno de calificaciones.
 
-### `yarn build`
+Cada uno debe mostrarse cuando presiono el boton correspondiente a cada listado.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 2 - Crear vistas de detalle para cada entidad
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+En cada una de las listas, cuando clickeo un elemento, deberia desaparecer el listado, y mostrarme la informacion seleccionada.
+Para esto creamos el componente de vista de detalle que muestra la info de la fila seleccionada. Podemos crear uno por entidad, <DetalleAlumno/>, <DetalleProfesor>
+Este componente debe recibir por property la info a mostrar. En el caso de alumno deberia recibir una property alumno, con el objeto que representa al alumno. ASi con cada uno de ellos.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 3 - eliminar del estado
 
-### `yarn eject`
+El listado de cada entidad, debe permitir borrar cada una de las filas, a traves de algun icono o link o similar sobre el row.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 4 - Crear uno nuevo.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Cada pantalla de listado, debera permitir agregar uno nuevo de la entidad que estamos viendo.
+para esto, antes de mostrar el listado, deberia mostrar un Form para agregar la entidad.
+En el caso de Alumno, construir el FormAddAlumno para agregar alumno. Este solo necesita dos campos, nombre y edad.
+Al agregar un nuevo alumno, este debe agregarse al estado de la app.
