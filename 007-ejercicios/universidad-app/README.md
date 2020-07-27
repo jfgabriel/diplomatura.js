@@ -32,7 +32,7 @@ Este componente debe recibir por property la info a mostrar. En el caso de alumn
 
 El listado de cada entidad, debe permitir borrar cada una de las filas, a traves de algun icono o link o similar sobre el row.
 
-## 4 - Crear uno nuevo.
+## 4 - Crear uno nuevo
 
 Cada pantalla de listado, debera permitir agregar uno nuevo de la entidad que estamos viendo.
 para esto, antes de mostrar el listado, deberia mostrar un Form para agregar la entidad.
