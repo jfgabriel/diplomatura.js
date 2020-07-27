@@ -7,6 +7,8 @@ Cuando clickeamos en unos de los elementos de la lista, debera mostrar una panta
 
 La idea es construir un componente por tipo de listado <ListaAlumnos /> <ListaProfesores /> y uno <DetalleAlumno>. <DetalleProfesor>
 
+Ejemplo de lo que se pide (ejercicio 1 y 2 ) https://youtu.be/o1m4Xr_HbxM
+
 ## Como Correr la app
 
 ```bash
