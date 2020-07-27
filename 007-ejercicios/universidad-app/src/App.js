@@ -33,12 +33,12 @@ class App extends React.Component {
     const vistaActual = <div>ToDo</div>;
     return (
       <div className="App">
-        <header className="App-header">Diplomatura JS</header>
+        <header className="alert alert-info">Diplomatura JS</header>
         <div id="botonera">
-          <button>Alumnos</button>
-          <button>Profesores</button>
-          <button>Materias</button>
-          <button>Calificaciones</button>
+          <button className="btn btn-outline-info">Alumnos</button>
+          <button className="btn btn-outline-info">Profesores</button>
+          <button className="btn btn-outline-info">Materias</button>
+          <button className="btn btn-outline-info">Calificaciones</button>
         </div>
         <h2>{this.state.vistaActual}</h2>
         <div className="mainView">{vistaActual}</div>

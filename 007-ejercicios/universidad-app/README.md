@@ -9,6 +9,8 @@ La idea es construir un componente por tipo de listado <ListaAlumnos /> <ListaPr
 
 Ejemplo de lo que se pide (ejercicio 1 y 2 ) https://youtu.be/o1m4Xr_HbxM
 
+La app cuenta con la libreria de css bootstrap instalada.
+
 ## Como Correr la app
 
 ```bash
@@ -32,7 +34,7 @@ Este componente debe recibir por property la info a mostrar. En el caso de alumn
 
 El listado de cada entidad, debe permitir borrar cada una de las filas, a traves de algun icono o link o similar sobre el row.
 
-## 4 - Crear uno nuevo.
+## 4 - Crear uno nuevo
 
 Cada pantalla de listado, debera permitir agregar uno nuevo de la entidad que estamos viendo.
 para esto, antes de mostrar el listado, deberia mostrar un Form para agregar la entidad.
