@@ -1,36 +1,42 @@
 import React from 'react';
 
-import Container from '../components/Container';
+import PropsChildren from '../components/PropsChildren';
 
 export default class PropsExample extends React.Component {
   render() {
-    const data = {
-      mensaje: 'Hola!',
-    };
-
     return (
-      <Container>
-        <h1>Parent component</h1>
-        <div>
-          <ChildrenComponent name="Componente hijo 1" data={data} />
+      <div className="jumbotron">
+        <h1 className="display-4">Parent Component</h1>
+        <p className="lead">Este componente es el padre</p>
+        <hr className="my-4" />
+        <p>Utiliza props para comunicarse con sus hijos.</p>
+        <div className="row">
+          <div className="col">
+            <PropsChildren
+              name="Calavera"
+              data={{
+                mensaje: 'Booo!',
+              }}
+              img="http://files.softicons.com/download/holidays-icons/halloween-icons-by-arrioch/png/256/skull.png"
+            />
+          </div>
+          <div className="col">
+            <PropsChildren
+              name="El perro"
+              img="https://image.shutterstock.com/image-photo/image-450w-697992694.jpg"
+            />
+          </div>
+          <div className="col">
+            <PropsChildren
+              name="El sapo Pepe"
+              data={{
+                mensaje: 'Le digo Pepe vení!, y el salta, salta.',
+              }}
+              img="https://hcommons.org/app/uploads/sites/1000648/2018/02/pepe-300x300.jpg"
+            />
+          </div>
         </div>
-        <div>
-          <ChildrenComponent name="Componente hijo 2" />
-        </div>
-      </Container>
+      </div>
     );
   }
-}
-
-function ChildrenComponent({ name, data }) {
-  let extra = '';
-  if (data) {
-    extra = data.mensaje;
-  }
-  return (
-    <Container>
-      <h2>{name}</h2>
-      <div>Im a child! {extra}</div>
-    </Container>
-  );
 }
