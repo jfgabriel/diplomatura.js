@@ -1,0 +1,11 @@
+.alink {
+  padding: 5px;
+}
+
+.container {
+  border: 1px;
+  border-style: double;
+  border-color: black;
+  margin: 2px;
+  padding: 4px;
+}
