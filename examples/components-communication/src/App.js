@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import PropsExample from './Pages/PropsExample';
 import InstanceMethodExample from './Pages/InstanceMethodExample';
 import CallbackExample from './Pages/CallbackExample';
+import BubblingExample from './Pages/BubblingExample';
 
 export default function App() {
   return (
@@ -45,6 +46,9 @@ export default function App() {
             </Route>
             <Route path="/callback" exact>
               <CallbackExample />
+            </Route>
+            <Route path="/bubbling" exact>
+              <BubblingExample />
             </Route>
           </div>
         </div>

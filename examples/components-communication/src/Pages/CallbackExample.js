@@ -27,6 +27,13 @@ export default class CallbackExample extends React.Component {
               }}
             />
           </div>
+          <div className="col border border-primary">
+            <Child
+              onCallback={({ respuesta }) => {
+                this.setState({ respuesta });
+              }}
+            />
+          </div>
         </div>
       </div>
     );
