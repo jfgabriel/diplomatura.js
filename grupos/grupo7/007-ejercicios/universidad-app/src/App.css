@@ -11,7 +11,23 @@
   color: #61dafb;
 }
 
+.deleted {
+  color: red;
+}
+
 #botonera {
   display: flex;
   justify-content: space-evenly;
+}
+
+th {
+  text-align: left;
+}
+
+td {
+  text-align: left;
+}
+
+form {
+  float: left;
 }
