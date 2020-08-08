@@ -12,27 +12,27 @@ export default class ObserverExample extends React.Component {
   render() {
     return (
       <div className="jumbotron">
-        <h1 className="display-4">Hijo llamando con event bubbling</h1>
+        <h1 className="display-4">Observer pattern</h1>
         <p className="lead">Este componente es el padre</p>
         <hr className="my-4" />
         <p>
-          El componente hijo "llama" al padre, a traves de un evento que sube
-          por el arbol. Valor que envio el hijo: {this.state.respuesta}
+          El componente hijo "broadcastea" o dispara eventos. Otros componentes
+          hijos se subscribem, o disparan el evento.
         </p>
-        <form
-          onKeyUp={(e) => {
-            this.setState({ respuesta: e.customData });
-          }}
-        >
-          <div className="row">
-            <div className="col border border-primary">
-              <Child />
-            </div>
-            <div className="col border border-primary">
-              <Child />
-            </div>
+        <div className="row">
+          <div className="col border border-primary">
+            <Child />
           </div>
-        </form>
+          <div className="col border border-primary">
+            <Child />
+          </div>
+          <div className="col border border-primary">
+            <Child />
+          </div>
+          <div className="col border border-primary">
+            <Child />
+          </div>
+        </div>
       </div>
     );
   }
