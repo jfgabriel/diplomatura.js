@@ -12,7 +12,7 @@ export default class InstanceMethodExample extends React.Component {
   render() {
     return (
       <div className="jumbotron">
-        <h1 className="display-4">Parent Component</h1>
+        <h1 className="display-4">Llamando metodos en el hijo</h1>
         <p className="lead">Este componente es el padre</p>
         <hr className="my-4" />
         <p>

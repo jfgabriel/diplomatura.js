@@ -6,7 +6,7 @@ export default class PropsExample extends React.Component {
   render() {
     return (
       <div className="jumbotron">
-        <h1 className="display-4">Parent Component</h1>
+        <h1 className="display-4">Pasando Props</h1>
         <p className="lead">Este componente es el padre</p>
         <hr className="my-4" />
         <p>Utiliza props para comunicarse con sus hijos.</p>

@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import PropsExample from './Pages/PropsExample';
 import InstanceMethodExample from './Pages/InstanceMethodExample';
+import CallbackExample from './Pages/CallbackExample';
 
 export default function App() {
   return (
@@ -16,10 +17,10 @@ export default function App() {
             <Link className="alink" to="/instance">
               2. Instance method
             </Link>
-            <Link className="alink" to="/users">
+            <Link className="alink" to="/callback">
               3. Callback Function
             </Link>
-            <Link className="alink" to="/users">
+            <Link className="alink" to="/bubbling">
               4. Event Bubbling
             </Link>
             <Link className="alink" to="/users">
@@ -41,6 +42,9 @@ export default function App() {
             </Route>
             <Route path="/instance" exact>
               <InstanceMethodExample />
+            </Route>
+            <Route path="/callback" exact>
+              <CallbackExample />
             </Route>
           </div>
         </div>
