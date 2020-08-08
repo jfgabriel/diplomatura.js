@@ -6,6 +6,7 @@ import InstanceMethodExample from './Pages/InstanceMethodExample';
 import CallbackExample from './Pages/CallbackExample';
 import BubblingExample from './Pages/BubblingExample';
 import ParentComponentExample from './Pages/ParentComponentExample';
+import ObserverExample from './Pages/ObserverExample';
 
 export default function App() {
   return (
@@ -28,7 +29,7 @@ export default function App() {
             <Link className="alink" to="/parent">
               5. Parent Component
             </Link>
-            <Link className="alink" to="/users">
+            <Link className="alink" to="/observer">
               6. Observer Pattern
             </Link>
             <Link className="alink" to="/users">
@@ -53,6 +54,9 @@ export default function App() {
             </Route>{' '}
             <Route path="/parent" exact>
               <ParentComponentExample />
+            </Route>
+            <Route path="/observer" exact>
+              <ObserverExample />
             </Route>
           </div>
         </div>

@@ -6700,6 +6700,11 @@ microevent.ts@~0.1.1:
   resolved "https://registry.yarnpkg.com/microevent.ts/-/microevent.ts-0.1.1.tgz#70b09b83f43df5172d0205a63025bce0f7357fa0"
   integrity sha512-jo1OfR4TaEwd5HOrt5+tAZ9mqT4jmpNAusXtyfNzqVm9uiSYFZlKM1wYL4oU7azZW/PxQW53wM0S6OR1JHNa2g==
 
+microevent@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/microevent/-/microevent-1.0.0.tgz#aa4a1316e095f5bac5836cb3ea934548e4b41ad3"
+  integrity sha1-qkoTFuCV9brFg2yz6pNFSOS0GtM=
+
 micromatch@^3.1.10, micromatch@^3.1.4:
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-3.1.10.tgz#70859bc95c9840952f359a068a3fc49f9ecfac23"
