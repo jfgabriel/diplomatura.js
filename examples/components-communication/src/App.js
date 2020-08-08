@@ -5,6 +5,7 @@ import PropsExample from './Pages/PropsExample';
 import InstanceMethodExample from './Pages/InstanceMethodExample';
 import CallbackExample from './Pages/CallbackExample';
 import BubblingExample from './Pages/BubblingExample';
+import ParentComponentExample from './Pages/ParentComponentExample';
 
 export default function App() {
   return (
@@ -24,7 +25,7 @@ export default function App() {
             <Link className="alink" to="/bubbling">
               4. Event Bubbling
             </Link>
-            <Link className="alink" to="/users">
+            <Link className="alink" to="/parent">
               5. Parent Component
             </Link>
             <Link className="alink" to="/users">
@@ -49,6 +50,9 @@ export default function App() {
             </Route>
             <Route path="/bubbling" exact>
               <BubblingExample />
+            </Route>{' '}
+            <Route path="/parent" exact>
+              <ParentComponentExample />
             </Route>
           </div>
         </div>

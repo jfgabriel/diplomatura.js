@@ -14,6 +14,7 @@ export default class BubblingChild extends React.Component {
         <h3>Bubbling Child</h3>
         <p>El boton envia estado al padre.</p>
         <input
+          className="m-2 p-2"
           onKeyUp={(e) => {
             console.log('KeyUp!');
             e.customData = 'Mensaje Oculto:' + e.target.value;
