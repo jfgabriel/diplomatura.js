@@ -13,11 +13,11 @@ export default class PropsExample extends React.Component {
         <div className="row">
           <div className="col">
             <PropsChildren
-              name="Calavera"
+              name="Magic"
               data={{
-                mensaje: 'Booo!',
+                mensaje: 'Rainbow!',
               }}
-              img="http://files.softicons.com/download/holidays-icons/halloween-icons-by-arrioch/png/256/skull.png"
+              img="https://lh4.ggpht.com/N-2dX2cLk1O6vLKdnjM5Sqdtg9G4y6DuuICS9f1g4x8wcf4OgcnVDmFvfCXO44vny5k=w300"
             />
           </div>
           <div className="col">

@@ -7,6 +7,7 @@ import CallbackExample from './Pages/CallbackExample';
 import BubblingExample from './Pages/BubblingExample';
 import ParentComponentExample from './Pages/ParentComponentExample';
 import ObserverExample from './Pages/ObserverExample';
+import GlobalVariablesExample from './Pages/GlobalVariablesExample';
 
 export default function App() {
   return (
@@ -32,10 +33,10 @@ export default function App() {
             <Link className="alink" to="/observer">
               6. Observer Pattern
             </Link>
-            <Link className="alink" to="/users">
+            <Link className="alink" to="/global">
               7. Global Variable
             </Link>
-            <Link className="alink" to="/users">
+            <Link className="alink" to="/context">
               8. Context
             </Link>
           </nav>
@@ -56,6 +57,12 @@ export default function App() {
               <ParentComponentExample />
             </Route>
             <Route path="/observer" exact>
+              <ObserverExample />
+            </Route>
+            <Route path="/global" exact>
+              <GlobalVariablesExample />
+            </Route>
+            <Route path="/context" exact>
               <ObserverExample />
             </Route>
           </div>
