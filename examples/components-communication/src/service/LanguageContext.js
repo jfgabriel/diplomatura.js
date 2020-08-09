@@ -11,8 +11,6 @@ export const LanguageList = [
   },
 ];
 
-const LaguageContext = React.createContext({
-  language: LanguageList[0],
-});
+const LaguageContext = React.createContext(LanguageList[0]);
 
 export default LaguageContext;
