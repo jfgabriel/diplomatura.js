@@ -8,6 +8,7 @@ import BubblingExample from './Pages/BubblingExample';
 import ParentComponentExample from './Pages/ParentComponentExample';
 import ObserverExample from './Pages/ObserverExample';
 import GlobalVariablesExample from './Pages/GlobalVariablesExample';
+import ContextExample from './Pages/ContextExample';
 
 export default function App() {
   return (
@@ -63,7 +64,7 @@ export default function App() {
               <GlobalVariablesExample />
             </Route>
             <Route path="/context" exact>
-              <ObserverExample />
+              <ContextExample />
             </Route>
           </div>
         </div>
