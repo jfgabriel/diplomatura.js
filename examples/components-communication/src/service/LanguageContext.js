@@ -13,7 +13,6 @@ export const LanguageList = [
 
 const LaguageContext = React.createContext({
   language: LanguageList[0],
-  toogleLanguage: (code) => {},
 });
 
 export default LaguageContext;

@@ -34,7 +34,14 @@ export default class ContextExample extends React.Component {
             {LanguageList.map((l) => {
               const checked = l.code === this.state.language.code;
               return (
-                <div key={l.code} className="form-check">
+                <div
+                  key={l.code}
+                  className="form-check"
+                  style={{
+                    color: this.state.theme.theme.foreground,
+                    background: this.state.theme.theme.background,
+                  }}
+                >
                   <input
                     className="form-check-input"
                     type="radio"
