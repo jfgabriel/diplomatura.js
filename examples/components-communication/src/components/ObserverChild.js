@@ -11,12 +11,11 @@ export default class ObserverChild extends React.Component {
   }
   render() {
     return (
-      <div className="border border-primary">
+      <div className="border border-primary p-4">
         <h3>Observer Child</h3>
         <p>Recibido: [{this.state.mensaje}].</p>
         <p>Envia o brodcastea el valor del campo.</p>
         <input
-          className="m-2 p-2"
           onKeyUp={(e) => {
             console.log('KeyUp!');
             Events.trigger('updateText', e.target.value);

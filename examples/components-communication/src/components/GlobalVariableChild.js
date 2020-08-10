@@ -9,7 +9,7 @@ export default class GlobalChild extends React.Component {
   }
   render() {
     return (
-      <div className="border border-primary">
+      <div className="border border-primary p-4">
         <h3>Global Variable Child</h3>
         <button
           onClick={() => {
@@ -22,7 +22,6 @@ export default class GlobalChild extends React.Component {
         <p>Recibido: [{this.state.mensaje}].</p>
         <p>Setea variable global.</p>
         <input
-          className="m-2 p-2"
           onKeyUp={(e) => {
             console.log('KeyUp!');
             window.miVariable = e.target.value;

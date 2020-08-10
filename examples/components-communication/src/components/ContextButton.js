@@ -22,7 +22,6 @@ export default class ContextButton extends React.Component {
           return (
             <button
               style={{ color: theme.foreground, background: theme.background }}
-              className="m-4"
               onClick={toggleTheme}
             >
               {name}
