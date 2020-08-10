@@ -9,7 +9,7 @@ export default class GlobalChild extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="border border-primary">
         <h3>Global Variable Child</h3>
         <button
           onClick={() => {

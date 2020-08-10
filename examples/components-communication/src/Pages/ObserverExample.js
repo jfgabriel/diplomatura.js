@@ -20,16 +20,16 @@ export default class ObserverExample extends React.Component {
           hijos se subscribem, o disparan el evento.
         </p>
         <div className="row">
-          <div className="col border border-primary">
+          <div className="col">
             <Child />
           </div>
-          <div className="col border border-primary">
+          <div className="col">
             <Child />
           </div>
-          <div className="col border border-primary">
+          <div className="col">
             <Child />
           </div>
-          <div className="col border border-primary">
+          <div className="col">
             <Child />
           </div>
         </div>

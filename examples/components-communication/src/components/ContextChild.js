@@ -16,7 +16,7 @@ export default class ContextChild extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="border border-primary">
         <h3>Context Child</h3>
         <ContextWelcomeText />
         <ContextButton name={'context button'} />

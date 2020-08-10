@@ -20,16 +20,16 @@ export default class GlobalVariableExample extends React.Component {
           pueden leerla.
         </p>
         <div className="row">
-          <div className="col border border-primary">
+          <div className="col">
             <Child />
           </div>
-          <div className="col border border-primary">
+          <div className="col">
             <Child />
           </div>
-          <div className="col border border-primary">
+          <div className="col">
             <Child />
           </div>
-          <div className="col border border-primary">
+          <div className="col">
             <Child />
           </div>
         </div>

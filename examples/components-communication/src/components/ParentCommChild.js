@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function ParentCommChild({ text, onSendMessage }) {
   return (
-    <div>
+    <div className="border border-primary">
       <h3>Parent comm Child</h3>
       <p>Recibi [{text}].</p>
       <input

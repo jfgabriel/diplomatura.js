@@ -20,7 +20,7 @@ export default class InstanceMethodExample extends React.Component {
           del hijo:{this.state.respuesta}
         </p>
         <div className="row">
-          <div className="col border border-primary">
+          <div className="col">
             <Child
               ref={(foo) => {
                 this.foo = foo;

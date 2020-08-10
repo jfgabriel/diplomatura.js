@@ -66,16 +66,16 @@ export default class ContextExample extends React.Component {
               explicito.
             </p>
             <div className="row">
-              <div className="col border border-primary">
+              <div className="col">
                 <Child />
               </div>
-              <div className="col border border-primary">
+              <div className="col">
                 <Child />
               </div>
-              <div className="col border border-primary">
+              <div className="col">
                 <Child />
               </div>
-              <div className="col border border-primary">
+              <div className="col">
                 <Child />
               </div>
             </div>

@@ -10,7 +10,7 @@ export default class BubblingChild extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="border border-primary">
         <h3>Bubbling Child</h3>
         <p>El boton envia estado al padre.</p>
         <input

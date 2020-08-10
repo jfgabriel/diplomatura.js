@@ -10,7 +10,7 @@ export default class InstanceMethodChild extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="border border-primary">
         <h3>{this.myFunc()}</h3>
         <p>Instance method child.</p>
       </div>

@@ -41,7 +41,7 @@ export default function App() {
               8. Context
             </Link>
           </nav>
-          <div>
+          <div className="border border-primary">
             <Route path="/props" exact>
               <PropsExample />
             </Route>

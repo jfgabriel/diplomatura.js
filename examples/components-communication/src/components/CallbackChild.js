@@ -10,7 +10,7 @@ export default class CallbackChild extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="border border-primary">
         <h3>Callback Child</h3>
         <p>El boton envia estado al padre.</p>
         <button

@@ -25,14 +25,14 @@ export default class BubblingExample extends React.Component {
           }}
         >
           <div className="row">
-            <div className="col border border-primary">
+            <div className="col">
               <Child
                 onCallback={({ respuesta }) => {
                   this.setState({ respuesta });
                 }}
               />
             </div>
-            <div className="col border border-primary">
+            <div className="col">
               <Child
                 onCallback={({ respuesta }) => {
                   this.setState({ respuesta });

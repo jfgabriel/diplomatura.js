@@ -20,7 +20,7 @@ export default class ParentComponentExample extends React.Component {
         <hr className="my-4" />
         <p>El componente hijo A "llama" al componente hijo B.</p>
         <div className="row">
-          <div className="col border border-primary">
+          <div className="col">
             <Child
               text={this.state.respuestaB}
               onSendMessage={(respuestaA) => {
@@ -28,7 +28,7 @@ export default class ParentComponentExample extends React.Component {
               }}
             />
           </div>
-          <div className="col border border-primary">
+          <div className="col">
             <Child
               text={this.state.respuestaA}
               onSendMessage={(respuestaB) => {

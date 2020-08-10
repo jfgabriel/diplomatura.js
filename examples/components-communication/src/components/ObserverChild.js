@@ -11,7 +11,7 @@ export default class ObserverChild extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="border border-primary">
         <h3>Observer Child</h3>
         <p>Recibido: [{this.state.mensaje}].</p>
         <p>Envia o brodcastea el valor del campo.</p>
