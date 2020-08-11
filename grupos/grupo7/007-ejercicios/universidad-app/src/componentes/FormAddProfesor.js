@@ -1,11 +1,10 @@
 import React from "react";
 
-class FormAddAlumno extends React.Component {
+class FormAddProfesor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       nombre: "",
-      edad: 0,
     };
   }
 
@@ -13,20 +12,14 @@ class FormAddAlumno extends React.Component {
     this.setState({ nombre: event.target.value });
   }
 
-  handleEdadChange(event) {
-    this.setState({ edad: event.target.value });
-  }
-
   handleOnSumbit(event) {
     event.preventDefault();
-    const newAlumno = {
+    const newProfesor = {
       id: 0,
       nombre: this.state.nombre,
-      edad: this.state.edad,
     };
-    this.props.onAddAlumno(newAlumno);
-
-    this.setState({ nombre: "", edad: 0 });
+    this.props.onAddProfesor(newProfesor);
+    this.setState({ nombre: "" });
   }
 
   render() {
@@ -44,15 +37,6 @@ class FormAddAlumno extends React.Component {
                   onChange={this.handleNombreChange.bind(this)}
                 />
               </td>
-              <td align="right">Edad:</td>
-              <td align="left">
-                <input
-                  type="text"
-                  name="edad"
-                  value={this.state.edad}
-                  onChange={this.handleEdadChange.bind(this)}
-                />
-              </td>
               <td>
                 <button type="submit" className="btn btn-primary mb-2">
                   Agregar
@@ -66,4 +50,4 @@ class FormAddAlumno extends React.Component {
   }
 }
 
-export default FormAddAlumno;
+export default FormAddProfesor;

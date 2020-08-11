@@ -13,6 +13,9 @@ import ListaProfesores from "./componentes/ListaProfesores";
 import ListaMaterias from "./componentes/ListaMaterias";
 import ListaCalificaciones from "./componentes/ListaCalificaciones";
 import DetalleAlumno from "./componentes/DetalleAlumno";
+import DetalleProfesor from "./componentes/DetalleProfesor";
+import DetalleMateria from "./componentes/DetalleMateria";
+import DetalleCalificacion from "./componentes/DetalleCalificacion";
 import AppInicial from "./componentes/AppInicial";
 
 //import HelloMessage from "./componentes/HelloMessage";
@@ -49,8 +52,15 @@ class App extends React.Component {
       newListAlumnos.find((a) => a.id === id)
     );
     newListAlumnos.splice(index, 1);
+
+    /*Eliminar las calificaciones de ese alumno*/
+    const newListCalificaciones = this.state.calificaciones.filter(
+      (c) => c.alumno !== id
+    );
+
     this.setState({
       alumnos: newListAlumnos,
+      calificaciones: newListCalificaciones,
       itemSelected: -1,
     });
   };
@@ -68,38 +78,155 @@ class App extends React.Component {
   };
   /* Fin ABM alumnos*/
 
+  /*ABM profesores*/
+  getProfesor = (id) => this.state.profesores.find((pr) => pr.id === +id);
+
+  addProfesor = (profesor) => {
+    const newListProfesores = [...this.state.profesores];
+    const newId = Math.max(...this.state.profesores.map((p) => p.id)) + 1;
+    profesor.id = newId;
+    newListProfesores.push(profesor);
+    this.setState({
+      profesores: newListProfesores,
+      itemSelected: newId,
+    });
+  };
+
+  deleteProfesor = (id) => {
+    const newListProfesores = [...this.state.profesores];
+    const index = newListProfesores.indexOf(
+      newListProfesores.find((p) => p.id === id)
+    );
+    newListProfesores.splice(index, 1);
+
+    /*Borrar al profesor de las materias donde dictaba clases*/
+    const newListMaterias = [...this.state.materias];
+
+    for (let m of newListMaterias) {
+      const index = m.profesores.indexOf(id);
+      if (index > -1) {
+        m.profesores.splice(index, 1);
+      }
+    }
+
+    this.setState({
+      profesores: newListProfesores,
+      materias: newListMaterias,
+      itemSelected: -1,
+    });
+  };
+
+  editProfesor = (profesor) => {
+    const newListProfesores = [...this.state.profesores];
+    const index = newListProfesores.indexOf(
+      newListProfesores.find((p) => p.id === profesor.id)
+    );
+    newListProfesores[index] = profesor;
+    this.setState({
+      profesores: newListProfesores,
+      itemSelected: profesor.id,
+    });
+  };
+  /* Fin ABM Profesores*/
+
+  /*ABM Materias*/
+  getMateria = (id) => this.state.materias.find((ma) => ma.id === +id);
+
+  addMateria = (materia) => {
+    const newListMaterias = [...this.state.materias];
+    const newId = Math.max(...this.state.materias.map((m) => m.id)) + 1;
+    materia.id = newId;
+    newListMaterias.push(materia);
+    this.setState({
+      materias: newListMaterias,
+      itemSelected: newId,
+    });
+  };
+
+  deleteMateria = (id) => {
+    const newListMaterias = [...this.state.materias];
+    const index = newListMaterias.indexOf(
+      newListMaterias.find((m) => m.id === id)
+    );
+    newListMaterias.splice(index, 1);
+
+    /*Eliminar las calificaciones de esta materia*/
+    const newListCalificaciones = this.state.calificaciones.filter(
+      (c) => c.materia !== id
+    );
+
+    this.setState({
+      materias: newListMaterias,
+      calificaciones: newListCalificaciones,
+      itemSelected: -1,
+    });
+  };
+
+  editMateria = (materia) => {
+    const newListMaterias = [...this.state.materias];
+    const index = newListMaterias.indexOf(
+      newListMaterias.find((m) => m.id === materia.id)
+    );
+    newListMaterias[index] = materia;
+    this.setState({
+      materias: newListMaterias,
+      itemSelected: materia.id,
+    });
+  };
+  /* Fin ABM Materias*/
+
+  /*ABM Calificaciones*/
+  getCalificacion = (idAlumno, idMateria) =>
+    this.state.calificaciones.find(
+      (ca) => ca.alumno === +idAlumno && ca.materia === +idMateria
+    );
+
+  addCalificacion = (calificacion) => {
+    const newListCalificaciones = [...this.state.calificaciones];
+    newListCalificaciones.push(calificacion);
+    this.setState({
+      calificaciones: newListCalificaciones,
+      itemSelected: calificacion.materia * 1000 + calificacion.alumno,
+    });
+  };
+
+  deleteCalificacion = (idAlumno, idMateria) => {
+    const newListCalificaciones = [...this.state.calificaciones];
+    const index = newListCalificaciones.indexOf(
+      newListCalificaciones.find(
+        (c) => c.alumno === idAlumno && c.materia === idMateria
+      )
+    );
+    newListCalificaciones.splice(index, 1);
+    this.setState({
+      calificaciones: newListCalificaciones,
+      itemSelected: -1,
+    });
+  };
+
+  editCalificacion = (idAlumnoOrigina, idMateriaOriginal, calificacion) => {
+    const newListCalificaciones = [...this.state.calificaciones];
+    const index = newListCalificaciones.indexOf(
+      newListCalificaciones.find(
+        (c) => c.alumno === idAlumnoOrigina && c.materia === idMateriaOriginal
+      )
+    );
+    newListCalificaciones[index] = calificacion;
+    this.setState({
+      calificaciones: newListCalificaciones,
+      itemSelected: calificacion.materia * 1000 + calificacion.alumno,
+    });
+  };
+  /* Fin ABM Calificaciones*/
+
   returnedItem = (objeto) => {
+    console.log(objeto);
     this.setState({
       itemSelected: objeto.id,
     });
   };
 
   render() {
-    const materiasExtended = this.state.materias.map((m) => {
-      const nombreProfesores = m.profesores.map(
-        (idPr) => this.state.profesores.find((pr) => pr.id === idPr).nombre
-      );
-      return {
-        id: m.id,
-        nombre: m.nombre,
-        profesores: nombreProfesores,
-      };
-    });
-
-    const califacionesExtended = this.state.calificaciones.map((c) => {
-      const idCalificacion = c.materia * 1000 + c.alumno;
-      const alumno = this.state.alumnos.find((a) => a.id === c.alumno);
-      const nombreAlumno = alumno ? alumno.nombre : "deleted";
-      const nombreMateria = this.state.materias.find((m) => m.id === c.materia)
-        .nombre;
-      return {
-        id: idCalificacion,
-        alumno: nombreAlumno,
-        materia: nombreMateria,
-        nota: c.nota,
-      };
-    });
-
     return (
       <Router>
         <div className="App">
@@ -128,7 +255,6 @@ class App extends React.Component {
                 <ListaAlumnos
                   alumnos={this.state.alumnos}
                   itemSelected={this.state.itemSelected}
-                  updateItemSelected={this.state.updateItemSelected}
                   onAddAlumno={this.addAlumno.bind(this)}
                   onDeleteAlumno={this.deleteAlumno.bind(this)}
                 />
@@ -160,15 +286,120 @@ class App extends React.Component {
                 }}
               />
               <Route path="/profesores">
-                <ListaProfesores profesores={this.state.profesores} />
+                <ListaProfesores
+                  profesores={this.state.profesores}
+                  itemSelected={this.state.itemSelected}
+                  onAddProfesor={this.addProfesor.bind(this)}
+                  onDeleteProfesor={this.deleteProfesor.bind(this)}
+                />
               </Route>
+              <Route
+                path="/profesor/:id/edit"
+                render={(props) => {
+                  return (
+                    <DetalleProfesor
+                      profesor={this.getProfesor(+props.match.params.id)}
+                      isEdit={true}
+                      onEditProfesor={this.editProfesor.bind(this)}
+                      onReturnProfesor={this.returnedItem.bind(this)}
+                    />
+                  );
+                }}
+              />
+              <Route
+                path="/profesor/:id"
+                render={(props) => {
+                  return (
+                    <DetalleProfesor
+                      profesor={this.getProfesor(+props.match.params.id)}
+                      isEdit={false}
+                      onEditProfesor={this.editProfesor.bind(this)}
+                      onReturnProfesor={this.returnedItem.bind(this)}
+                    />
+                  );
+                }}
+              />
               <Route path="/materias">
-                <ListaMaterias materias={materiasExtended} />
+                <ListaMaterias
+                  materias={this.state.materias}
+                  profesores={this.state.profesores}
+                  itemSelected={this.state.itemSelected}
+                  onAddMateria={this.addMateria.bind(this)}
+                  onDeleteMateria={this.deleteMateria.bind(this)}
+                />
               </Route>
+              <Route
+                path="/materia/:id/edit"
+                render={(props) => {
+                  return (
+                    <DetalleMateria
+                      materia={this.getMateria(+props.match.params.id)}
+                      profesores={this.state.profesores}
+                      isEdit={true}
+                      onEditMateria={this.editMateria.bind(this)}
+                      onReturnMateria={this.returnedItem.bind(this)}
+                    />
+                  );
+                }}
+              />
+              <Route
+                path="/materia/:id"
+                render={(props) => {
+                  return (
+                    <DetalleMateria
+                      materia={this.getMateria(+props.match.params.id)}
+                      profesores={this.state.profesores}
+                      isEdit={false}
+                      onEditMateria={this.editMateria.bind(this)}
+                      onReturnMateria={this.returnedItem.bind(this)}
+                    />
+                  );
+                }}
+              />
               <Route path="/calificaciones">
-                <ListaCalificaciones calificaciones={califacionesExtended} />
+                <ListaCalificaciones
+                  calificaciones={this.state.calificaciones}
+                  materias={this.state.materias}
+                  alumnos={this.state.alumnos}
+                  itemSelected={this.state.itemSelected}
+                  onAddCalificacion={this.addCalificacion.bind(this)}
+                  onDeleteCalificacion={this.deleteCalificacion.bind(this)}
+                />
               </Route>
-
+              <Route
+                path="/calificacion/:id/edit"
+                render={(props) => {
+                  const idAlumno = +props.match.params.id % 1000;
+                  const idMateria = (+props.match.params.id - idAlumno) / 1000;
+                  return (
+                    <DetalleCalificacion
+                      calificacion={this.getCalificacion(idAlumno, idMateria)}
+                      materias={this.state.materias}
+                      alumnos={this.state.alumnos}
+                      isEdit={true}
+                      onEditCalificacion={this.editCalificacion.bind(this)}
+                      onReturnCalificacion={this.returnedItem.bind(this)}
+                    />
+                  );
+                }}
+              />
+              <Route
+                path="/calificacion/:id"
+                render={(props) => {
+                  const idAlumno = +props.match.params.id % 1000;
+                  const idMateria = (+props.match.params.id - idAlumno) / 1000;
+                  return (
+                    <DetalleCalificacion
+                      calificacion={this.getCalificacion(idAlumno, idMateria)}
+                      materias={this.state.materias}
+                      alumnos={this.state.alumnos}
+                      isEdit={false}
+                      onEditCalificacion={this.editCalificacion.bind(this)}
+                      onReturnCalificacion={this.returnedItem.bind(this)}
+                    />
+                  );
+                }}
+              />
               <Route path="/">
                 <AppInicial />
               </Route>

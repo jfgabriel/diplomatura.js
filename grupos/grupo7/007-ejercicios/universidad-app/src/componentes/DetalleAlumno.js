@@ -33,8 +33,8 @@ class DetalleAlumno extends React.Component {
   }
 
   handleReturnButton(event) {
-    const viewerdAlumno = { ...this.state.alumno };
-    this.props.onReturnAlumno(viewerdAlumno);
+    const viewedAlumno = { ...this.state.alumno };
+    this.props.onReturnAlumno(viewedAlumno);
   }
 
   render() {
@@ -48,6 +48,7 @@ class DetalleAlumno extends React.Component {
                 <input
                   type="text"
                   name="id"
+                  className="form-control"
                   value={this.state.alumno.id}
                   readOnly
                 />
@@ -59,6 +60,7 @@ class DetalleAlumno extends React.Component {
                 <input
                   type="text"
                   name="nombre"
+                  className="form-control"
                   value={this.state.alumno.nombre}
                   onChange={this.handleNombreChange.bind(this)}
                   readOnly={!this.props.isEdit}
@@ -70,7 +72,8 @@ class DetalleAlumno extends React.Component {
               <td align="left">
                 <input
                   type="text"
-                  name="nombre"
+                  name="edad"
+                  className="form-control"
                   value={this.state.alumno.edad}
                   onChange={this.handleEdadChange.bind(this)}
                   readOnly={!this.props.isEdit}
