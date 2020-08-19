@@ -1,3 +1,26 @@
 body {
   font-family: sans-serif;
 }
+
+.destroyButton {
+  background-color: #ee6969;
+}
+
+.addButton {
+  background-color: #9ed48f;
+}
+
+.globoDiv {
+  float: left;
+  margin: 10px;
+  width: 100px;
+  height: 160px;
+  text-align: center;
+}
+
+.globo {
+  cursor: crosshair;
+  border-radius: 100%;
+  width: 100px;
+  height: 140px;
+}
