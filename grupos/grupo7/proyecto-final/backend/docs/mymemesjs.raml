@@ -26,12 +26,12 @@ mediaType: application/json
                                 "_id": { "type": "string" },
                                 "titulo": { "type": "string"},
                                 "imagen": { "type": "string"},
-                                "usuario": {"type":"string"},
-                                "fecha": {"type":"date"},
+                                "usuario": { "type":"string"},
+                                "fecha": { "type":"date"},
                                 "categoria": { "type": "string" },
-                                "cantVotosUp":{ "type": "number" },
-                                "cantVotosDown":{ "type": "number" },
-                                "cantComentarios":{ "type": "number" },
+                                "cantVotosUp": { "type": "number" },
+                                "cantVotosDown": { "type": "number" },
+                                "cantComentarios": { "type": "number" },
                             }
                         }
                     }
@@ -44,7 +44,7 @@ mediaType: application/json
                 "properties":{
                         "titulo": { "type": "string"},
                         "imagen": { "type": "string"},
-                        "usuario": {"type":"string"},
+                        "usuario": { "type":"string"},
                         "categoria": { "type": "string" },
                         "token": { "type": "string" },
                 }
@@ -67,20 +67,20 @@ mediaType: application/json
                         "properties":{
                             "titulo": { "type": "string"},
                             "imagen": { "type": "string"},
-                            "usuario": {"type":"string"},
-                            "fecha": {"type":"date"},
+                            "usuario": { "type":"string"},
+                            "fecha": { "type":"date"},
                             "categoria": { "type": "string" },
-                            "cantVotosUp":{ "type": "string" },
-                            "cantVotosDown":{ "type": "number" },
-                            "cantComentarios":{ "type": "number" },
+                            "cantVotosUp": { "type": "string" },
+                            "cantVotosDown": { "type": "number" },
+                            "cantComentarios": { "type": "number" },
                             "votos": {
                                 "type": "array",
                                 "items": {
                                     "type": "object",  
                                     "properties": {
                                         "tipo": { "type": "string"},
-                                        "usuario": {"type": "string"},
-                                        "fecha":{"type":"date"},
+                                        "usuario": { "type": "string"},
+                                        "fecha":{ "type":"date"},
                                     }
                                 }
                             }
@@ -94,8 +94,8 @@ mediaType: application/json
                 {"$schema": "http://json-schema.org/draft-03/schema",
                     "type": "object",
                     "properties":{
-                            "tipo": {"type":"string"},
-                            "usuario": {"type":"string"},
+                            "tipo": { "type":"string"},
+                            "usuario": { "type":"string"},
                             "token": { "type": "string" },
                     }
                 }
@@ -113,7 +113,7 @@ mediaType: application/json
                 {"$schema": "http://json-schema.org/draft-03/schema",
                     "type": "object",
                     "properties":{
-                            "usuario": {"type":"string"},
+                            "usuario": { "type":"string"},
                             "token": { "type": "string" },
                     }
                 }
@@ -153,9 +153,9 @@ mediaType: application/json
                 {"$schema": "http://json-schema.org/draft-03/schema",
                     "type": "object",
                     "properties":{
-                            "idMeme": {"type":"string"},
-                            "descripcion": {"type":"string"},
-                            "usuario": {"type":"string"},
+                            "idMeme": { "type":"string"},
+                            "descripcion": { "type":"string"},
+                            "usuario": { "type":"string"},
                             "token": { "type": "string" },
                     }
                 }
@@ -195,7 +195,7 @@ mediaType: application/json
                 "type": "object",
                 "properties":{
                         "nombre": { "type": "string"},
-                        "usuario": {"type":"string"},
+                        "usuario": { "type":"string"},
                         "token": { "type": "string" },
                 }
             }
@@ -216,7 +216,7 @@ mediaType: application/json
                 "type": "object",
                 "properties":{
                         "email": { "type": "string"},
-                        "pass": {"type":"string"},
+                        "pass": { "type":"string"},
                 }
             }
         responses:
@@ -227,7 +227,7 @@ mediaType: application/json
                         "type": "object",
                         "properties":{
                                 "_id": { "type": "string"},
-                                "token": {"type":"string"},
+                                "token": { "type":"string"},
                         }
                     }
 
@@ -242,7 +242,7 @@ mediaType: application/json
                 "type": "object",
                 "properties":{
                         "email": { "type": "string"},
-                        "pass": {"type":"string"},
+                        "pass": { "type":"string"},
                 }
             }
         responses:
@@ -252,7 +252,7 @@ mediaType: application/json
                     {"$schema": "http://json-schema.org/draft-03/schema",
                         "type": "object",
                         "properties":{
-                                "token": {"type":"string"},
+                                "token": { "type":"string"},
                         }
                     }
             401:
