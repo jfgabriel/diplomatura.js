@@ -29,14 +29,14 @@ mediaType: application/json
                                 "usuario": {"type":"string"},
                                 "fecha": {"type":"date"},
                                 "categoria": { "type": "string" },
-                                "cantVotosUp":{ "type": "number" }
-                                "cantVotosDown":{ "type": "number" }
-                                "cantComentarios":{ "type": "number" }
+                                "cantVotosUp":{ "type": "number" },
+                                "cantVotosDown":{ "type": "number" },
+                                "cantComentarios":{ "type": "number" },
                             }
                         }
                     }
     post:
-        description: agrega un nuevo meme
+        description: Agrega un nuevo meme
         body:
             schema:|
             {"$schema": "http://json-schema.org/draft-03/schema",
@@ -45,8 +45,8 @@ mediaType: application/json
                         "titulo": { "type": "string"},
                         "imagen": { "type": "string"},
                         "usuario": {"type":"string"},
-                        "categoria": { "type": "string" }
-                        "token": { "type": "string" }
+                        "categoria": { "type": "string" },
+                        "token": { "type": "string" },
                 }
             }
         responses:
@@ -69,10 +69,10 @@ mediaType: application/json
                             "imagen": { "type": "string"},
                             "usuario": {"type":"string"},
                             "fecha": {"type":"date"},
-                            "categoria": { "type": "string" }
-                            "cantVotosUp":{ "type": "string" }
-                            "cantVotosDown":{ "type": "number" }
-                            "cantComentarios":{ "type": "number" }
+                            "categoria": { "type": "string" },
+                            "cantVotosUp":{ "type": "string" },
+                            "cantVotosDown":{ "type": "number" },
+                            "cantComentarios":{ "type": "number" },
                             "votos": {
                                 "type": "array",
                                 "items": {
@@ -96,7 +96,7 @@ mediaType: application/json
                     "properties":{
                             "tipo": {"type":"string"},
                             "usuario": {"type":"string"},
-                            "token": { "type": "string" }
+                            "token": { "type": "string" },
                     }
                 }
             responses:
@@ -114,7 +114,7 @@ mediaType: application/json
                     "type": "object",
                     "properties":{
                             "usuario": {"type":"string"},
-                            "token": { "type": "string" }
+                            "token": { "type": "string" },
                     }
                 }
             responses:
@@ -156,7 +156,7 @@ mediaType: application/json
                             "idMeme": {"type":"string"},
                             "descripcion": {"type":"string"},
                             "usuario": {"type":"string"},
-                            "token": { "type": "string" }
+                            "token": { "type": "string" },
                     }
                 }
             responses:
@@ -196,7 +196,7 @@ mediaType: application/json
                 "properties":{
                         "nombre": { "type": "string"},
                         "usuario": {"type":"string"},
-                        "token": { "type": "string" }
+                        "token": { "type": "string" },
                 }
             }
         responses:
@@ -235,7 +235,7 @@ mediaType: application/json
                 description: Fallo el registro del usuario, usuario duplicado, etc.
 /login
     post:
-        description: Para logear un usuario
+        description: Identifica el usuario e inicia su sección en la aplicación
         body:
             schema:|
             {"$schema": "http://json-schema.org/draft-03/schema",
