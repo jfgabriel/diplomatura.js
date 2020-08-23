@@ -1,13 +1,15 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-
 import {} from 'dotenv/config';
+
+import { connect } from './connection';
+import memesRoutes from './controllers/memes';
 
 const PORT = 8000;
 const app = express();
 app.use(bodyParser.json());
 
-//app.use('/memes', memesRoutes);
+app.use('/memes', memesRoutes);
 
 const home = `
 <h1>API endpoints</h1>
@@ -19,6 +21,9 @@ app.get('/', function (req, res) {
   res.write(home);
   res.end();
 });
+
+/* Realizo la conexión a la base de datos al momento de levantar la aplicacion*/
+connect().then((db) => (app.locals.db = db));
 
 app.listen(PORT);
 console.log(

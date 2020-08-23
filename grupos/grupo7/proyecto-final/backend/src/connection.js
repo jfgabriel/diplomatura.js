@@ -8,8 +8,16 @@ export async function connect() {
       useUnifiedTopology: true,
     });
     const db = client.db();
+
+    if (process.env.ENVIRONMENT === 'dev') {
+      console.error('Conexión de DB en ' + process.env.DB_MONGO_CONN);
+    }
+
     return db;
   } catch (err) {
+    if (process.env.ENVIRONMENT === 'dev') {
+      console.error(err);
+    }
     return 'Not connected';
   }
 }
