@@ -6,12 +6,12 @@ mediaType: application/json
 
 /memes 
     get:
-        description: Obtiene un lote de 20 memes. Puede filtrarse por una categoría o fecha de posteo
+        description: Obtiene un lote de n memes. Puede filtrarse por una categoría o fecha de posteo
         queryParameters:   
             categoria:
                 description: categoria de los memes. si no viene este valor, se buscan los memes de cualquier categoría
-            fecha:
-                description: fecha y hora a partir del cual buscar los siguientes 20 memes con fecha menor a este parametro. Si no viene este valor, se buscan 20 memes con fecha de posteo más recientes
+            pagina:
+                description: sirve para el paginado, identifica el lote de memes que debe obtener de la base
         responses:
             200:
                 body:

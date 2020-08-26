@@ -10,44 +10,57 @@ const parseData = (body) => {
     imagen: body.imagen,
     categoria: body.categoria,
     usuario: body.usuario,
-    //fecha: body.usuario,
+    fecha: new Date(),
+    votos: [],
+    cantVotosUp: 0,
+    cantVotosDown: 0,
+    cantComentarios: 0,
   };
   return item;
 };
 
 router.get('/', async function (req, res) {
-  let memes = '';
-  const condition = {};
   const db = req.app.locals.db;
+
+  const condition = {};
+  const proyection = { votos: 0 };
+  const sorting = { fecha: -1 };
+  let limit = 20;
+  let skip = 0;
+
+  if (process.env.PAGING_MEMES) {
+    limit = +process.env.PAGING_MEMES;
+  }
 
   if (req.query.categoria) {
     condition.categoria = req.query.categoria;
   }
-
-  if (req.query.fecha) {
-    condition.fecha = { $lte: ISODate('fecha') };
+  if (req.query.pagina) {
+    skip = limit * req.query.pagina;
   }
 
-  memes = await helpers.getDataFilterByCondition(
+  const memes = await helpers.getDataFilterByCondition(
     db,
     'memes',
     condition,
-    { titulo: 1, imagen: 1, votos: 0 },
-    +process.env.PAGING_MEMES
+    proyection,
+    sorting,
+    limit,
+    skip
   );
   res.json(memes);
 });
 
-/*
-router.post('/', async function (req, res) {
-    const alumno = await helpers.pushData(coleccion, parseData(req.body));
-    res.json(alumno);
-  });
-
 router.get('/:id', async function (req, res) {
-  const alumno = await helpers.getDataById(coleccion, req.params.id);
-  res.json(alumno);
+  const db = req.app.locals.db;
+  const meme = await helpers.getDataFilterById(db, coleccion, req.params.id);
+  res.json(meme);
 });
-*/
+
+router.post('/', async function (req, res) {
+  const db = req.app.locals.db;
+  const meme = await helpers.insertData(db, coleccion, parseData(req.body));
+  res.json(meme);
+});
 
 export default router;
