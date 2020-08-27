@@ -24,7 +24,7 @@ async function getDataFilterByCondition(
   proyection = {},
   sorting = {},
   limit = 0,
-  skip = 1
+  skip = 0
 ) {
   try {
     const databasesList = await db

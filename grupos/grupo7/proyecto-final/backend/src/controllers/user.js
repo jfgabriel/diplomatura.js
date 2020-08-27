@@ -7,6 +7,15 @@ router.get('/profile', authenticationMiddleware(), (req, res, next) => {
   res.json({ username: req.user.name });
 });
 
+router.post(
+  '/login',
+  passport.authenticate('local', { failureRedirect: '/user/login' }),
+  (req, res) => {
+    console.log('login correct');
+    res.json(req.user);
+  }
+);
+
 router.route('/register').post(
   (req, res, next) => {
     const hash = bcrypt.hashSync(req.body.password, 13);
