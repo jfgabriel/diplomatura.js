@@ -5,6 +5,14 @@ import { Navbar, Nav } from "react-bootstrap";
 import "./styles/Navbar.css";
 
 class MyNavbar extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      userName: props.userName,
+    };
+  }
+
   render() {
     return (
       <Navbar bg="dark" variant="dark">
