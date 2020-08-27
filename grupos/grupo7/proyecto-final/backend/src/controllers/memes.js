@@ -3,7 +3,7 @@ import authenticationMiddleware from '../auth/middleware';
 import { helpers } from '../db_helpers.js';
 
 const router = express.Router();
-const coleccion = 'memes';
+const coleccion = 'meme';
 
 const parseData = (body) => {
   const item = {
@@ -60,9 +60,13 @@ router.get('/:id', async function (req, res) {
 
 router.post('/', authenticationMiddleware(), async function (req, res) {
   // req.user.name - es el nombre del user logueado
-  const db = req.app.locals.db;
-  const meme = await helpers.insertData(db, coleccion, parseData(req.body));
-  res.json(meme);
+  if (req.body.usuario === req.user.name) {
+    const db = req.app.locals.db;
+    const meme = await helpers.insertData(db, coleccion, parseData(req.body));
+    res.json(meme);
+  } else {
+    res.json({ err: 'Usuario No Valido' });
+  }
 });
 
 export default router;
