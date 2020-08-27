@@ -65,9 +65,7 @@ app.post('/upload', function (req, res) {
 });
 
 /* Realizo la conexión a la base de datos al momento de levantar la aplicacion*/
-connect()
-  .then((db) => (app.locals.db = db))
-  .then((db) => auth(app, db));
+connect().then((db) => (app.locals.db = db));
 
 app.listen(PORT);
 console.log(
