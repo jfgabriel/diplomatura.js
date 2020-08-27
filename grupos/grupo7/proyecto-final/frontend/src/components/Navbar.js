@@ -13,8 +13,8 @@ class MyNavbar extends React.Component {
           <Link className="nav-link" to="/">
             Home
           </Link>
-          <Link className="nav-link" to="/link1">
-            Link1
+          <Link className="nav-link" to="/addmeme">
+            AddMeme
           </Link>
           <Link className="nav-link" to="/login">
             Login
