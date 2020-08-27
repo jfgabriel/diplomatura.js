@@ -1,5 +1,6 @@
 import express from 'express';
 import authenticationMiddleware from '../auth/middleware';
+import fileUpload from 'express-fileupload';
 import { helpers } from '../db_helpers.js';
 
 const router = express.Router();
