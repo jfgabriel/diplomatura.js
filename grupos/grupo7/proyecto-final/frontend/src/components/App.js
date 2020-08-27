@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Layout from "./Layout";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
-import AddMeme from "../pages/AddMeme";
+import AddMemePage from "../pages/AddMemePage";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
           <Route
             exact
             path="/addmeme"
-            component={AddMeme}
+            component={AddMemePage}
             userName={userName}
           />
           <Route component={NotFound} />

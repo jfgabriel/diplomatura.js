@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import AddMeme from "../components/AddMeme";
 
-export default class AddMeme extends Component {
+export default class AddMemePage extends Component {
   constructor(props) {
     super(props);
 
