@@ -14,7 +14,14 @@ function App() {
       <Layout>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/addmeme"><AddMeme categorias={[{nombre:'humor'},{nombre:'politica'}]} /></Route> 
+          <Route exact path="/addmeme">
+            <AddMeme
+              categorias={[
+                { id: 1, nombre: "humor" },
+                { id: 2, nombre: "politica" },
+              ]}
+            />
+          </Route>
           <Route component={NotFound} />
         </Switch>
       </Layout>
