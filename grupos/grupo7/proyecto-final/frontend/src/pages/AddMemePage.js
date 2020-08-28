@@ -1,8 +1,7 @@
 import React, { Component } from "react";
+import AddMeme from "../components/AddMeme";
 
-import "./styles/Home.css";
-
-export default class Home extends Component {
+export default class AddMemePage extends Component {
   constructor(props) {
     super(props);
 
@@ -17,7 +16,13 @@ export default class Home extends Component {
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-4">
-              <h1>MyMemejs</h1>
+              <h1>Add Meme</h1>
+              <AddMeme
+                categorias={[
+                  { id: 1, nombre: "humor" },
+                  { id: 2, nombre: "politica" },
+                ]}
+              />
             </div>
           </div>
         </div>

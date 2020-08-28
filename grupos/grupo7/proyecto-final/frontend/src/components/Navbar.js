@@ -5,6 +5,14 @@ import { Navbar, Nav } from "react-bootstrap";
 import "./styles/Navbar.css";
 
 class MyNavbar extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      userName: props.userName,
+    };
+  }
+
   render() {
     return (
       <Navbar bg="dark" variant="dark">
@@ -13,8 +21,8 @@ class MyNavbar extends React.Component {
           <Link className="nav-link" to="/">
             Home
           </Link>
-          <Link className="nav-link" to="/link1">
-            Link1
+          <Link className="nav-link" to="/addmeme">
+            AddMeme
           </Link>
           <Link className="nav-link" to="/login">
             Login
