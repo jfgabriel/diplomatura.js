@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import passport from 'passport';
-import auth from './auth';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import {} from 'dotenv/config';

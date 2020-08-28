@@ -1,41 +1,25 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import bcrypt from 'bcrypt';
+import { helpers } from '../db_helpers.js';
+import { connect } from '../connection';
 
 import authenticationMiddleware from './middleware';
 
-// Generate Password
-const saltRounds = 10;
-const myPlaintextPassword = 'my-password';
-const salt = bcrypt.genSaltSync(saltRounds);
-const passwordHash = bcrypt.hashSync(myPlaintextPassword, salt);
+async function findUser(username, callback) {
+  const db = await connect();
+  const user = await helpers.getDataFilterByName(db, 'usuario', username);
 
-const user = {
-  username: 'juan',
-  passwordHash,
-  id: 1,
-};
-
-function findUser(username, callback) {
-  if (username === user.username) {
+  if (user && username === user.username) {
     return callback(null, user);
   }
   return callback(null);
 }
 
-function validPassword(password) {
-  return true;
-
-  //   // Always use hashed passwords and fixed time comparison
-  //   bcrypt.compare(password, user.passwordHash, (err, isValid) => {
-  //     if (err) {
-  //       return done(err);
-  //     }
-  //     if (!isValid) {
-  //       return done(null, false);
-  //     }
-  //     return done(null, user);
-  //   });
+function validPassword(userpass, loginpass) {
+  bcrypt.compare(loginpass, userpass, (err, isValid) => {
+    return isValid;
+  });
 }
 
 passport.serializeUser((user, cb) => {
@@ -53,8 +37,6 @@ passport.deserializeUser((sessionUser, cb) => {
 function initPassport() {
   passport.use(
     new LocalStrategy((username, password, done) => {
-      console.log(username);
-      console.log(password);
       findUser(username, (err, user) => {
         if (err) {
           return done(err);
@@ -62,14 +44,16 @@ function initPassport() {
 
         // User not found
         if (!user) {
-          console.log('User not found');
           return done(null, false);
         }
 
-        if (!validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        return done(null, user);
+        bcrypt.compare(password, user.password, (err, isValid) => {
+          if (isValid) {
+            return done(null, user);
+          } else {
+            return done(null, false, { message: 'Incorrect password.' });
+          }
+        });
       });
     })
   );
