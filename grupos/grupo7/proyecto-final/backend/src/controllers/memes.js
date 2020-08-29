@@ -22,6 +22,16 @@ const parseData = (body) => {
   return item;
 };
 
+const parseVoto = (body) => {
+  const item = {
+    tipo:
+      body.tipo === 'upvote' || body.tipo === 'downvote'
+        ? body.tipo
+        : undefined,
+    usuario: body.usuario,
+  };
+};
+
 router.get('/', async function (req, res) {
   const db = req.app.locals.db;
 
@@ -85,6 +95,27 @@ router.post('/', authenticationMiddleware(), async function (req, res) {
   await helpers.updateData(db, coleccion, meme._id, meme);
 
   res.json(meme);
+});
+
+router.post('/:id/vote', authenticationMiddleware(), async function (req, res) {
+  if (req.body.usuario == !req.user.name) {
+    res.status(401).send('Usuario No Valido');
+  }
+
+  const db = req.app.locals.db;
+  if (
+    !(await helpers.insertInArray(
+      db,
+      coleccion,
+      req.params.id,
+      'votos',
+      parseVoto(req.body)
+    ))
+  ) {
+    res.status(400).send('No se pudo registrar el voto');
+  }
+
+  res.status(200).send('Voto Registrado!');
 });
 
 export default router;
