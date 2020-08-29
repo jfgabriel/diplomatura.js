@@ -1,15 +1,6 @@
 import { ObjectId } from 'mongodb';
 import { connect } from './connection';
 
-const allValuesDefined = (obj) => {
-  for (let attr in obj) {
-    if (att === undefined) {
-      return false;
-    }
-  }
-  return true;
-};
-
 async function getDataFilterById(db, col, id = 0) {
   let findObj = {};
   if (id) {
@@ -79,6 +70,19 @@ async function updateData(db, col, id, elem) {
   }
 }
 
+async function updateDataExpresion(db, col, id, expresion) {
+  const _id = new ObjectId(id);
+  try {
+    await db.collection(col).updateOne({ _id }, expresion);
+    return true;
+  } catch (err) {
+    if (process.env.ENVIRONMENT === 'dev') {
+      console.error(err);
+    }
+    return false;
+  }
+}
+
 async function deleteData(db, col, id) {
   const _id = new ObjectId(id);
   try {
@@ -92,24 +96,11 @@ async function deleteData(db, col, id) {
   }
 }
 
-async function insertInArray(db, col, id, array, elem) {
-  const _id = new ObjectId(id);
-  try {
-    await db.collection(col).updateOne({ _id }, { $push: { [array]: elem } });
-    return true;
-  } catch (err) {
-    if (process.env.ENVIRONMENT === 'dev') {
-      console.error(err);
-    }
-    return 'Hubo un error en el pedido a la base de datos';
-  }
-}
-
 export const helpers = {
   getDataFilterById,
   getDataFilterByCondition,
   insertData,
   updateData,
+  updateDataExpresion,
   deleteData,
-  insertInArray,
 };
