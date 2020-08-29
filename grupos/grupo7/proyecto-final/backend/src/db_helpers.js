@@ -1,10 +1,25 @@
 import { ObjectId } from 'mongodb';
-import { connect } from './connection';
 
 async function getDataFilterById(db, col, id = 0) {
   let findObj = {};
   if (id) {
     findObj._id = new ObjectId(id);
+  }
+  try {
+    const databasesList = await db.collection(col).find(findObj).toArray();
+    return databasesList[0];
+  } catch (err) {
+    if (process.env.ENVIRONMENT === 'dev') {
+      console.error(err);
+    }
+    return 'Hubo un error en el pedido a la base de datos';
+  }
+}
+
+async function getDataFilterByName(db, col, name = '') {
+  let findObj = {};
+  if (name) {
+    findObj.username = name;
   }
   try {
     const databasesList = await db.collection(col).find(findObj).toArray();
@@ -24,7 +39,7 @@ async function getDataFilterByCondition(
   proyection = {},
   sorting = {},
   limit = 0,
-  skip = 1
+  skip = 0
 ) {
   try {
     const databasesList = await db
@@ -85,6 +100,7 @@ async function deleteData(db, col, id) {
 
 export const helpers = {
   getDataFilterById,
+  getDataFilterByName,
   getDataFilterByCondition,
   insertData,
   updateData,

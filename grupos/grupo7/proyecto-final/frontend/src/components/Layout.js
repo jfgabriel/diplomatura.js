@@ -6,7 +6,7 @@ function Layout(props) {
 
   return (
     <React.Fragment>
-      <Navbar />
+      <Navbar userName={props.userName} />
       {children}
     </React.Fragment>
   );
