@@ -1,0 +1,36 @@
+div{
+    position: relative;
+    bottom: 0;
+    right: 0;
+    height: 100PX;
+    width: 100px;
+    border-radius: 200px 200px 200px 200px;
+    -moz-border-radius: 200px 200px 200px 200px;
+    -webkit-border-radius: 200px 200px 200px 200px;
+    border: 0px solid #000000;
+}
+.white{
+    background-color: white;
+}
+.red {
+  background-color: red;
+}
+.green {
+  background-color: green;
+}
+
+.blue {
+  background-color: blue;
+}
+.pink {
+  background-color: pink;
+}
+.grey {
+  background-color: grey;
+}
+.yellow {
+  background-color: yellow;
+}
+.orange {
+  background-color: orange;
+}
