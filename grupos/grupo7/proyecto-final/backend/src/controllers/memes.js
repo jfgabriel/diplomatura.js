@@ -5,6 +5,7 @@ import { helpers } from '../db_helpers.js';
 
 const router = express.Router();
 const coleccion = 'meme';
+const dirUpload = './upload/';
 
 const parseData = (body) => {
   const item = {
@@ -43,7 +44,7 @@ router.get('/', async function (req, res) {
 
   const memes = await helpers.getDataFilterByCondition(
     db,
-    'memes',
+    coleccion,
     condition,
     proyection,
     sorting,
@@ -61,13 +62,29 @@ router.get('/:id', async function (req, res) {
 
 router.post('/', authenticationMiddleware(), async function (req, res) {
   // req.user.name - es el nombre del user logueado
-  if (req.body.usuario === req.user.name) {
-    const db = req.app.locals.db;
-    const meme = await helpers.insertData(db, coleccion, parseData(req.body));
-    res.json(meme);
-  } else {
-    res.json({ err: 'Usuario No Valido' });
+  if (req.body.usuario == !req.user.name) {
+    res.status(401).send('Usuario No Valido');
   }
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('Falta el archivo');
+  }
+
+  const db = req.app.locals.db;
+  const meme = await helpers.insertData(db, coleccion, parseData(req.body));
+  const uploadFile = req.files.uploadFile;
+
+  meme.imagen = `${dirUpload + meme._id}.${uploadFile.name.substring(
+    uploadFile.name.lastIndexOf('.') + 1
+  )}`;
+
+  uploadFile.mv(meme.imagen, function (err) {
+    if (err) return res.status(500).send(err);
+  });
+
+  await helpers.updateData(db, coleccion, meme._id, meme);
+
+  res.json(meme);
 });
 
 export default router;

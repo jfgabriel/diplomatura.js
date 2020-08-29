@@ -1,0 +1,3 @@
+En este path se van a cargar los archivos subidos desde el cliente.
+Cada archivo se almacena con el _id del meme en la collection
+luego para obtener el archivo desde el cliente hay que hacer un get al archivo, ejemplo http://localhost:8000/upload/5f4a355e2441ab7e88a74835.png
