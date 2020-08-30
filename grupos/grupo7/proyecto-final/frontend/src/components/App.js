@@ -5,6 +5,7 @@ import Layout from "./Layout";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import AddMemePage from "../pages/AddMemePage";
+import MemeComsPage from "../pages/MemeComsPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -29,6 +30,12 @@ function App() {
             exact
             path="/addmeme"
             component={AddMemePage}
+            userName={userName}
+          />
+          <Route
+            exact
+            path="/memeComs"
+            component={MemeComsPage}
             userName={userName}
           />
           <Route component={NotFound} />

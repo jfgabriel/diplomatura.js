@@ -24,6 +24,9 @@ class MyNavbar extends React.Component {
           <Link className="nav-link" to="/addmeme">
             AddMeme
           </Link>
+          <Link className="nav-link" to="/memeComs">
+            Comments
+          </Link>
           <Link className="nav-link" to="/login">
             Login
           </Link>
