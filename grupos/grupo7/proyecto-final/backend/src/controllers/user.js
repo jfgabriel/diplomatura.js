@@ -25,7 +25,7 @@ router.post('/login', async (req, res) => {
           },
           'jwt_secret'
         );
-        res.json({ login: 'ok', token: token });
+        res.json({ login: 'ok', token: token, username: req.body.username });
       } else {
         res.send('Password incorrecto');
       }
