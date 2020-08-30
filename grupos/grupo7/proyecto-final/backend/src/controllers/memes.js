@@ -102,6 +102,9 @@ router.post(
 
     await helpers.updateData(db, coleccion, meme._id, meme);
 
+    //Actualizar la cantidad de Memes para una categoria
+    //FALTA
+
     res.json(meme);
   }
 );
@@ -200,7 +203,7 @@ router.delete(
     //busco el voto que hay que eliminar
     const voto = memes[0].votos.find((v) => v.usuario === req.body.usuario);
 
-    //quito el voto de la coleccion -- FALTA
+    //quito el voto de la coleccion
     await helpers.updateDataExpresion(db, coleccion, req.params.id, {
       $pull: { votos: { usuario: voto.usuario } },
     });
