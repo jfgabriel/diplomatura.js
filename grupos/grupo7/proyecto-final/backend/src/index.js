@@ -3,6 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import fileUpload from 'express-fileupload';
 import {} from 'dotenv/config';
+import fs from 'fs';
 
 import { connect } from './connection';
 import memesRoutes from './controllers/memes';
@@ -30,6 +31,13 @@ app.get('/', function (req, res) {
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.write(home);
   res.end();
+});
+
+// Show Image
+app.get('/show-image/:img_url', function (req, res) {
+  var img = fs.readFileSync('./upload/' + req.params.img_url);
+  res.writeHead(200, { 'Content-Type': 'image/jpg' });
+  res.end(img, 'binary');
 });
 
 /* Realizo la conexión a la base de datos al momento de levantar la aplicacion*/
