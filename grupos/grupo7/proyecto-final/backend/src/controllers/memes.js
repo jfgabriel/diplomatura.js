@@ -156,7 +156,7 @@ router.post('/:id/vote', authenticationMiddleware(), async function (req, res) {
 });
 
 /*Elimina un voto realidado a un meme, valida que efectivamente ese usuario votó el meme y actualiza los contadores*/
-/*
+
 router.delete('/:id/vote', authenticationMiddleware(), async function (
   req,
   res
@@ -191,11 +191,11 @@ router.delete('/:id/vote', authenticationMiddleware(), async function (
   }
 
   //busco el voto que hay que eliminar
-  const voto = memes[0].votos.find((v)=> v.usuario === req.body.usuario);
+  const voto = memes[0].votos.find((v) => v.usuario === req.body.usuario);
 
   //quito el voto de la coleccion -- FALTA
   await helpers.updateDataExpresion(db, coleccion, req.params.id, {
-    $push: { votos: voto },
+    $pull: { votos: { usuario: voto.usuario } },
   });
 
   let exp;
@@ -210,6 +210,5 @@ router.delete('/:id/vote', authenticationMiddleware(), async function (
 
   return res.status(200).send('Voto Registrado!');
 });
-*/
 
 export default router;
