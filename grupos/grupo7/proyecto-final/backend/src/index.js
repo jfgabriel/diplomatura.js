@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import passport from 'passport';
 import bodyParser from 'body-parser';
 import fileUpload from 'express-fileupload';
 import {} from 'dotenv/config';
@@ -16,9 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(fileUpload());
 
-require('./auth/index').init(app);
-
-app.use(passport.initialize());
+require('./auth/init')(app);
 
 app.use('/memes', memesRoutes);
 app.use('/categorias', categoriasRoutes);
