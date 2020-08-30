@@ -49,6 +49,7 @@ router.route('/register').post(async (req, res, next) => {
   } else {
     const user = helpers.insertData(db, coleccion, {
       username: req.body.username,
+      email: req.body.email,
       password: hash,
     });
     const token = jwt.sign(
@@ -58,7 +59,7 @@ router.route('/register').post(async (req, res, next) => {
       },
       'jwt_secret'
     );
-    res.json({ registration: 'ok', token: token });
+    res.json({ registration: 'ok', token: token, username: req.body.username });
   }
 });
 
