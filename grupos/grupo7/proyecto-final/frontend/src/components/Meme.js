@@ -4,12 +4,21 @@ import ImgLike from "../img/like.png";
 import ImgNoLike from "../img/nolike.png";
 import ImgComent from "../img/coment.png";
 import "./styles/meme.css";
+import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+
+const TIPO_UPVOTE = "upvote";
+const TIPO_DOWNVOTE = "downvote";
 
 export default class Meme extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { meme: props.meme, usuario: props.userName };
+        this.state = {
+            meme: props.meme,
+            usuario: props.userName,
+            redirectLogin: false,
+            redirectMeme: "",
+        };
     }
     // {
     //     _id: 456654654,
@@ -24,29 +33,31 @@ export default class Meme extends React.Component {
     //     cantComentarios: 54654,
     // },
 
-    votar = () => {
+    votar = (tipo) => {
         const { idMeme } = this.state.meme;
 
-        // if (this.state.userName) {
-        //     fetch("http://localhost:8000/meme/" + idMeme + "/vote")
-        //         .then((res) => res.json())
-        //         .then(
-        //             (result) => {
-        //                 this.setState({
-        //                     isLoaded: true,
-        //                     items: result.items,
-        //                 });
-        //             },
-        //             (error) => {
-        //                 this.setState({
-        //                     isLoaded: true,
-        //                     error,
-        //                 });
-        //             }
-        //         );
-        // } else {
-        //     <Redirect to="/login" />;
-        // }
+        if (this.state.userName) {
+            fetch("http://localhost:8000/meme/" + idMeme + "/vote")
+                .then((res) => res.json())
+                .then(
+                    (result) => {
+                        this.setState({
+                            isLoaded: true,
+                            items: result.items,
+                        });
+                    },
+                    (error) => {
+                        this.setState({
+                            isLoaded: true,
+                        });
+                    }
+                );
+        } else {
+            this.setState({ redirectLogin: true });
+        }
+    };
+    verMeme = () => {
+        this.setState({ redirectMeme: this.state.meme._id });
     };
 
     render() {
@@ -60,6 +71,16 @@ export default class Meme extends React.Component {
             cantVotosDown,
             cantComentarios,
         } = this.state.meme;
+
+        const { redirectLogin, redirectMeme } = this.state;
+
+        if (redirectLogin) {
+            return <Redirect to="/login"></Redirect>;
+        }
+        if (redirectMeme) {
+            return <Redirect to={"/meme/" + redirectMeme}></Redirect>;
+        }
+
         return (
             <>
                 <Card className="my-2">
@@ -83,9 +104,15 @@ export default class Meme extends React.Component {
                     </div>
                     {/* <Card.Body></Card.Body> */}
                     <Card.Footer className="p-1 memeFoot">
-                        <BotonVotarUp cant={cantVotosUp} />
-                        <BotonVotarDown cant={cantVotosDown} />
-                        <BotonComent cant={cantComentarios} />
+                        <BotonVotarUp cant={cantVotosUp} votar={this.votar} />
+                        <BotonVotarDown
+                            cant={cantVotosDown}
+                            votar={this.votar}
+                        />
+                        <BotonComent
+                            cant={cantComentarios}
+                            verMeme={this.verMeme}
+                        />
                     </Card.Footer>
                 </Card>
             </>
@@ -95,7 +122,10 @@ export default class Meme extends React.Component {
 
 function BotonVotarUp(props) {
     return (
-        <button class="btn btn-sm btn-dark py-2 px-3 m-1">
+        <button
+            class="btn btn-sm btn-dark py-2 px-3 m-1"
+            onClick={() => props.votar(TIPO_UPVOTE)}
+        >
             <img src={ImgLike} class="btnLike" />
             {props.cant}
         </button>
@@ -104,7 +134,10 @@ function BotonVotarUp(props) {
 
 function BotonVotarDown(props) {
     return (
-        <button class="btn btn-sm btn-dark py-2 px-3 m-1">
+        <button
+            class="btn btn-sm btn-dark py-2 px-3 m-1"
+            onClick={() => props.votar(TIPO_DOWNVOTE)}
+        >
             <img src={ImgNoLike} class="btnLike" />
             {props.cant}
         </button>
@@ -113,7 +146,10 @@ function BotonVotarDown(props) {
 
 function BotonComent(props) {
     return (
-        <button class="btn btn-sm btn-dark py-2 px-3 m-1">
+        <button
+            class="btn btn-sm btn-dark py-2 px-3 m-1"
+            onClick={() => props.verMeme()}
+        >
             <img src={ImgComent} class="btnLike" />
             {props.cant}
         </button>
