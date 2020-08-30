@@ -7,6 +7,7 @@ import fs from 'fs';
 
 import { connect } from './connection';
 import memesRoutes from './controllers/memes';
+import categoriasRoutes from './controllers/categorias';
 import userRoutes from './controllers/user';
 
 const PORT = 8000;
@@ -19,6 +20,7 @@ require('./auth/index').init(app);
 app.use(passport.initialize());
 
 app.use('/memes', memesRoutes);
+app.use('/categorias', categoriasRoutes);
 app.use('/user', userRoutes);
 
 const home = `
