@@ -87,20 +87,20 @@ export default class Meme extends React.Component {
                     <Card.Header className="memeHead">
                         <Row>
                             <Col xs="12" md="6" className="text-left">
-                                <p class="memeTitulo">{titulo}</p>
-                                <p class="memeData px-2">
+                                <p className="memeTitulo">{titulo}</p>
+                                <p className="memeData px-2">
                                     └ Creado por {usuario} el {fecha}
                                 </p>
                             </Col>
                             <Col xs="12" md="6" className="text-right">
-                                <span class="badge badge-danger">
+                                <span className="badge badge-danger">
                                     {categoria}
                                 </span>
                             </Col>
                         </Row>
                     </Card.Header>
-                    <div class="p-2 memeImgCont text-center">
-                        <img class="img-fluid" src={imagen}></img>
+                    <div className="p-2 memeImgCont text-center">
+                        <img className="img-fluid" src={imagen}></img>
                     </div>
                     {/* <Card.Body></Card.Body> */}
                     <Card.Footer className="p-1 memeFoot">
