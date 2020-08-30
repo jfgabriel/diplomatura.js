@@ -1,0 +1,40 @@
+.btnLike {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+}
+
+.memeTitulo {
+    margin-bottom: 0rem;
+    font-size: 1.3em;
+    font-weight: 700;
+}
+
+.memeImgCont {
+    /* max-height: 600px; */
+    background: linear-gradient(#000000, #982f82);
+}
+
+.memeImg {
+    /* display: block;
+    width: auto;
+    max-height: 100%; */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.memeData {
+    margin-bottom: 0rem;
+    font-size: 0.7em;
+    color: gainsboro;
+}
+
+.memeFoot {
+    background-color: #982f82!important;
+    color: white;
+}
+
+.memeHead {
+    background-color: black!important;
+    color: white;
+}

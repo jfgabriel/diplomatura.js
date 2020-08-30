@@ -1,8 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import passport from 'passport';
-import auth from './auth';
-import session from 'express-session';
 import bodyParser from 'body-parser';
 import fileUpload from 'express-fileupload';
 import {} from 'dotenv/config';
@@ -19,20 +17,7 @@ app.use(fileUpload());
 
 require('./auth/index').init(app);
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-      secure: false,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    },
-  })
-);
-
 app.use(passport.initialize());
-app.use(passport.session());
 
 app.use('/memes', memesRoutes);
 app.use('/user', userRoutes);
