@@ -1,80 +1,38 @@
 import passport from 'passport';
-import LocalStrategy from 'passport-local';
-import bcrypt from 'bcrypt';
+import { helpers } from '../db_helpers.js';
+import { connect } from '../connection';
 
-import authenticationMiddleware from './middleware';
-
-// Generate Password
-const saltRounds = 10;
-const myPlaintextPassword = 'my-password';
-const salt = bcrypt.genSaltSync(saltRounds);
-const passwordHash = bcrypt.hashSync(myPlaintextPassword, salt);
-
-const user = {
-  username: 'juan',
-  passwordHash,
-  id: 1,
-};
-
-function findUser(username, callback) {
-  if (username === user.username) {
+async function findUser(username, callback) {
+  const db = await connect();
+  const user = await helpers.getDataFilterByName(db, 'usuario', username);
+  if (user && username === user.username) {
     return callback(null, user);
   }
   return callback(null);
 }
 
-function validPassword(password) {
-  return true;
-
-  //   // Always use hashed passwords and fixed time comparison
-  //   bcrypt.compare(password, user.passwordHash, (err, isValid) => {
-  //     if (err) {
-  //       return done(err);
-  //     }
-  //     if (!isValid) {
-  //       return done(null, false);
-  //     }
-  //     return done(null, user);
-  //   });
-}
-
-passport.serializeUser((user, cb) => {
-  const sessionUser = {
-    id: user.id,
-    name: user.username,
-  };
-  cb(null, sessionUser);
-});
-
-passport.deserializeUser((sessionUser, cb) => {
-  cb(null, sessionUser);
-});
-
 function initPassport() {
+  var JwtStrategy = require('passport-jwt').Strategy,
+    ExtractJwt = require('passport-jwt').ExtractJwt;
+  var opts = {};
+  opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+  opts.secretOrKey = 'jwt_secret';
   passport.use(
-    new LocalStrategy((username, password, done) => {
-      console.log(username);
-      console.log(password);
-      findUser(username, (err, user) => {
+    new JwtStrategy(opts, function (jwt_payload, done) {
+      findUser(jwt_payload.username, (err, user) => {
         if (err) {
           return done(err);
+        } else if (jwt_payload.expire <= Date.now()) {
+          return done('Token Expired', null);
         }
-
         // User not found
         if (!user) {
-          console.log('User not found');
           return done(null, false);
-        }
-
-        if (!validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' });
         }
         return done(null, user);
       });
     })
   );
-
-  passport.authenticationMiddleware = authenticationMiddleware;
 }
 
 module.exports = initPassport;

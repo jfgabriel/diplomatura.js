@@ -1,6 +1,6 @@
 import express from 'express';
-import authenticationMiddleware from '../auth/middleware';
-import fileUpload from 'express-fileupload';
+//import fileUpload from 'express-fileupload';
+import passport from 'passport';
 import { helpers } from '../db_helpers.js';
 import { ObjectId } from 'mongodb';
 
@@ -76,92 +76,99 @@ router.get('/:id', async function (req, res) {
 });
 
 /*Agregar un meme, incluye la lógica para hacer el upload del archivo*/
-router.post('/', authenticationMiddleware(), async function (req, res) {
-  // req.user.name - es el nombre del user logueado
-  if (req.body.usuario !== req.user.name) {
-    return res.status(401).send('Usuario No Valido');
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  async function (req, res) {
+    if (req.body.usuario !== req.user.username) {
+      return res.status(401).send('Usuario No Valido');
+    }
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send('Falta el archivo');
+    }
+
+    const db = req.app.locals.db;
+    const meme = await helpers.insertData(db, coleccion, parseData(req.body));
+    const uploadFile = req.files.uploadFile;
+
+    meme.imagen = `${dirUpload + meme._id}.${uploadFile.name.substring(
+      uploadFile.name.lastIndexOf('.') + 1
+    )}`;
+
+    uploadFile.mv(meme.imagen, function (err) {
+      if (err) return res.status(500).send(err);
+    });
+
+    await helpers.updateData(db, coleccion, meme._id, meme);
+
+    res.json(meme);
   }
-
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('Falta el archivo');
-  }
-
-  const db = req.app.locals.db;
-  const meme = await helpers.insertData(db, coleccion, parseData(req.body));
-  const uploadFile = req.files.uploadFile;
-
-  meme.imagen = `${dirUpload + meme._id}.${uploadFile.name.substring(
-    uploadFile.name.lastIndexOf('.') + 1
-  )}`;
-
-  uploadFile.mv(meme.imagen, function (err) {
-    if (err) return res.status(500).send(err);
-  });
-
-  await helpers.updateData(db, coleccion, meme._id, meme);
-
-  res.json(meme);
-});
+);
 
 /*Votar un meme: se valida que el usuario no haya votado ya. Se actualizan los contadores*/
-router.post('/:id/vote', authenticationMiddleware(), async function (req, res) {
-  if (req.body.usuario !== req.user.name) {
-    return res.status(401).send('Usuario No Valido');
+router.post(
+  '/:id/vote',
+  passport.authenticate('jwt', { session: false }),
+  async function (req, res) {
+    if (req.body.usuario !== req.user.username) {
+      return res.status(401).send('Usuario No Valido');
+    }
+
+    const db = req.app.locals.db;
+    const voto = parseVoto(req.body);
+    const condition = {
+      $and: [
+        { _id: new ObjectId(req.params.id) },
+        { votos: { $elemMatch: { usuario: req.body.usuario } } },
+      ],
+    };
+    const proyection = { _id: 1 };
+
+    if (voto.tipo === undefined) {
+      return res.status(400).send('No se pudo registrar el voto');
+    }
+    //Verificar que el usuario no haya votado este meme
+    const memes = await helpers.getDataFilterByCondition(
+      db,
+      coleccion,
+      condition,
+      proyection,
+      {},
+      1,
+      0
+    );
+
+    if (memes.length > 0) {
+      return res.status(400).send('El usuario ya voto sobre este meme');
+    }
+
+    //agrego el voto
+    await helpers.updateDataExpresion(db, coleccion, req.params.id, {
+      $push: { votos: voto },
+    });
+
+    let exp;
+    if (voto.tipo == 'upvote') {
+      exp = { $inc: { cantVotosUp: 1 } };
+    } else {
+      exp = { $inc: { cantVotosDown: 1 } };
+    }
+
+    //actualizacion del contador de votos
+    await helpers.updateDataExpresion(db, coleccion, req.params.id, exp);
+
+    return res.status(200).send('Voto Registrado!');
   }
-
-  const db = req.app.locals.db;
-  const voto = parseVoto(req.body);
-  const condition = {
-    $and: [
-      { _id: new ObjectId(req.params.id) },
-      { votos: { $elemMatch: { usuario: req.body.usuario } } },
-    ],
-  };
-  const proyection = { _id: 1 };
-
-  if (voto.tipo === undefined) {
-    return res.status(400).send('No se pudo registrar el voto');
-  }
-  //Verificar que el usuario no haya votado este meme
-  const memes = await helpers.getDataFilterByCondition(
-    db,
-    coleccion,
-    condition,
-    proyection,
-    {},
-    1,
-    0
-  );
-
-  if (memes.length > 0) {
-    return res.status(400).send('El usuario ya voto sobre este meme');
-  }
-
-  //agrego el voto
-  await helpers.updateDataExpresion(db, coleccion, req.params.id, {
-    $push: { votos: voto },
-  });
-
-  let exp;
-  if (voto.tipo == 'upvote') {
-    exp = { $inc: { cantVotosUp: 1 } };
-  } else {
-    exp = { $inc: { cantVotosDown: 1 } };
-  }
-
-  //actualizacion del contador de votos
-  await helpers.updateDataExpresion(db, coleccion, req.params.id, exp);
-
-  return res.status(200).send('Voto Registrado!');
-});
+);
 
 /*Elimina un voto realidado a un meme, valida que efectivamente ese usuario votó el meme y actualiza los contadores*/
 /*
-router.delete('/:id/vote', authenticationMiddleware(), async function (
+router.delete('/:id/vote', passport.authenticate('jwt', { session: false }), async function (
   req,
   res
 ) {
-  if (req.body.usuario !== req.user.name) {
+  if (req.body.usuario !== req.user.username) {
     return res.status(401).send('Usuario No Valido');
   }
 
