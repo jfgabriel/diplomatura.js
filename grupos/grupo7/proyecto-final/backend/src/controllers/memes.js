@@ -42,7 +42,7 @@ router.get('/', async function (req, res) {
 
   const memes = await helpers.getDataFilterByCondition(
     db,
-    'memes',
+    coleccion,
     condition,
     proyection,
     sorting,
