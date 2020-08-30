@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
+import isAuthenticated from "../lib/isAuthenticated";
 
 import "./styles/Navbar.css";
 
@@ -9,27 +10,47 @@ class MyNavbar extends React.Component {
     super(props);
 
     this.state = {
-      userName: props.userName,
+      loggedin: isAuthenticated(),
     };
   }
 
   render() {
-    return (
-      <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="#home">MyMemejs Home</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Link className="nav-link" to="/">
-            Home
-          </Link>
-          <Link className="nav-link" to="/addmeme">
-            AddMeme
-          </Link>
-          <Link className="nav-link" to="/login">
-            Login
-          </Link>
-        </Nav>
-      </Navbar>
-    );
+    console.log(this.state.loggedin);
+    if (this.state.loggedin && this.state.loggedin !== "") {
+      return (
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand href="#home">MyMemejs Home</Navbar.Brand>
+          <Nav className="mr-auto">
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
+            <Link className="nav-link" to="/addmeme">
+              AddMeme
+            </Link>
+            <Link className="nav-link" to="/logout">
+              Logout
+            </Link>
+          </Nav>
+        </Navbar>
+      );
+    } else {
+      return (
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand href="#home">MyMemejs Home</Navbar.Brand>
+          <Nav className="mr-auto">
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
+            <Link className="nav-link" to="/addmeme">
+              AddMeme
+            </Link>
+            <Link className="nav-link" to="/login">
+              Login
+            </Link>
+          </Nav>
+        </Navbar>
+      );
+    }
   }
 }
 
