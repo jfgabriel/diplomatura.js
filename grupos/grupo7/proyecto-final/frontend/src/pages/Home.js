@@ -7,9 +7,9 @@ import Categorias from "../components/Categorias.js";
 export default class Home extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             userName: props.userName,
+            categoria: this.props.match.params.categoria ?? "",
             memes: [],
             pagina: 1,
             cargandoMemes: true,
@@ -17,7 +17,10 @@ export default class Home extends Component {
         };
     }
 
-    cargarMemes() {
+    cargarMemes(pagina, categoria) {
+        console.log(
+            "cargarmemes: {pagina: " + pagina + " cat:" + categoria + "}"
+        );
         const options = {
             url: "http://localhost:8000/memes",
             method: "GET",
@@ -25,9 +28,9 @@ export default class Home extends Component {
                 Accept: "application/json",
                 "Content-Type": "application/json;charset=UTF-8",
             },
-            data: {
-                pagina: this.state.pagina,
-                categoria: "",
+            params: {
+                pagina,
+                categoria,
             },
         };
         axios(options).then((response) => {
@@ -47,7 +50,21 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        this.cargarMemes();
+        this.cargarMemes(this.state.pagina, this.state.categoria);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        // Cada vez que props.email cambia, actualiza el estado.
+        if (
+            nextProps.match.params.categoria !==
+            this.props.match.params.categoria
+        ) {
+            this.setState({
+                cargandoMemes: true,
+                cargandoError: "",
+            });
+            this.cargarMemes(1, nextProps.match.params.categoria);
+        }
     }
 
     render() {
@@ -57,14 +74,16 @@ export default class Home extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-xs-12 col-md-10">
-                            {this.state.memes.length === 0 &&
-                                !cargandoMemes && (
-                                    <div className="card text-center p-4 my-3">
-                                        No se encontraron memes
-                                    </div>
-                                )}
+                            {this.state.memes.length === 0 && !cargandoMemes && (
+                                <div className="card text-center p-4 my-3">
+                                    <span className="badge badge-pill badge-light noHayMemes my-4">
+                                        :(
+                                    </span>
+                                    No se encontraron Memes...
+                                </div>
+                            )}
                             {this.state.memes.map((m) => (
-                                <Meme meme={m}></Meme>
+                                <Meme meme={m} key={m._id}></Meme>
                             ))}
                             {(cargandoMemes || cargandoError) && (
                                 <MemeCargando
@@ -86,15 +105,17 @@ export default class Home extends Component {
 
 function MemeCargando(props) {
     return (
-        <div className="text-center p-4 my-2">
-            {props.cargandoMemes && (
-                <div className="spinner-grow mx-auto" role="status">
-                    <span className="sr-only">Loading...</span>
-                </div>
-            )}
-            {props.cargandoError && (
-                <span className="text-danger">{props.cargandoError}</span>
-            )}
+        <div className="card text-center p-4 my-3">
+            <div className="text-center p-4 my-2">
+                {props.cargandoMemes && (
+                    <div className="spinner-grow mx-auto" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                )}
+                {props.cargandoError && (
+                    <span className="text-danger">{props.cargandoError}</span>
+                )}
+            </div>
         </div>
     );
 }

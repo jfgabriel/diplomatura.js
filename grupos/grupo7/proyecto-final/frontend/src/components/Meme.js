@@ -4,8 +4,8 @@ import ImgLike from "../img/like.png";
 import ImgNoLike from "../img/nolike.png";
 import ImgComent from "../img/coment.png";
 import "./styles/meme.css";
-import { useHistory } from "react-router-dom";
-import { Redirect } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 const TIPO_UPVOTE = "upvote";
 const TIPO_DOWNVOTE = "downvote";
@@ -93,16 +93,27 @@ export default class Meme extends React.Component {
                                 </p>
                             </Col>
                             <Col xs="12" md="6" className="text-right">
-                                <span className="badge badge-danger">
+                                <Link
+                                    to={"/" + categoria}
+                                    className="badge badge-dark"
+                                >
                                     {categoria}
-                                </span>
+                                </Link>
                             </Col>
                         </Row>
                     </Card.Header>
-                    <div className="p-2 memeImgCont text-center">
-                        <img className="img-fluid" src={imagen}></img>
-                    </div>
-                    {/* <Card.Body></Card.Body> */}
+                    {imagen && imagen.lenght > 2 && (
+                        <div className="p-2 memeImgCont text-center">
+                            <img
+                                className="img-fluid"
+                                src={
+                                    "http://localhost:8000" +
+                                    imagen.substring(1)
+                                }
+                                alt="Meme"
+                            ></img>
+                        </div>
+                    )}
                     <Card.Footer className="p-1 memeFoot">
                         <BotonVotarUp cant={cantVotosUp} votar={this.votar} />
                         <BotonVotarDown
@@ -123,10 +134,10 @@ export default class Meme extends React.Component {
 function BotonVotarUp(props) {
     return (
         <button
-            class="btn btn-sm btn-dark py-2 px-3 m-1"
+            className="btn btn-sm btn-dark py-2 px-3 m-1"
             onClick={() => props.votar(TIPO_UPVOTE)}
         >
-            <img src={ImgLike} class="btnLike" />
+            <img src={ImgLike} className="btnLike" alt="like" />
             {props.cant}
         </button>
     );
@@ -135,10 +146,10 @@ function BotonVotarUp(props) {
 function BotonVotarDown(props) {
     return (
         <button
-            class="btn btn-sm btn-dark py-2 px-3 m-1"
+            className="btn btn-sm btn-dark py-2 px-3 m-1"
             onClick={() => props.votar(TIPO_DOWNVOTE)}
         >
-            <img src={ImgNoLike} class="btnLike" />
+            <img src={ImgNoLike} className="btnLike" alt="dislike" />
             {props.cant}
         </button>
     );
@@ -147,10 +158,10 @@ function BotonVotarDown(props) {
 function BotonComent(props) {
     return (
         <button
-            class="btn btn-sm btn-dark py-2 px-3 m-1"
+            className="btn btn-sm btn-dark py-2 px-3 m-1"
             onClick={() => props.verMeme()}
         >
-            <img src={ImgComent} class="btnLike" />
+            <img src={ImgComent} className="btnLike" alt="comentarios" />
             {props.cant}
         </button>
     );

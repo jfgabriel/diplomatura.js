@@ -2,3 +2,10 @@
     background-image: url(../../img/memeback.png);
     min-height: 100vh;
 }
+
+.noHayMemes {
+    font-size: 70px !important;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
