@@ -3,13 +3,14 @@ import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
 import isAuthenticated from "../lib/isAuthenticated";
 
-export default class Login extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       loggedin: isAuthenticated(),
       username: "",
+      email: "",
       password: "",
       message: "",
     };
@@ -18,26 +19,30 @@ export default class Login extends Component {
   submit(e) {
     e.preventDefault();
     e.stopPropagation();
-    const { username, password } = this.state;
+    const { username, email, password } = this.state;
 
     axios
-      .post("http://localhost:8000/user/login", { username, password })
+      .post("http://localhost:8000/user/register", {
+        username,
+        email,
+        password,
+      })
       .then((result) => {
-        if (result.data.login === "ok") {
+        if (result.data.registration === "ok") {
           localStorage.setItem("mymemejs_jwt", result.data.token);
           localStorage.setItem("mymemejs_username", result.data.username);
           this.props.history.push("/");
           window.location.reload(false);
         } else {
           this.setState({
-            message: "Login failed. Username or password not match",
+            message: "Registration failed.",
           });
         }
       })
       .catch((error) => {
         if (error.response.status === 401) {
           this.setState({
-            message: "Login failed. Username or password not match",
+            message: "Registration failed. Error occured.",
           });
         }
       });
@@ -50,7 +55,7 @@ export default class Login extends Component {
   };
 
   render() {
-    const { username, password, message } = this.state;
+    const { username, email, password, message } = this.state;
     if (this.state.loggedin && this.state.loggedin !== "") {
       return (
         <Redirect
@@ -63,7 +68,7 @@ export default class Login extends Component {
     } else {
       return (
         <div>
-          <h1>Login</h1>
+          <h1>Register</h1>
           <form onSubmit={this.submit.bind(this)}>
             {message !== "" && (
               <div
@@ -81,6 +86,17 @@ export default class Login extends Component {
                 pattern=".{2,16}"
                 required
                 value={username}
+                onChange={this.onChange}
+              />
+            </div>
+            <div>
+              <label>Email: </label>
+              <input
+                type="text"
+                name="email"
+                pattern=".{2,16}"
+                required
+                value={email}
                 onChange={this.onChange}
               />
             </div>
