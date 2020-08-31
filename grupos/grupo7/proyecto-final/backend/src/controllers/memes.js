@@ -5,6 +5,8 @@ import { ObjectId } from 'mongodb';
 
 const router = express.Router();
 const coleccion = 'meme';
+const coleccionCom = 'comentario';
+const coleccionCat = 'categoria';
 const dirUpload = './upload/';
 
 const parseData = (body) => {
@@ -33,6 +35,51 @@ const parseVoto = (body) => {
   };
   return item;
 };
+
+const parseComment = (body, idmeme) => {
+  const item = {
+    idMeme: new ObjectId(idmeme),
+    descripcion: body.descripcion,
+    usuario: body.usuario,
+    fecha: new Date(),
+  };
+  return item;
+};
+
+async function commentariosMeme(db, id) {
+  const condition = { idMeme: new ObjectId(id) };
+  const sorting = { fecha: 1 };
+
+  const comentarios = await helpers.getDataFilterByCondition(
+    db,
+    coleccionCom,
+    condition,
+    {},
+    sorting,
+    0,
+    0
+  );
+
+  async function getCategoriaByName(db, nombre) {
+    const categorias = await helpers.getDataFilterByCondition(
+      db,
+      coleccion,
+      { nombre: req.body.nombre },
+      { _id: 1 },
+      {},
+      1,
+      0
+    );
+
+    if (categorias.length > 0) {
+      return undefined;
+    }
+
+    return categorias[0];
+  }
+
+  return comentarios;
+}
 
 /*Obtener un paginado de los ultimos memes posteados, se puede filtar por categoria*/
 router.get('/', async function (req, res) {
@@ -71,6 +118,8 @@ router.get('/', async function (req, res) {
 router.get('/:id', async function (req, res) {
   const db = req.app.locals.db;
   const meme = await helpers.getDataFilterById(db, coleccion, req.params.id);
+  const comentarios = await commentariosMeme(db, req.params.id);
+  meme.comentarios = comentarios;
   res.json(meme);
 });
 
@@ -80,11 +129,17 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   async function (req, res) {
     if (req.body.usuario !== req.user.username) {
-      return res.status(401).send('Usuario No Valido PRUEBA');
+      return res.status(401).send('Usuario No Valido');
     }
 
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send('Falta el archivo');
+    }
+
+    //validar que la categoria exista
+    const categoria = await getCategoriaByName(helpers.body.categoria);
+    if (!categoria) {
+      return res.status(401).send('La categoria no existe');
     }
 
     const db = req.app.locals.db;
@@ -101,8 +156,10 @@ router.post(
 
     await helpers.updateData(db, coleccion, meme._id, meme);
 
-    //Actualizar la cantidad de Memes para una categoria
-    //FALTA
+    //actualizacion del contador de memes por categoria
+    await helpers.updateDataExpresion(db, coleccionCat, categoria._id, {
+      $inc: { cantMemes: 1 },
+    });
 
     res.json(meme);
   }
@@ -195,7 +252,7 @@ router.delete(
       0
     );
 
-    if (memes.length == 0) {
+    if (memes.length === 0) {
       return res.status(400).send('El usuario nunca voto ese meme');
     }
 
@@ -218,6 +275,46 @@ router.delete(
     await helpers.updateDataExpresion(db, coleccion, req.params.id, exp);
 
     return res.status(200).send('Voto Eliminado!');
+  }
+);
+
+/*Obtengo todos los comentarios de un meme*/
+router.get('/:id/comments', async function (req, res) {
+  const db = req.app.locals.db;
+  const comentarios = await commentariosMeme(db, req.params.id);
+
+  res.json(comentarios);
+});
+
+/*Votar un meme: se valida que el usuario no haya votado ya. Se actualizan los contadores*/
+router.post(
+  '/:id/comments',
+  passport.authenticate('jwt', { session: false }),
+  async function (req, res) {
+    if (req.body.usuario !== req.user.username) {
+      return res.status(401).send('Usuario No Valido');
+    }
+
+    const db = req.app.locals.db;
+
+    //verificar que el meme exista
+    const meme = helpers.getDataFilterById(db, coleccion, req.params.id);
+    if (!meme) {
+      return res.status(400).send('Meme inexistente');
+    }
+
+    //Inserto el comentario
+    const comentario = await helpers.insertData(
+      db,
+      coleccionCom,
+      parseComment(req.body, req.params.id)
+    );
+
+    //actualizacion del contador de comentarios
+    await helpers.updateDataExpresion(db, coleccion, req.params.id, {
+      $inc: { cantComentarios: 1 },
+    });
+    res.json(comentario);
   }
 );
 
