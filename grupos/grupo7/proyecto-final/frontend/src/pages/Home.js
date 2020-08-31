@@ -3,24 +3,26 @@ import Meme from "../components/Meme.js";
 import "./styles/Home.css";
 import axios from "axios";
 import Categorias from "../components/Categorias.js";
+import isAuthenticated from "../lib/isAuthenticated";
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
+        const userName = isAuthenticated();
         this.state = {
-            userName: props.userName,
+            userName,
             categoria: this.props.match.params.categoria ?? "",
             memes: [],
-            pagina: 1,
+            pagina: 0,
             cargandoMemes: true,
             cargandoError: "",
         };
     }
 
     cargarMemes(pagina, categoria) {
-        console.log(
-            "cargarmemes: {pagina: " + pagina + " cat:" + categoria + "}"
-        );
+        // console.log(
+        //     "cargarmemes: {pagina: " + pagina + " cat:" + categoria + "}"
+        // );
         const options = {
             url: "http://localhost:8000/memes",
             method: "GET",
@@ -63,12 +65,12 @@ export default class Home extends Component {
                 cargandoMemes: true,
                 cargandoError: "",
             });
-            this.cargarMemes(1, nextProps.match.params.categoria);
+            this.cargarMemes(0, nextProps.match.params.categoria);
         }
     }
 
     render() {
-        const { cargandoMemes, cargandoError } = this.state;
+        const { cargandoMemes, cargandoError, userName } = this.state;
         return (
             <div className="Home">
                 <div className="container">
@@ -83,7 +85,11 @@ export default class Home extends Component {
                                 </div>
                             )}
                             {this.state.memes.map((m) => (
-                                <Meme meme={m} key={m._id}></Meme>
+                                <Meme
+                                    meme={m}
+                                    key={m._id}
+                                    userName={userName}
+                                ></Meme>
                             ))}
                             {(cargandoMemes || cargandoError) && (
                                 <MemeCargando

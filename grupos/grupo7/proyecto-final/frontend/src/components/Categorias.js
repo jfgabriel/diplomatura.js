@@ -26,20 +26,27 @@ export default class Categorias extends React.Component {
                 "Content-Type": "application/json;charset=UTF-8",
             },
         };
-        axios(options).then((response) => {
-            if (response.status === 200) {
+        axios(options)
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({
+                        cargando: false,
+                        cargandoError: "",
+                        categorias: response.data,
+                    });
+                } else {
+                    this.setState({
+                        cargando: false,
+                        cargandoError: response.data,
+                    });
+                }
+            })
+            .catch((e) => {
                 this.setState({
                     cargando: false,
-                    cargandoError: "",
-                    categorias: response.data,
+                    cargandoError: "Error en API",
                 });
-            } else {
-                this.setState({
-                    cargando: false,
-                    cargandoError: response.data,
-                });
-            }
-        });
+            });
     }
 
     componentDidMount() {

@@ -3,11 +3,14 @@ import Meme from "../components/Meme.js";
 //import "./styles/Home.css";
 import "./styles/Meme.css";
 import axios from "axios";
+import isAuthenticated from "../lib/isAuthenticated";
 
 export default class MemePage extends Component {
     constructor(props) {
         super(props);
+        const userName = isAuthenticated();
         this.state = {
+            userName,
             cargando: true,
             cargandoError: "",
             id: props.match.params.id,
@@ -31,7 +34,6 @@ export default class MemePage extends Component {
                     cargandoError: "",
                     meme: response.data,
                 });
-                console.log(response.data);
             } else {
                 this.setState({
                     cargando: false,
@@ -59,7 +61,11 @@ export default class MemePage extends Component {
         } else {
             contenido = (
                 <>
-                    <Meme meme={meme}></Meme>
+                    <Meme
+                        meme={meme}
+                        sinBtnComs="true"
+                        userName={this.state.userName}
+                    ></Meme>
                 </>
             );
             /* <MemeComs userName={this.props.userName}></MemeComs> */

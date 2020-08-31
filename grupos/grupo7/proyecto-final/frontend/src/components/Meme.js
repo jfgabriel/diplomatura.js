@@ -6,6 +6,7 @@ import ImgComent from "../img/coment.png";
 import "./styles/meme.css";
 //import { useHistory } from "react-router-dom";
 import { Redirect, Link } from "react-router-dom";
+import axios from "axios";
 
 const TIPO_UPVOTE = "upvote";
 const TIPO_DOWNVOTE = "downvote";
@@ -15,45 +16,44 @@ export default class Meme extends React.Component {
         super(props);
         this.state = {
             meme: props.meme,
-            usuario: props.userName,
+            userName: props.userName,
             redirectLogin: false,
             redirectMeme: "",
+            votando: false,
+            votandoError: "",
         };
     }
-    // {
-    //     _id: 456654654,
-    //     titulo: "Que hacen esas manitas",
-    //     imagen:
-    //         "https://statics.memondo.com/p/s1/ccs/2018/05/CC_2691829_990f3fc391c74284b05c0f5cedf5fb13_meme_otros_y_esta_es_mi_mejor_tecnica.jpg?cb=142181",
-    //     categoria: "Amor",
-    //     usuario: "pop@gmail.com",
-    //     fecha: "2020-07-20",
-    //     cantVotosUp: 44,
-    //     cantVotosDown: 1,
-    //     cantComentarios: 54654,
-    // },
 
-    votar = (tipo) => {
-        const { idMeme } = this.state.meme;
+    votar = async (tipo) => {
+        function timeout(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        }
 
-        if (this.state.userName) {
-            fetch("http://localhost:8000/meme/" + idMeme + "/vote")
-                .then((res) => res.json())
-                .then(
-                    (result) => {
-                        this.setState({
-                            isLoaded: true,
-                            items: result.items,
-                        });
-                    },
-                    (error) => {
-                        this.setState({
-                            isLoaded: true,
-                        });
-                    }
-                );
-        } else {
-            this.setState({ redirectLogin: true });
+        const { _id } = this.state.meme;
+        const { userName, votando } = this.state;
+        if (!votando) {
+            if (userName) {
+                this.setState({ votando: true, votandoError: "" });
+                console.log("votando");
+                try {
+                    await timeout(2000);
+                    const res = await axios.get(
+                        "http://localhost:8000/meme/" + _id + "/vote",
+                        { params: { tipo } }
+                    );
+                    this.setState({
+                        votando: false,
+                    });
+                } catch (error) {
+                    console.log("votando catch");
+                    this.setState({
+                        votando: false,
+                        votandoError: "Error guardando el voto!",
+                    });
+                }
+            } else {
+                this.setState({ redirectLogin: true });
+            }
         }
     };
     verMeme = () => {
@@ -72,7 +72,7 @@ export default class Meme extends React.Component {
             cantComentarios,
         } = this.state.meme;
 
-        const { redirectLogin, redirectMeme } = this.state;
+        const { redirectLogin, redirectMeme, votando } = this.state;
 
         if (redirectLogin) {
             return <Redirect to="/login"></Redirect>;
@@ -83,7 +83,7 @@ export default class Meme extends React.Component {
 
         return (
             <>
-                <Card className="my-2">
+                <Card className="my-2 cardMeme">
                     <Card.Header className="memeHead">
                         <Row>
                             <Col xs="12" md="6" className="text-left">
@@ -102,28 +102,35 @@ export default class Meme extends React.Component {
                             </Col>
                         </Row>
                     </Card.Header>
-                    {imagen && imagen.lenght > 2 && (
+                    {imagen && (
                         <div className="p-2 memeImgCont text-center">
                             <img
                                 className="img-fluid"
                                 src={
-                                    "http://localhost:8000" +
-                                    imagen.substring(1)
+                                    "http://localhost:8000/show-image/" +
+                                    imagen.replace("./upload/", "")
                                 }
                                 alt="Meme"
                             ></img>
                         </div>
                     )}
                     <Card.Footer className="p-1 memeFoot">
-                        <BotonVotarUp cant={cantVotosUp} votar={this.votar} />
+                        <BotonVotarUp
+                            cant={cantVotosUp}
+                            votar={this.votar}
+                            disabled={votando}
+                        />
                         <BotonVotarDown
                             cant={cantVotosDown}
                             votar={this.votar}
+                            disabled={votando}
                         />
-                        <BotonComent
-                            cant={cantComentarios}
-                            verMeme={this.verMeme}
-                        />
+                        {!this.props.sinBtnComs && (
+                            <BotonComent
+                                cant={cantComentarios}
+                                verMeme={this.verMeme}
+                            />
+                        )}
                     </Card.Footer>
                 </Card>
             </>
@@ -134,7 +141,10 @@ export default class Meme extends React.Component {
 function BotonVotarUp(props) {
     return (
         <button
-            className="btn btn-sm btn-dark py-2 px-3 m-1"
+            className={
+                "btn btn-sm btn-dark py-2 px-3 m-1" +
+                (props.disabled ? " disabled" : "")
+            }
             onClick={() => props.votar(TIPO_UPVOTE)}
         >
             <img src={ImgLike} className="btnLike" alt="like" />
@@ -146,7 +156,10 @@ function BotonVotarUp(props) {
 function BotonVotarDown(props) {
     return (
         <button
-            className="btn btn-sm btn-dark py-2 px-3 m-1"
+            className={
+                "btn btn-sm btn-dark py-2 px-3 m-1" +
+                (props.disabled ? " disabled" : "")
+            }
             onClick={() => props.votar(TIPO_DOWNVOTE)}
         >
             <img src={ImgNoLike} className="btnLike" alt="dislike" />
