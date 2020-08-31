@@ -52,7 +52,8 @@ export default class Meme extends React.Component {
                         }
                     )
                     .then((response) => {
-                        if (response.status === 200) {
+                        console.log(response.data);
+                        if (response.data.voto === "ok") {
                             this.setState({
                                 votando: false,
                             });

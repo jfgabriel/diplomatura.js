@@ -169,8 +169,11 @@ router.post(
 router.post(
   '/:id/vote',
   passport.authenticate('jwt', { session: false }),
+
   async function (req, res) {
-    if (req.body.usuario !== req.user.username) {
+    console.log(req.user.username);
+    console.log(req.body.usuario);
+    if (req.body.usuario != req.user.username) {
       return res.status(401).send('Usuario No Valido');
     }
 
@@ -217,7 +220,8 @@ router.post(
     //actualizacion del contador de votos
     await helpers.updateDataExpresion(db, coleccion, req.params.id, exp);
 
-    return res.status(200).send('Voto Registrado!');
+    return res.json({ voto: 'ok' });
+    //return res.status(200).send('Voto Registrado!');
   }
 );
 
