@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import MemeComs from "../components/MemeComs";
-//import "semantic-ui-css/semantic.min.css";
+import isAuthenticated from "../lib/isAuthenticated";
 
 export default class MemeComsPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      userName: "miUser", //props.userName,
+      loggedin: isAuthenticated(),
     };
   }
 
@@ -19,7 +19,7 @@ export default class MemeComsPage extends Component {
             <div className="col-12">
               <h1>Comments</h1>
               <MemeComs
-                userName={this.state.userName}
+                userName={this.state.loggedin}
                 comments={[
                   {
                     id: 1,
