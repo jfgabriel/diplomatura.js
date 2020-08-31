@@ -1,5 +1,5 @@
 import express from 'express';
-import authenticationMiddleware from '../auth/middleware';
+import passport from 'passport';
 import { helpers } from '../db_helpers.js';
 
 const router = express.Router();
@@ -42,7 +42,7 @@ router.get('/', async function (req, res) {
 
   const memes = await helpers.getDataFilterByCondition(
     db,
-    'memes',
+    coleccion,
     condition,
     proyection,
     sorting,
@@ -58,15 +58,18 @@ router.get('/:id', async function (req, res) {
   res.json(meme);
 });
 
-router.post('/', authenticationMiddleware(), async function (req, res) {
-  // req.user.name - es el nombre del user logueado
-  if (req.body.usuario === req.user.name) {
-    const db = req.app.locals.db;
-    const meme = await helpers.insertData(db, coleccion, parseData(req.body));
-    res.json(meme);
-  } else {
-    res.json({ err: 'Usuario No Valido' });
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  async function (req, res) {
+    if (req.body.usuario === req.user.useername) {
+      const db = req.app.locals.db;
+      const meme = await helpers.insertData(db, coleccion, parseData(req.body));
+      res.json(meme);
+    } else {
+      res.json({ err: 'Usuario No Valido' });
+    }
   }
-});
+);
 
 export default router;

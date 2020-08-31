@@ -1,56 +1,65 @@
 import express from 'express';
 import passport from 'passport';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import authenticationMiddleware from '../auth/middleware';
 import { helpers } from '../db_helpers.js';
 
 const router = express.Router();
 const coleccion = 'usuario';
 
-router.get('/profile', authenticationMiddleware(), (req, res) => {
-  res.json({ username: req.user.name });
+router.post('/login', async (req, res) => {
+  // Token
+  const db = req.app.locals.db;
+  const user = await helpers.getDataFilterByName(
+    db,
+    coleccion,
+    req.body.username
+  );
+  if (user) {
+    bcrypt.compare(req.body.password, user.password, (err, isValid) => {
+      if (isValid) {
+        const token = jwt.sign(
+          {
+            username: req.body.username,
+            expire: Date.now() + 1000 * 60 * 60 * 24 * 1, // 1 day
+          },
+          'jwt_secret'
+        );
+        res.json({ login: 'ok', token: token, username: req.body.username });
+      } else {
+        res.send('Password incorrecto');
+      }
+    });
+  } else {
+    res.send('user not found');
+  }
 });
 
-router.post(
-  '/login',
-  passport.authenticate('local', { failureMessage: 'passport login failure' }),
-  (req, res) => {
-    console.log('login correct');
-    res.json(req.user);
-  }
-);
+router.route('/register').post(async (req, res, next) => {
+  const hash = bcrypt.hashSync(req.body.password, 10);
+  const db = req.app.locals.db;
+  const user = await helpers.getDataFilterByName(
+    db,
+    coleccion,
+    req.body.username
+  );
 
-router.route('/register').post(
-  async (req, res, next) => {
-    const hash = bcrypt.hashSync(req.body.password, 10);
-    const db = req.app.locals.db;
-    const user = await helpers.getDataFilterByName(
-      db,
-      coleccion,
-      req.body.username
-    );
-
-    if (user) {
-      res.send('user already exists');
-    } else {
-      const newUser = helpers.insertData(db, coleccion, {
-        username: req.body.username,
-        password: hash,
-      });
-      next();
-    }
-  },
-  passport.authenticate('local', {
-    failureMessage: 'passport authenticate failure',
-  }),
-  (req, res, next) => {
-    console.log('registration successful');
-    req.logIn(req.user, (err) => {
-      if (err) next(err);
-      return true;
+  if (user) {
+    res.send('user already exists');
+  } else {
+    const user = helpers.insertData(db, coleccion, {
+      username: req.body.username,
+      password: hash,
     });
-    res.send('registration successful!!! :D');
+    const token = jwt.sign(
+      {
+        username: req.body.username,
+        expire: Date.now() + 1000 * 60 * 60 * 24 * 1, // 1 day
+      },
+      'jwt_secret'
+    );
+    res.json({ registration: 'ok', token: token, username: req.body.username });
   }
-);
+});
 
 export default router;
