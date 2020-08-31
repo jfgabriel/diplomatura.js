@@ -1,64 +1,38 @@
 import passport from 'passport';
-import LocalStrategy from 'passport-local';
-import bcrypt from 'bcrypt';
 import { helpers } from '../db_helpers.js';
 import { connect } from '../connection';
-
-import authenticationMiddleware from './middleware';
 
 async function findUser(username, callback) {
   const db = await connect();
   const user = await helpers.getDataFilterByName(db, 'usuario', username);
-
   if (user && username === user.username) {
     return callback(null, user);
   }
   return callback(null);
 }
 
-function validPassword(userpass, loginpass) {
-  bcrypt.compare(loginpass, userpass, (err, isValid) => {
-    return isValid;
-  });
-}
-
-passport.serializeUser((user, cb) => {
-  const sessionUser = {
-    id: user.id,
-    name: user.username,
-  };
-  cb(null, sessionUser);
-});
-
-passport.deserializeUser((sessionUser, cb) => {
-  cb(null, sessionUser);
-});
-
 function initPassport() {
+  var JwtStrategy = require('passport-jwt').Strategy,
+    ExtractJwt = require('passport-jwt').ExtractJwt;
+  var opts = {};
+  opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+  opts.secretOrKey = 'jwt_secret';
   passport.use(
-    new LocalStrategy((username, password, done) => {
-      findUser(username, (err, user) => {
+    new JwtStrategy(opts, function (jwt_payload, done) {
+      findUser(jwt_payload.username, (err, user) => {
         if (err) {
           return done(err);
+        } else if (jwt_payload.expire <= Date.now()) {
+          return done('Token Expired', null);
         }
-
         // User not found
         if (!user) {
           return done(null, false);
         }
-
-        bcrypt.compare(password, user.password, (err, isValid) => {
-          if (isValid) {
-            return done(null, user);
-          } else {
-            return done(null, false, { message: 'Incorrect password.' });
-          }
-        });
+        return done(null, user);
       });
     })
   );
-
-  passport.authenticationMiddleware = authenticationMiddleware;
 }
 
 module.exports = initPassport;
