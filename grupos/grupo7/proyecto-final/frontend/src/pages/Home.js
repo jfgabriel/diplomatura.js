@@ -13,7 +13,7 @@ export default class Home extends Component {
             userName,
             categoria: this.props.match.params.categoria ?? "",
             memes: [],
-            pagina: 0,
+            pagina: 1,
             cargandoMemes: true,
             cargandoError: "",
         };
@@ -65,7 +65,7 @@ export default class Home extends Component {
                 cargandoMemes: true,
                 cargandoError: "",
             });
-            this.cargarMemes(0, nextProps.match.params.categoria);
+            this.cargarMemes(1, nextProps.match.params.categoria);
         }
     }
 

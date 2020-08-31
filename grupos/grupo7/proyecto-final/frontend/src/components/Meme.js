@@ -35,22 +35,41 @@ export default class Meme extends React.Component {
             if (userName) {
                 this.setState({ votando: true, votandoError: "" });
                 console.log("votando");
-                try {
-                    await timeout(2000);
-                    const res = await axios.get(
-                        "http://localhost:8000/meme/" + _id + "/vote",
-                        { params: { tipo } }
-                    );
-                    this.setState({
-                        votando: false,
+
+                await timeout(200);
+
+                const token = localStorage.getItem("mymemejs_jwt");
+
+                axios
+                    .post(
+                        "http://localhost:8000/memes/" + _id + "/vote",
+                        {
+                            usuario: userName,
+                            tipo,
+                        },
+                        {
+                            headers: { Authorization: "Bearer " + token },
+                        }
+                    )
+                    .then((response) => {
+                        if (response.status === 200) {
+                            this.setState({
+                                votando: false,
+                            });
+                        } else {
+                            this.setState({
+                                votando: false,
+                                votandoError: "Error guardando el voto!",
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.log("votando catch 2");
+                        this.setState({
+                            votando: false,
+                            votandoError: "Error guardando el voto!",
+                        });
                     });
-                } catch (error) {
-                    console.log("votando catch");
-                    this.setState({
-                        votando: false,
-                        votandoError: "Error guardando el voto!",
-                    });
-                }
             } else {
                 this.setState({ redirectLogin: true });
             }
