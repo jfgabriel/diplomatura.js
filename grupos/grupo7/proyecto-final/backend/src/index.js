@@ -35,6 +35,13 @@ app.get('/', function (req, res) {
   res.end();
 });
 
+// Show Image
+app.get('/show-image/:img_url', function (req, res) {
+  var img = fs.readFileSync('./upload/' + req.params.img_url);
+  res.writeHead(200, { 'Content-Type': 'image/jpg' });
+  res.end(img, 'binary');
+});
+
 /* Realizo la conexión a la base de datos al momento de levantar la aplicacion*/
 connect().then((db) => (app.locals.db = db));
 
