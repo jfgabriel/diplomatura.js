@@ -18,7 +18,7 @@ class MyNavbar extends React.Component {
     if (this.state.loggedin && this.state.loggedin !== "") {
       return (
         <Navbar bg="dark" variant="dark">
-          <Navbar.Brand href="#home">MyMemejs Home</Navbar.Brand>
+          <Navbar.Brand href="/">MyMemejs Home</Navbar.Brand>
           <Nav className="mr-auto">
             <Link className="nav-link" to="/">
               Home
