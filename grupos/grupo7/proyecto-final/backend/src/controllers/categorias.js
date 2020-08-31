@@ -43,9 +43,19 @@ router.post(
 
     const db = req.app.locals.db;
 
-    //asegurarse que no existe una categoria con ese nombre
-    //FALTA
-    //
+    const categoriasExistentes = await helpers.getDataFilterByCondition(
+      db,
+      coleccion,
+      { nombre: req.body.nombre },
+      { _id: 1 },
+      {},
+      1,
+      0
+    );
+
+    if (categoriasExistentes.length > 0) {
+      return res.status(400).send('Ya existe la categoria');
+    }
 
     const categoria = await helpers.insertData(
       db,
