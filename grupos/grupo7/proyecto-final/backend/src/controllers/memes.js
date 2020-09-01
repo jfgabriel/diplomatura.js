@@ -128,6 +128,9 @@ router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   async function (req, res) {
+    console.log(req.body);
+    console.log(req.files);
+
     if (req.body.usuario !== req.user.username) {
       return res.status(401).send('Usuario No Valido');
     }
@@ -137,10 +140,12 @@ router.post(
     }
 
     //validar que la categoria exista
+    /*
     const categoria = await getCategoriaByName(helpers.body.categoria);
     if (!categoria) {
       return res.status(401).send('La categoria no existe');
     }
+    */
 
     const db = req.app.locals.db;
     const meme = await helpers.insertData(db, coleccion, parseData(req.body));
@@ -157,9 +162,11 @@ router.post(
     await helpers.updateData(db, coleccion, meme._id, meme);
 
     //actualizacion del contador de memes por categoria
+    /*
     await helpers.updateDataExpresion(db, coleccionCat, categoria._id, {
       $inc: { cantMemes: 1 },
     });
+    */
 
     res.json(meme);
   }

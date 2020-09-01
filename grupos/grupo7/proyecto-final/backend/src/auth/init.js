@@ -1,9 +1,7 @@
 import passport from 'passport';
 import { helpers } from '../db_helpers.js';
-import { connect } from '../connection';
 
-async function findUser(username, callback) {
-  const db = await connect();
+async function findUser(db, username, callback) {
   const user = await helpers.getDataFilterByName(db, 'usuario', username);
   if (user && username === user.username) {
     return callback(null, user);
@@ -11,7 +9,7 @@ async function findUser(username, callback) {
   return callback(null);
 }
 
-function initPassport() {
+function initPassport(app) {
   var JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
   var opts = {};
@@ -19,7 +17,7 @@ function initPassport() {
   opts.secretOrKey = 'jwt_secret';
   passport.use(
     new JwtStrategy(opts, function (jwt_payload, done) {
-      findUser(jwt_payload.username, (err, user) => {
+      findUser(app.locals.db, jwt_payload.username, (err, user) => {
         if (err) {
           return done(err);
         } else if (jwt_payload.expire <= Date.now()) {

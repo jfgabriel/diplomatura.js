@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import passport from 'passport';
 import bodyParser from 'body-parser';
+import fileUpload from 'express-fileupload';
 import {} from 'dotenv/config';
 import fs from 'fs';
 
@@ -14,6 +15,7 @@ const PORT = 8000;
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(fileUpload());
 
 require('./auth/index').init(app);
 
@@ -35,6 +37,7 @@ app.get('/', function (req, res) {
 });
 
 // Show Image
+
 app.get('/show-image/:img_url', function (req, res) {
   var img = fs.readFileSync('./upload/' + req.params.img_url);
   res.writeHead(200, { 'Content-Type': 'image/jpg' });
