@@ -1,11 +1,11 @@
 .categoriaDiv {
-    width: 100%;
-    display: block;
+  width: 100%;
+  display: block;
 }
 
 .categoriasTitulo {
-    background-color: #7b7b7b;
-    color: white;
-    font-size: 0.8em;
-    font-weight: 800;
+  background-color: #7b7b7b;
+  color: white;
+  font-size: 0.8em;
+  font-weight: 800;
 }

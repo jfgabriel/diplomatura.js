@@ -85,6 +85,19 @@ async function updateData(db, col, id, elem) {
   }
 }
 
+async function updateDataExpresion(db, col, id, expresion) {
+  const _id = new ObjectId(id);
+  try {
+    await db.collection(col).updateOne({ _id }, expresion);
+    return true;
+  } catch (err) {
+    if (process.env.ENVIRONMENT === 'dev') {
+      console.error(err);
+    }
+    return false;
+  }
+}
+
 async function deleteData(db, col, id) {
   const _id = new ObjectId(id);
   try {
@@ -104,5 +117,6 @@ export const helpers = {
   getDataFilterByCondition,
   insertData,
   updateData,
+  updateDataExpresion,
   deleteData,
 };

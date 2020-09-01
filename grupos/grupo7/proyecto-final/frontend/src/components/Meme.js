@@ -1,168 +1,207 @@
 import React from "react";
 import { Row, Col, Card } from "react-bootstrap";
-import ImgLike from "../img/like.png";
-import ImgNoLike from "../img/nolike.png";
-import ImgComent from "../img/coment.png";
 import "./styles/meme.css";
-//import { useHistory } from "react-router-dom";
 import { Redirect, Link } from "react-router-dom";
+import axios from "axios";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faThumbsUp,
+  faThumbsDown,
+  faComment,
+} from "@fortawesome/free-regular-svg-icons";
 
 const TIPO_UPVOTE = "upvote";
 const TIPO_DOWNVOTE = "downvote";
 
 export default class Meme extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            meme: props.meme,
-            usuario: props.userName,
-            redirectLogin: false,
-            redirectMeme: "",
-        };
-    }
-    // {
-    //     _id: 456654654,
-    //     titulo: "Que hacen esas manitas",
-    //     imagen:
-    //         "https://statics.memondo.com/p/s1/ccs/2018/05/CC_2691829_990f3fc391c74284b05c0f5cedf5fb13_meme_otros_y_esta_es_mi_mejor_tecnica.jpg?cb=142181",
-    //     categoria: "Amor",
-    //     usuario: "pop@gmail.com",
-    //     fecha: "2020-07-20",
-    //     cantVotosUp: 44,
-    //     cantVotosDown: 1,
-    //     cantComentarios: 54654,
-    // },
-
-    votar = (tipo) => {
-        const { idMeme } = this.state.meme;
-
-        if (this.state.userName) {
-            fetch("http://localhost:8000/meme/" + idMeme + "/vote")
-                .then((res) => res.json())
-                .then(
-                    (result) => {
-                        this.setState({
-                            isLoaded: true,
-                            items: result.items,
-                        });
-                    },
-                    (error) => {
-                        this.setState({
-                            isLoaded: true,
-                        });
-                    }
-                );
-        } else {
-            this.setState({ redirectLogin: true });
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      meme: props.meme,
+      userName: props.userName,
+      redirectLogin: false,
+      redirectMeme: "",
+      votando: false,
+      votandoError: "",
     };
-    verMeme = () => {
-        this.setState({ redirectMeme: this.state.meme._id });
-    };
+  }
 
-    render() {
-        const {
-            titulo,
-            usuario,
-            fecha,
-            categoria,
-            imagen,
-            cantVotosUp,
-            cantVotosDown,
-            cantComentarios,
-        } = this.state.meme;
+  votar = async (tipo) => {
+    // function timeout(ms) {
+    //   return new Promise((resolve) => setTimeout(resolve, ms));
+    // }
 
-        const { redirectLogin, redirectMeme } = this.state;
+    const { _id } = this.state.meme;
+    const { userName, votando } = this.state;
+    if (!votando) {
+      if (userName) {
+        this.setState({ votando: true, votandoError: "" });
+        console.log("votando");
 
-        if (redirectLogin) {
-            return <Redirect to="/login"></Redirect>;
-        }
-        if (redirectMeme) {
-            return <Redirect to={"/meme/" + redirectMeme}></Redirect>;
-        }
+        //await timeout(200);
 
-        return (
-            <>
-                <Card className="my-2">
-                    <Card.Header className="memeHead">
-                        <Row>
-                            <Col xs="12" md="6" className="text-left">
-                                <p className="memeTitulo">{titulo}</p>
-                                <p className="memeData px-2">
-                                    └ Creado por {usuario} el {fecha}
-                                </p>
-                            </Col>
-                            <Col xs="12" md="6" className="text-right">
-                                <Link
-                                    to={"/" + categoria}
-                                    className="badge badge-dark"
-                                >
-                                    {categoria}
-                                </Link>
-                            </Col>
-                        </Row>
-                    </Card.Header>
-                    {imagen && imagen.lenght > 2 && (
-                        <div className="p-2 memeImgCont text-center">
-                            <img
-                                className="img-fluid"
-                                src={
-                                    "http://localhost:8000" +
-                                    imagen.substring(1)
-                                }
-                                alt="Meme"
-                            ></img>
-                        </div>
-                    )}
-                    <Card.Footer className="p-1 memeFoot">
-                        <BotonVotarUp cant={cantVotosUp} votar={this.votar} />
-                        <BotonVotarDown
-                            cant={cantVotosDown}
-                            votar={this.votar}
-                        />
-                        <BotonComent
-                            cant={cantComentarios}
-                            verMeme={this.verMeme}
-                        />
-                    </Card.Footer>
-                </Card>
-            </>
-        );
+        const token = localStorage.getItem("mymemejs_jwt");
+
+        axios
+          .post(
+            "http://localhost:8000/memes/" + _id + "/vote",
+            {
+              usuario: userName,
+              tipo,
+            },
+            {
+              headers: { Authorization: "Bearer " + token },
+            }
+          )
+          .then((response) => {
+            console.log(response.data);
+            if (response.data.voto === "ok") {
+              const memeInc = this.state.meme;
+              if (tipo === TIPO_UPVOTE) {
+                memeInc.cantVotosUp += 1;
+              } else {
+                memeInc.cantVotosDown += 1;
+              }
+              this.setState({
+                votando: false,
+                meme: memeInc,
+              });
+            } else {
+              this.setState({
+                votando: false,
+                votandoError: "Error guardando el voto!",
+              });
+            }
+          })
+          .catch((error) => {
+            console.log("votando catch 2");
+            this.setState({
+              votando: false,
+              votandoError: "Error guardando el voto!",
+            });
+          });
+      } else {
+        this.setState({ redirectLogin: true });
+      }
     }
+  };
+  verMeme = () => {
+    this.setState({ redirectMeme: this.state.meme._id });
+  };
+
+  render() {
+    const {
+      titulo,
+      usuario,
+      fecha,
+      categoria,
+      imagen,
+      cantVotosUp,
+      cantVotosDown,
+      cantComentarios,
+    } = this.state.meme;
+
+    const { redirectLogin, redirectMeme, votando } = this.state;
+
+    if (redirectLogin) {
+      return <Redirect to="/login"></Redirect>;
+    }
+    if (redirectMeme) {
+      return <Redirect to={"/meme/" + redirectMeme}></Redirect>;
+    }
+
+    return (
+      <>
+        <Card className="my-2 cardMeme">
+          <Card.Header className="memeHead">
+            <Row>
+              <Col xs="12" md="6" className="text-left">
+                <p className="memeTitulo">{titulo}</p>
+                <p className="memeData px-2">
+                  └ Creado por {usuario} el {fecha}
+                </p>
+              </Col>
+              <Col xs="12" md="6" className="text-right">
+                <Link to={"/" + categoria}>
+                  <button className="btn btn-sm btn-outline-dark py-1 px-2">
+                    {categoria}
+                  </button>
+                </Link>
+              </Col>
+            </Row>
+          </Card.Header>
+          {imagen && (
+            <div className="p-2 memeImgCont text-center">
+              <img
+                className="img-fluid"
+                src={
+                  "http://localhost:8000/show-image/" +
+                  imagen.replace("./upload/", "")
+                }
+                alt="Meme"
+              ></img>
+            </div>
+          )}
+          <Card.Footer className="p-1 memeFoot">
+            <BotonVotarUp
+              cant={cantVotosUp}
+              votar={this.votar}
+              disabled={votando}
+            />
+            <BotonVotarDown
+              cant={cantVotosDown}
+              votar={this.votar}
+              disabled={votando}
+            />
+            {!this.props.sinBtnComs && (
+              <BotonComent cant={cantComentarios} verMeme={this.verMeme} />
+            )}
+          </Card.Footer>
+        </Card>
+      </>
+    );
+  }
 }
 
 function BotonVotarUp(props) {
-    return (
-        <button
-            className="btn btn-sm btn-dark py-2 px-3 m-1"
-            onClick={() => props.votar(TIPO_UPVOTE)}
-        >
-            <img src={ImgLike} className="btnLike" alt="like" />
-            {props.cant}
-        </button>
-    );
+  return (
+    <button
+      className={
+        "btn btn-sm btn-outline-dark py-2 px-3 m-1" +
+        (props.disabled ? " disabled" : "")
+      }
+      onClick={() => props.votar(TIPO_UPVOTE)}
+    >
+      <FontAwesomeIcon icon={faThumbsUp} className="mr-2" />
+      {props.cant}
+    </button>
+  );
 }
 
 function BotonVotarDown(props) {
-    return (
-        <button
-            className="btn btn-sm btn-dark py-2 px-3 m-1"
-            onClick={() => props.votar(TIPO_DOWNVOTE)}
-        >
-            <img src={ImgNoLike} className="btnLike" alt="dislike" />
-            {props.cant}
-        </button>
-    );
+  return (
+    <button
+      className={
+        "btn btn-sm btn-outline-dark py-2 px-3 m-1" +
+        (props.disabled ? " disabled" : "")
+      }
+      onClick={() => props.votar(TIPO_DOWNVOTE)}
+    >
+      <FontAwesomeIcon icon={faThumbsDown} className="mr-2" />
+      {props.cant}
+    </button>
+  );
 }
 
 function BotonComent(props) {
-    return (
-        <button
-            className="btn btn-sm btn-dark py-2 px-3 m-1"
-            onClick={() => props.verMeme()}
-        >
-            <img src={ImgComent} className="btnLike" alt="comentarios" />
-            {props.cant}
-        </button>
-    );
+  return (
+    <button
+      className="btn btn-sm btn-outline-dark py-2 px-3 m-1"
+      onClick={() => props.verMeme()}
+    >
+      <FontAwesomeIcon icon={faComment} className="mr-2" />
+      {props.cant}
+    </button>
+  );
 }
