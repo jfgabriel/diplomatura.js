@@ -23,7 +23,7 @@ router.post('/login', async (req, res) => {
             username: req.body.username,
             expire: Date.now() + 1000 * 60 * 60 * 24 * 1, // 1 day
           },
-          'jwt_secret'
+          process.env.JWT_SECRET
         );
         res.json({ login: 'ok', token: token, username: req.body.username });
       } else {
@@ -56,7 +56,7 @@ router.route('/register').post(async (req, res, next) => {
         username: req.body.username,
         expire: Date.now() + 1000 * 60 * 60 * 24 * 1, // 1 day
       },
-      'jwt_secret'
+      process.env.JWT_SECRET
     );
     res.json({ registration: 'ok', token: token, username: req.body.username });
   }
