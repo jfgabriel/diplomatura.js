@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 
 import "./styles/Home.css";
+import logout from "../lib/logout";
 
 export default class Logout extends Component {
-  logout = () => {
-    localStorage.removeItem("mymemejs_jwt");
-    localStorage.removeItem("mymemejs_username");
+  logoutClick = () => {
+    logout();
     this.props.history.push("/");
     window.location.reload(false);
   };
@@ -18,7 +18,7 @@ export default class Logout extends Component {
           <div className="row">
             <div className="col-12 col-md-4">
               <p>Estas seguro?</p>
-              <Button variant="success" onClick={this.logout}>
+              <Button variant="success" onClick={this.logoutClick}>
                 Si
               </Button>
             </div>
