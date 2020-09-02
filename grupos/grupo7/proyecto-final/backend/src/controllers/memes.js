@@ -49,7 +49,6 @@ const parseComment = (body, idmeme) => {
 async function commentariosMeme(db, id) {
   const condition = { idMeme: new ObjectId(id) };
   const sorting = { fecha: 1 };
-
   const comentarios = await helpers.getDataFilterByCondition(
     db,
     coleccionCom,
@@ -59,26 +58,22 @@ async function commentariosMeme(db, id) {
     0,
     0
   );
+  return comentarios;
+}
 
-  async function getCategoriaByName(db, nombre) {
-    const categorias = await helpers.getDataFilterByCondition(
-      db,
-      coleccion,
-      { nombre: req.body.nombre },
-      { _id: 1 },
-      {},
-      1,
-      0
-    );
+async function categoriaMeme(db, nombre) {
+  const condition = { nombre: nombre };
+  const categorias = await helpers.getDataFilterByCondition(
+    db,
+    coleccionCat,
+    condition
+  );
 
-    if (categorias.length > 0) {
-      return undefined;
-    }
-
-    return categorias[0];
+  if (categorias.length === 0) {
+    return undefined;
   }
 
-  return comentarios;
+  return categorias[0];
 }
 
 /*Obtener un paginado de los ultimos memes posteados, se puede filtar por categoria*/
@@ -128,9 +123,6 @@ router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   async function (req, res) {
-    console.log(req.body);
-    console.log(req.files);
-
     if (req.body.usuario !== req.user.username) {
       return res.status(401).send('Usuario No Valido');
     }
@@ -139,15 +131,14 @@ router.post(
       return res.status(400).send('Falta el archivo');
     }
 
+    const db = req.app.locals.db;
+
     //validar que la categoria exista
-    /*
-    const categoria = await getCategoriaByName(helpers.body.categoria);
+    const categoria = await categoriaMeme(db, req.body.categoria);
     if (!categoria) {
       return res.status(401).send('La categoria no existe');
     }
-    */
 
-    const db = req.app.locals.db;
     const meme = await helpers.insertData(db, coleccion, parseData(req.body));
     const uploadFile = req.files.uploadFile;
 
@@ -162,11 +153,9 @@ router.post(
     await helpers.updateData(db, coleccion, meme._id, meme);
 
     //actualizacion del contador de memes por categoria
-    /*
     await helpers.updateDataExpresion(db, coleccionCat, categoria._id, {
       $inc: { cantMemes: 1 },
     });
-    */
 
     res.json(meme);
   }

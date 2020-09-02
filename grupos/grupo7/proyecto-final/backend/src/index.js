@@ -38,9 +38,9 @@ app.get('/', function (req, res) {
 
 // Show Image
 
-app.get('/show-image/:img_url', function (req, res) {
-  var img = fs.readFileSync('./upload/' + req.params.img_url);
-  res.writeHead(200, { 'Content-Type': 'image/jpg' });
+app.get('/show-image/', function (req, res) {
+  var img = fs.readFileSync(req.query.file);
+  //res.writeHead(200, { 'Content-Type': 'image/jpg' });
   res.end(img, 'binary');
 });
 
