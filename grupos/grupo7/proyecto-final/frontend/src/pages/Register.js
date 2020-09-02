@@ -94,7 +94,7 @@ export default class Register extends Component {
               <input
                 type="text"
                 name="email"
-                pattern=".{2,16}"
+                pattern=".{2,50}"
                 required
                 value={email}
                 onChange={this.onChange}
@@ -112,11 +112,11 @@ export default class Register extends Component {
               />
             </div>
             <div>
-              <input type="submit" value="Log in" />
+              <input type="submit" value="Register" />
             </div>
             <p>
-              No estas registrado?
-              <Link to="/register">Registrate acá</Link>
+              ¿Ya tenés usuario?
+              <Link to="/login">Login</Link>
             </p>
           </form>
         </div>

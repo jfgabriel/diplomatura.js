@@ -85,8 +85,8 @@ function MemeComs({ meme }) {
         </div>
       )}
       <div className="container p-3 my-3 border">
-        {coms.map((c) => (
-          <MemeCom comment={c} /> //id={c.id} author={c.author} comment={c.comment} />
+        {coms.map((c, key) => (
+          <MemeCom comment={c} key={key} /> //id={c.id} author={c.author} comment={c.comment} />
         ))}
       </div>
       {isAuthenticated() && <MemeComForm handleSaveComment={saveMemeCom} />}

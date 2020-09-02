@@ -5,6 +5,7 @@ import isAuthenticated from "../lib/isAuthenticated";
 import "./styles/Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
+import logo from "../img/logo.png";
 import {
   faPlusCircle,
   faHome,
@@ -62,8 +63,8 @@ class MyNavbar extends React.Component {
       <Navbar bg="dark" variant="dark" sticky="top">
         <div className="container">
           <Navbar.Brand href="/">
-            <img id="logo" alt="MyMemeJS"></img>
-            {/*<img src="./img/logo.jpg" alt="MyMemeJS"></img> */}
+            {/*<img id="logo" ></img>*/}
+            <img className="logo" src={logo} alt="MyMemeJS" />
           </Navbar.Brand>
           <Nav className="mx-auto">
             {/* <Link className="nav-link" to="/">
