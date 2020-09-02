@@ -3,11 +3,11 @@ import React from "react";
 function MemeCom({ comment }) {
   return (
     <div>
-      <div class="row">
-        <h5 class="col-md-1">{comment.author} </h5>
-        <p class="col-md-2 text-secondary">{comment.date?.toString()}</p>
+      <div className="row">
+        <h5 className="col-md-1">{comment.usuario} </h5>
+        <p className="col-md-2 text-secondary">{comment.fecha.toString()}</p>
       </div>
-      {comment.comment}
+      {comment.descripcion}
     </div>
   );
 }

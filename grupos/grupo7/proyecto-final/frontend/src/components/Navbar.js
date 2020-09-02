@@ -61,7 +61,10 @@ class MyNavbar extends React.Component {
     return (
       <Navbar bg="dark" variant="dark" sticky="top">
         <div className="container">
-          <Navbar.Brand href="/">MyMemejs</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <img id="logo" alt="MyMemeJS"></img>
+            {/*<img src="./img/logo.jpg" alt="MyMemeJS"></img> */}
+          </Navbar.Brand>
           <Nav className="mx-auto">
             {/* <Link className="nav-link" to="/">
               Home

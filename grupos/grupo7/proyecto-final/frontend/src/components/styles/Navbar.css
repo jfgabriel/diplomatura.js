@@ -1,0 +1,12 @@
+/* #logo {
+  
+} */
+
+.navbar-brand {
+  background-image: url(/public/logo.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 400px;
+  height: 40px;
+}

@@ -17,7 +17,7 @@ function MemeComForm({ handleSaveComment }) {
   return (
     <div>
       <div>
-        Comentario :
+        Nuevo comentario :
         <textarea
           onChange={handleChange}
           name="newComment"
