@@ -135,10 +135,7 @@ export default class Meme extends React.Component {
             <div className="p-2 memeImgCont text-center">
               <img
                 className="img-fluid"
-                src={
-                  "http://localhost:8000/show-image/" +
-                  imagen.replace("./upload/", "")
-                }
+                src={"http://localhost:8000/show-image/?file=" + imagen}
                 alt="Meme"
               ></img>
             </div>
