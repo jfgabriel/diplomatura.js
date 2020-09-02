@@ -4,6 +4,7 @@ import axios from "axios";
 //import MemeCom2 from "./MemeComOpcion2";
 import MemeComForm from "./MemeComForm";
 import isAuthenticated from "../lib/isAuthenticated";
+import logout from "../lib/logout";
 
 function MemeComs({ meme }) {
   console.log("meme: " + meme);
@@ -33,6 +34,7 @@ function MemeComs({ meme }) {
         .then((response) => {
           console.log(response.data);
           setComs(coms.concat(response.data));
+
           /* if (response.data.voto === "ok") {
               const memeInc = this.state.meme;
               if (tipo === TIPO_UPVOTE) {
@@ -52,7 +54,10 @@ function MemeComs({ meme }) {
             } */
         })
         .catch((error) => {
-          console.log("error al comentar: " + error);
+          console.log(error);
+          if (error.includes("401")) {
+            logout();
+          }
           setError("Error al guardar el comentario: " + error);
           /*  this.setState({
               votando: false,
