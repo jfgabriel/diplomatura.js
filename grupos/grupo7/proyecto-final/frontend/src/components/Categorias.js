@@ -11,24 +11,13 @@ export default class Categorias extends React.Component {
     this.state = { cargando: true, cargandoError: "", categorias: [] };
   }
   cargarCategorias() {
-    // this.setState({
-    //     cargando: false,
-    //     cargandoError: "",
-    //     categorias: [
-    //         { id: 1, nombre: "politica" },
-    //         { id: 2, nombre: "humor" },
-    //         { id: 3, nombre: "amor" },
-    //     ],
-    // });
-    const options = {
-      url: "http://localhost:8000/categorias",
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json;charset=UTF-8",
-      },
-    };
-    axios(options)
+    axios
+      .get(process.env.REACT_APP_API_URL + "categorias", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           this.setState({
