@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 import ImageUploading from "react-images-uploading";
@@ -7,41 +7,50 @@ import isAuthenticated from "../lib/isAuthenticated";
 const maxNumber = 10;
 const maxMbFileSize = 5 * 1024 * 1024; // 5Mb
 
-function AddMeme({ categorias, usuario = "juan" }) {
+function AddMeme(usuario) {
   const [titulo, setTitulo] = useState("");
   const [categoria, setCategoria] = useState("");
   const [images, setImages] = useState([]);
   const [imagen, setImagen] = useState(null);
   const [respuesta, setRespuesta] = useState("");
   const [loggedin, setLoggedin] = useState(isAuthenticated());
+  const [categorias, setCategorias] = useState([]);
+  useEffect(() => {
+    cargarCategorias();
+  }, []);
+
+  const cargarCategorias = () => {
+    const options = {
+      url: "http://localhost:8000/categorias",
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+    };
+    axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          setCategorias(response.data);
+        } else {
+          console.log(response.data);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const handleGuardarOnClick = () => {
     const data = new FormData();
     data.append("titulo", titulo);
     data.append("categoria", categoria);
-    data.append("usuario", usuario);
+    data.append("usuario", loggedin);
     data.append("uploadFile", imagen);
 
     for (var pair of data.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-    // fetch("http://localhost:8000/memes", {
-    //   method: "POST",
-    //   body: data,
-    // }).then(
-    //   function (res) {
-    //     if (res.ok) {
-    //       alert("Perfect! ");
-    //     } else if (res.status === 401) {
-    //       alert("Oops! ");
-    //     }
-    //   },
-    //   function (e) {
-    //     alert("Error submitting form!");
-    //   }
-    // );
-    // Cookie: connect.sid=s%3AKEejmNx7E6Iqtj2794v_MQ1mZyPQfmKY.jAmpseskYn7OEtdDqO0M4hwL1nR3xyDdO8Xu6F8%2FiDM
-    //axios.defaults.withCredentials = true;
     const token = localStorage.getItem("mymemejs_jwt");
     axios
       .post("http://localhost:8000/memes", data, {
@@ -52,7 +61,7 @@ function AddMeme({ categorias, usuario = "juan" }) {
         if (res.data._id) {
           // se agrego correctamente
 
-          alert("Meme agregado Correctamente");
+          // alert("Meme agregado Correctamente");
           this.props.history.push("/");
           window.location.reload(false);
         }
