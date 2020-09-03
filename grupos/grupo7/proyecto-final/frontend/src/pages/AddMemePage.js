@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AddMeme from "../components/AddMeme";
 import isAuthenticated from "../lib/isAuthenticated";
+import { Card, Row, Col } from "react-bootstrap";
 
 export default class AddMemePage extends Component {
   constructor(props) {
@@ -15,16 +16,18 @@ export default class AddMemePage extends Component {
   render() {
     const { userName } = this.state;
     return (
-      <div className="Home">
-        <div className="container">
-          <div className="row">
-            <div className="col-12 col-md-4">
-              <h1>Add Meme</h1>
-              <AddMeme usuario={userName} />
-            </div>
-          </div>
-        </div>
-      </div>
+      <Card className="my-2 cardMeme">
+        <Card.Header className="memeHead">
+          <Row>
+            <Col xs="12" md="6" className="text-left">
+              <h1>Subir Meme</h1>
+            </Col>
+          </Row>
+        </Card.Header>
+        <Card.Body>
+          <AddMeme usuario={userName} />
+        </Card.Body>
+      </Card>
     );
   }
 }

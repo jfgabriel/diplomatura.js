@@ -8,6 +8,8 @@ const maxNumber = 10;
 const maxMbFileSize = 5 * 1024 * 1024; // 5Mb
 
 function AddMeme(usuario) {
+  const [memeGuardado, setMemeGuardado] = useState(false);
+  const [mensaje, setMensaje] = useState("");
   const [titulo, setTitulo] = useState("");
   const [categoria, setCategoria] = useState("");
   const [images, setImages] = useState([]);
@@ -33,50 +35,63 @@ function AddMeme(usuario) {
         if (response.status === 200) {
           setCategorias(response.data);
         } else {
-          console.log(response.data);
+          setMensaje("Problema cargando las categorias");
         }
       })
       .catch((e) => {
-        console.log(e);
+        setMensaje("Problema cargando las categorias");
       });
   };
 
   const handleGuardarOnClick = () => {
-    const data = new FormData();
-    data.append("titulo", titulo);
-    data.append("categoria", categoria);
-    data.append("usuario", loggedin);
-    data.append("uploadFile", imagen);
-
-    for (var pair of data.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
+    if (!titulo) {
+      setMensaje("Ingrese el titulo del meme");
+      return false;
     }
-    const token = localStorage.getItem("mymemejs_jwt");
-    axios
-      .post("http://localhost:8000/memes", data, {
-        headers: { Authorization: "Bearer " + token },
-      })
-      .then((res) => {
-        console.log(res.data);
-        if (res.data._id) {
-          // se agrego correctamente
+    if (!imagen) {
+      setMensaje("Seleccione una imagen Meme");
+      return false;
+    }
 
-          // alert("Meme agregado Correctamente");
-          this.props.history.push("/");
-          window.location.reload(false);
-        }
-      })
-      .catch((err) => console.log(err.data));
+    if (mensaje === "") {
+      const data = new FormData();
+      data.append("titulo", titulo);
+      data.append("categoria", categoria);
+      data.append("usuario", loggedin);
+      data.append("uploadFile", imagen);
+
+      const token = localStorage.getItem("mymemejs_jwt");
+
+      axios
+        .post("http://localhost:8000/memes", data, {
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data._id) {
+            setMemeGuardado(true);
+          } else {
+            setMensaje(
+              "UPS! Ocurrió un problema guardando su meme. Por favor intente en unos minutos..."
+            );
+          }
+        })
+        .catch((err) =>
+          setMensaje(
+            "UPS! Ocurrió un problema guardando su meme. Por favor intente en unos minutos..."
+          )
+        );
+    }
   };
 
   const handleTituloChange = (e) => {
     setTitulo(e.target.value);
-    console.log(titulo);
+    //console.log(titulo);
   };
 
   const handleCategoriaChange = (e) => {
     setCategoria(e.target.value);
-    console.log(categoria);
+    //console.log(categoria);
   };
 
   const onImageChange = (imageList, addUpdateIndex) => {
@@ -90,12 +105,20 @@ function AddMeme(usuario) {
       im = file.file;
     });
     if (im) setImagen(im);
-    console.log(im);
   };
+
   const onImageError = (errors, files) => {
-    console.log(errors, files);
+    setMensaje("Error subiendo la imagen");
   };
-  console.log(loggedin);
+
+  // const onImageRemove = (index) => {
+  //   setImagen("");
+  // };
+
+  if (memeGuardado) {
+    return <Redirect to="/login"></Redirect>;
+  }
+
   if (!loggedin || loggedin === "") {
     return (
       <Redirect
@@ -124,41 +147,32 @@ function AddMeme(usuario) {
           dragProps,
         }) => (
           <div>
-            <div>
-              Titulo :
-              <input
-                type="text"
-                name="titulo"
-                value={titulo}
-                onChange={handleTituloChange}
-              />
-            </div>
-            {imageList.length === 0 && (
-              <div>
-                <button type="button" onClick={onImageUpload} {...dragProps}>
-                  Buscar Imagen
-                </button>
+            {mensaje !== "" && (
+              <div
+                className="alert alert-warning alert-dismissible"
+                role="alert"
+              >
+                {mensaje}
               </div>
             )}
-
-            {imageList.map((image, index) => (
-              <div key={index}>
-                <div>
-                  <img src={image.data_url} alt="" width="200" />
-                </div>
-                <div>
-                  <button onClick={() => onImageUpdate(index)}>
-                    Actualizar
-                  </button>
-                  <button onClick={() => onImageRemove(index)}>Borrar</button>
-                </div>
-              </div>
-            ))}
-            <div>
-              Categoria :
+            <div className="form-group">
+              <label htmlFor="txtTitulo">Titulo</label>
+              <input
+                id="txtTitulo"
+                type="text"
+                name="titulo"
+                maxlength="100"
+                value={titulo}
+                onChange={handleTituloChange}
+                className={"form-control" + (titulo ? "" : " is-invalid")}
+              />
+              <div class="invalid-feedback">Ingrese un titulo!</div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="lstCategoria">Categoria</label>
               <select
-                name="categotias"
-                className="mdb-select md-form"
+                name="categorias"
+                className="form-control"
                 value={categoria}
                 onChange={handleCategoriaChange}
               >
@@ -169,8 +183,51 @@ function AddMeme(usuario) {
                 ))}
               </select>
             </div>
+            <div className="form-group">
+              <label htmlFor="lstCategoria">Meme</label>
+              {imageList.length === 0 && (
+                <>
+                  <br />
+                  <button
+                    className="btn btn-secondary"
+                    type="button"
+                    onClick={onImageUpload}
+                    {...dragProps}
+                  >
+                    Buscar Meme
+                  </button>
+                </>
+              )}
+
+              {imageList.map((image, index) => (
+                <div key={index}>
+                  <div>
+                    <img src={image.data_url} alt="" width="200" />
+                  </div>
+                  <div>
+                    <button
+                      className="btn btn-secondary mt-2 mr-3"
+                      onClick={() => onImageUpdate(index)}
+                    >
+                      Cambiar
+                    </button>
+                    {/* <button
+                      className="btn btn-danger mt-2"
+                      onClick={() => onImageRemove(index)}
+                    >
+                      Borrar
+                    </button> */}
+                  </div>
+                </div>
+              ))}
+            </div>
             <div>
-              <button onClick={handleGuardarOnClick}>Guardar</button>
+              <button
+                className="btn btn-primary mt-3"
+                onClick={handleGuardarOnClick}
+              >
+                Guardar
+              </button>
             </div>
             <p>{respuesta}</p>
           </div>
