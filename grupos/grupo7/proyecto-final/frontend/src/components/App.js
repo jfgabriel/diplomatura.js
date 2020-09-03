@@ -4,7 +4,6 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Layout from "./Layout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import Logout from "../pages/Logout";
 import Register from "../pages/Register";
 import NotFound from "../pages/NotFound";
 import AddMemePage from "../pages/AddMemePage";
@@ -22,7 +21,6 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/memeComs" component={MemeComsPage} />
-          <Route exact path="/logout" component={Logout} />
           <Route path="/meme/:id" component={MemePage} />
           <Route path="/:categoria" component={Home} />
           <Route component={NotFound} />

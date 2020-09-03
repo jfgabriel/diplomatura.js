@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Form, Row, Col, Card, Button } from "react-bootstrap";
 import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
 import isAuthenticated from "../lib/isAuthenticated";
@@ -62,48 +63,60 @@ export default class Login extends Component {
       );
     } else {
       return (
-        <div>
-          <h1>Login</h1>
-          <form onSubmit={this.submit.bind(this)}>
-            {message !== "" && (
-              <div
-                className="alert alert-warning alert-dismissible"
-                role="alert"
-              >
-                {message}
-              </div>
-            )}
-            <div>
-              <label>Username: </label>
-              <input
-                type="text"
-                name="username"
-                pattern=".{2,16}"
-                required
-                value={username}
-                onChange={this.onChange}
-              />
-            </div>
-            <div>
-              <label>Password: </label>
-              <input
-                type="password"
-                name="password"
-                pattern=".{3,20}"
-                value={password}
-                onChange={this.onChange}
-                required
-              />
-            </div>
-            <div>
-              <input type="submit" value="Log in" />
-            </div>
-            <p>
-              No estas registrado?
-              <Link to="/register">Registrate acá</Link>
-            </p>
-          </form>
-        </div>
+        <>
+          <Card className="my-2 cardMeme">
+            <Card.Header className="memeHead">
+              <Row>
+                <Col xs="12" md="6" className="text-left">
+                  <h1>Login</h1>
+                </Col>
+              </Row>
+            </Card.Header>
+            <Card.Body>
+              <Form onSubmit={this.submit.bind(this)}>
+                {message !== "" && (
+                  <div
+                    className="alert alert-warning alert-dismissible"
+                    role="alert"
+                  >
+                    {message}
+                  </div>
+                )}
+                <Form.Group controlId="formGroupEmail">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="username"
+                    pattern=".{2,20}"
+                    required
+                    value={username}
+                    onChange={this.onChange}
+                  />
+                </Form.Group>
+                <Form.Group controlId="formGroupPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    pattern=".{3,50}"
+                    value={password}
+                    onChange={this.onChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Button variant="primary" type="submit">
+                    Login
+                  </Button>
+                </Form.Group>
+                <p>
+                  ¿No estas registrado?{" "}
+                  <Link to="/register">Registrate acá</Link>
+                </p>
+              </Form>
+            </Card.Body>
+          </Card>
+        </>
       );
     }
   }

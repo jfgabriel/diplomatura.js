@@ -23,21 +23,28 @@ class MyNavbar extends React.Component {
     };
   }
 
+  handleLogout = () => this.props.setShow(true);
+
   render() {
     let botonesUsuario;
 
     if (this.state.loggedin && this.state.loggedin !== "") {
       botonesUsuario = (
         <>
-          <button className="btn btn-sm btn-outline-light py-2 px-3">
-            <FontAwesomeIcon icon={faUser} className="mr-2" />
-            {this.state.loggedin}
-          </button>
-          <Link className="nav-link pr-0" to="/logout">
-            <button className="btn btn-sm btn-outline-danger py-2 px-3 text-center">
+          <div className="nav-link pr-0">
+            <button className="btn btn-sm btn-outline-light py-2 px-3">
+              <FontAwesomeIcon icon={faUser} className="mr-2" />
+              {this.state.loggedin}
+            </button>
+          </div>
+          <div className="nav-link pr-0">
+            <button
+              className="btn btn-sm btn-outline-danger py-2 px-3 text-center"
+              onClick={this.handleLogout}
+            >
               <FontAwesomeIcon icon={faDoorOpen} />
             </button>
-          </Link>
+          </div>
         </>
       );
     } else {
