@@ -7,7 +7,6 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import NotFound from "../pages/NotFound";
 import AddMemePage from "../pages/AddMemePage";
-import MemeComsPage from "../pages/MemeComsPage";
 import MemePage from "../pages/Meme";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -20,7 +19,6 @@ function App() {
           <Route exact path="/addmeme" component={AddMemePage} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/memeComs" component={MemeComsPage} />
           <Route path="/meme/:id" component={MemePage} />
           <Route path="/:categoria" component={Home} />
           <Route component={NotFound} />

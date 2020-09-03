@@ -1,21 +1,17 @@
 import React, { useState } from "react";
 import MemeCom from "./MemeCom";
 import axios from "axios";
-//import MemeCom2 from "./MemeComOpcion2";
 import MemeComForm from "./MemeComForm";
 import isAuthenticated from "../lib/isAuthenticated";
 import logout from "../lib/logout";
 
 function MemeComs({ meme }) {
-  console.log("meme: " + meme);
   const [idMeme, setIdMeme] = useState(meme._id);
   const [coms, setComs] = useState(meme.comentarios);
   const [user, setUser] = useState(isAuthenticated());
   const [error, setError] = useState("");
 
   const saveMemeCom = async (text) => {
-    // Verifico que siga logueado
-    //const user = isAuthenticated();
     setUser(isAuthenticated());
     if (user) {
       const token = localStorage.getItem("mymemejs_jwt");
@@ -32,69 +28,33 @@ function MemeComs({ meme }) {
           }
         )
         .then((response) => {
-          console.log(response.data);
           setComs(coms.concat(response.data));
-
-          /* if (response.data.voto === "ok") {
-              const memeInc = this.state.meme;
-              if (tipo === TIPO_UPVOTE) {
-                memeInc.cantVotosUp += 1;
-              } else {
-                memeInc.cantVotosDown += 1;
-              }
-              this.setState({
-                votando: false,
-                meme: memeInc,
-              });
-            } else {
-              this.setState({
-                votando: false,
-                votandoError: "Error guardando el voto!",
-              });
-            } */
         })
         .catch((error) => {
-          console.log(error);
-          if (error.includes("401")) {
+          if (error?.toString()?.includes("401")) {
             logout();
-          }
-          setError("Error al guardar el comentario: " + error);
-          /*  this.setState({
-              votando: false,
-              votandoError: "Error al guardar el comentario!",
-            }); */
+            setError("Necesitamos que vuelvas a iniciar tu sesión");
+          } else setError("Error al guardar el comentario: " + error);
         });
-    } /* else {
-        this.setState({ redirectLogin: true });
-      } */
-
-    //
-
-    /* const newComs = coms.concat({
-      id: 4,
-      author: user,
-      comment: text,
-    });
-    setComs(newComs);
-    console.log(meme.coms); */
+    } else {
+      setError("Error al guardar el comentario: " + error);
+      logout();
+    }
   };
 
   return (
     <div>
-      {error && (
-        <div class="alert alert-warning alert-dismissable">
-          <button type="button" class="close" data-dismiss="alert">
-            &times;
-          </button>
-          <strong>¡Ups!</strong> {error}
-        </div>
-      )}
       <div className="container p-3 my-3 border">
         {coms.map((c, key) => (
-          <MemeCom comment={c} key={key} /> //id={c.id} author={c.author} comment={c.comment} />
+          <MemeCom comment={c} key={key} />
         ))}
       </div>
-      {isAuthenticated() && <MemeComForm handleSaveComment={saveMemeCom} />}
+      {error && (
+        <div class="alert alert-warning alert-dismissable">
+          <strong>¡Ups!</strong> {error}{" "}
+        </div>
+      )}
+      {<MemeComForm error={error} handleSaveComment={saveMemeCom} />}
     </div>
   );
 }

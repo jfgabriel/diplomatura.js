@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 
-function MemeComForm({ handleSaveComment }) {
+function MemeComForm({ error, handleSaveComment }) {
   const [comment, setComment] = useState("");
 
   const handleChange = (event) => {
     setComment(event.target.value);
-    //console.log("Evento: " + event.target.value);
   };
 
   const handleSave = (event) => {
     handleSaveComment(comment);
-    console.log("Comentario: " + comment);
     setComment("");
   };
 
@@ -21,6 +19,7 @@ function MemeComForm({ handleSaveComment }) {
         <textarea
           onChange={handleChange}
           name="newComment"
+          disabled={error}
           className="form-control"
           value={comment}
         ></textarea>
