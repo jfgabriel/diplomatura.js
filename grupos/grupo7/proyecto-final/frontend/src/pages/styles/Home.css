@@ -26,3 +26,12 @@
 .my-float {
   margin-top: 22px;
 }
+
+@font-face {
+  font-family: Balsamiq;
+  src: url('../../fonts/BalsamiqSans-Regular.ttf');
+}
+
+body {
+  font-family: 'Balsamiq'!important;
+}
