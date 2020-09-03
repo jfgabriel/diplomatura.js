@@ -43,8 +43,8 @@ function MemeComs({ meme }) {
   };
 
   return (
-    <div>
-      <div className="container p-3 my-3 border">
+    <div className="card">
+      <div className="container p-0 m-0">
         {coms.map((c, key) => (
           <MemeCom comment={c} key={key} />
         ))}

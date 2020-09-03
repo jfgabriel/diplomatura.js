@@ -3,7 +3,7 @@ import { Row, Col, Card } from "react-bootstrap";
 import "./styles/meme.css";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
-
+import moment from "moment/min/moment-with-locales.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThumbsUp,
@@ -111,6 +111,16 @@ export default class Meme extends React.Component {
       return <Redirect to={"/meme/" + redirectMeme}></Redirect>;
     }
 
+    let fechaFormat;
+    try {
+      var utc = new Date();
+      utc.setHours(utc.getHours() + 3);
+      moment.locale("es");
+      fechaFormat = moment(fecha, "YYYYMMDD HH:mm:ss").from(utc);
+    } catch {
+      fechaFormat = "Fecha incorrecta";
+    }
+
     return (
       <>
         <Card className="my-2 cardMeme">
@@ -119,7 +129,7 @@ export default class Meme extends React.Component {
               <Col xs="12" md="6" className="text-left">
                 <p className="memeTitulo">{titulo}</p>
                 <p className="memeData px-2">
-                  └ Creado por {usuario} el {fecha}
+                  └ Creado por {usuario} el {fechaFormat}
                 </p>
               </Col>
               <Col xs="12" md="6" className="text-right">
