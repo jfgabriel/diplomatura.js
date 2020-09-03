@@ -39,9 +39,12 @@ app.get('/', function (req, res) {
 // Show Image
 
 app.get('/show-image/', function (req, res) {
-  var img = fs.readFileSync(req.query.file);
-  //res.writeHead(200, { 'Content-Type': 'image/jpg' });
-  res.end(img, 'binary');
+  try {
+    let img = fs.readFileSync(req.query.file);
+    res.end(img, 'binary');
+  } catch (err) {
+    res.status(404).send(err);
+  }
 });
 
 /* Realizo la conexión a la base de datos al momento de levantar la aplicacion*/
