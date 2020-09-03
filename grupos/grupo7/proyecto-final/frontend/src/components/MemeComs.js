@@ -50,7 +50,7 @@ function MemeComs({ meme }) {
         ))}
       </div>
       {error && (
-        <div class="alert alert-warning alert-dismissable">
+        <div className="alert alert-warning alert-dismissable">
           <strong>¡Ups!</strong> {error}{" "}
         </div>
       )}
