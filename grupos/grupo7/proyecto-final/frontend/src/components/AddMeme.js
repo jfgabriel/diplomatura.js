@@ -161,12 +161,12 @@ function AddMeme(usuario) {
                 id="txtTitulo"
                 type="text"
                 name="titulo"
-                maxlength="100"
+                maxLength="100"
                 value={titulo}
                 onChange={handleTituloChange}
                 className={"form-control" + (titulo ? "" : " is-invalid")}
               />
-              <div class="invalid-feedback">Ingrese un titulo!</div>
+              <div className="invalid-feedback">Ingrese un titulo!</div>
             </div>
             <div className="form-group">
               <label htmlFor="lstCategoria">Categoria</label>
@@ -177,7 +177,7 @@ function AddMeme(usuario) {
                 onChange={handleCategoriaChange}
               >
                 {categorias.map((cat) => (
-                  <option key={cat.id} value={cat.nombre}>
+                  <option key={cat._id} value={cat.nombre}>
                     {cat.nombre}
                   </option>
                 ))}
