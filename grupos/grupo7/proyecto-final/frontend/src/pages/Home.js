@@ -101,7 +101,7 @@ export default class Home extends Component {
           </div>
         </div>
         <Link className="float" to="/addmeme">
-          <FontAwesomeIcon icon={faPlus} className="my-float" size="3x" />
+          <FontAwesomeIcon icon={faPlus} className="my-float" size="2x" />
         </Link>
       </>
     );

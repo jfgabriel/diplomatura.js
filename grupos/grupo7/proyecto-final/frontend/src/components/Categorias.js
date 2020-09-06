@@ -48,7 +48,7 @@ export default class Categorias extends React.Component {
     const { cargando, cargandoError, categorias } = this.state;
     return (
       <div className="card p-0 my-2">
-        <div className="categoriasTitulo p-2">CATEGORIAS</div>
+        <div className="categoriasTitulo p-3">CATEGORIAS</div>
         {(cargando || cargandoError) && (
           <CategoriasCargando
             cargando={cargando}
