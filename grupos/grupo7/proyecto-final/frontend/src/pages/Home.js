@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 import Meme from "../components/Meme.js";
 import "./styles/Home.css";
@@ -21,6 +22,8 @@ export default class Home extends Component {
       cargandoError: "",
     };
   }
+
+  cargarMasMemes() {}
 
   cargarMemes(pagina, categoria) {
     // console.log(
@@ -72,7 +75,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const { cargandoMemes, cargandoError, userName } = this.state;
+    const { memes, cargandoMemes, cargandoError, userName } = this.state;
     return (
       <>
         <div className="row">
@@ -85,9 +88,22 @@ export default class Home extends Component {
                 No se encontraron Memes...
               </div>
             )}
-            {this.state.memes.map((m) => (
-              <Meme meme={m} key={m._id} userName={userName}></Meme>
-            ))}
+            {memes && (
+              <InfiniteScroll
+                dataLength={memes.length}
+                next={props.fetchMoreData}
+                hasMore={pages - currentPage !== 0}
+                loader={<h4>Cargando...</h4>}
+              >
+                <div className="flex">
+                  {memes.map((m, index) => {
+                    return (
+                      <Meme meme={m} key={m._id} userName={userName}></Meme>
+                    );
+                  })}
+                </div>
+              </InfiniteScroll>
+            )}
             {(cargandoMemes || cargandoError) && (
               <MemeCargando
                 cargandoMemes={cargandoMemes}
