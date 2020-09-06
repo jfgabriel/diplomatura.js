@@ -1,9 +1,9 @@
 import express from 'express';
 import passport from 'passport';
-import { helpers } from '../db_helpers.js';
+import { helpers } from '../db_helpers';
+import { auxiliaries } from '../auxiliaries';
 
 const router = express.Router();
-const coleccion = 'categoria';
 
 const parseData = (body) => {
   const item = {
@@ -16,18 +16,22 @@ const parseData = (body) => {
 
 /*Obtener todas las categorias*/
 router.get('/', async function (req, res) {
-  const db = req.app.locals.db;
+  try {
+    const db = req.app.locals.db;
 
-  const sorting = { nombre: 1 };
+    const sorting = { nombre: 1 };
 
-  const categorias = await helpers.getDataFilterByCondition(
-    db,
-    coleccion,
-    {},
-    {},
-    sorting
-  );
-  res.json(categorias);
+    const categorias = await helpers.getDataFilterByCondition(
+      db,
+      auxiliaries.coleccionCat,
+      {},
+      {},
+      sorting
+    );
+    return res.json(categorias);
+  } catch (error) {
+    return res.json({ result: false, message: error });
+  }
 });
 
 /*Agregar una categoria*/
@@ -37,32 +41,36 @@ router.post(
   passport.authenticate('jwt', { session: false }),
 
   async function (req, res) {
-    if (req.body.usuario !== req.user.username) {
-      return res.status(401).send('Usuario No Valido');
+    try {
+      if (req.body.usuario !== req.user.username) {
+        return res.json({ result: false, message: 'Usuario No Valido' });
+      }
+
+      const db = req.app.locals.db;
+
+      const categoriasExistentes = await helpers.getDataFilterByCondition(
+        db,
+        auxiliaries.coleccionCat,
+        { nombre: req.body.nombre },
+        { _id: 1 },
+        {},
+        1,
+        0
+      );
+
+      if (categoriasExistentes.length > 0) {
+        return res.json({ result: false, message: 'Ya existe la categoria' });
+      }
+
+      const categoria = await helpers.insertData(
+        db,
+        auxiliaries.coleccionCat,
+        parseData(req.body)
+      );
+      return res.json(categoria);
+    } catch (error) {
+      return res.json({ result: false, message: error });
     }
-
-    const db = req.app.locals.db;
-
-    const categoriasExistentes = await helpers.getDataFilterByCondition(
-      db,
-      coleccion,
-      { nombre: req.body.nombre },
-      { _id: 1 },
-      {},
-      1,
-      0
-    );
-
-    if (categoriasExistentes.length > 0) {
-      return res.status(400).send('Ya existe la categoria');
-    }
-
-    const categoria = await helpers.insertData(
-      db,
-      coleccion,
-      parseData(req.body)
-    );
-    res.json(categoria);
   }
 );
 
