@@ -29,15 +29,16 @@ function MemeComs({ meme }) {
         )
         .then((response) => {
           setComs(coms.concat(response.data));
+          setError("");
         })
         .catch((error) => {
           if (error?.toString()?.includes("401")) {
             logout();
-            setError("Necesitamos que vuelvas a iniciar tu sesión");
+            setError("Para comentar debes iniciar sesión");
           } else setError("Error al guardar el comentario: " + error);
         });
     } else {
-      setError("Error al guardar el comentario: " + error);
+      setError("Para comentar debes iniciar sesión");
       logout();
     }
   };
@@ -54,7 +55,9 @@ function MemeComs({ meme }) {
           <strong>¡Ups!</strong> {error}{" "}
         </div>
       )}
-      {<MemeComForm error={error} handleSaveComment={saveMemeCom} />}
+      {isAuthenticated() && (
+        <MemeComForm error={error} handleSaveComment={saveMemeCom} />
+      )}
     </div>
   );
 }

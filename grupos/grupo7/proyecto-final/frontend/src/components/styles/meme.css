@@ -42,3 +42,23 @@
 .cardMeme {
   background-color: #ffffffd9 !important;
 }
+
+button.upvote {
+  background-color: #26c068;
+  color: #fff;
+}
+
+button.downvote {
+  background-color: #c02626;
+  color: #fff;
+}
+
+button.upvote:hover {
+  color: #26c068;
+  background-color: #fff;
+}
+
+button.downvote:hover {
+  color: #c02626;
+  background-color: #fff;
+}

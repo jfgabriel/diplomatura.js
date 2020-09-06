@@ -12,19 +12,25 @@
 
 .float {
   position: fixed;
-  width: 90px;
-  height: 90px;
+  width: 60px;
+  height: 60px;
   bottom: 40px;
   right: 40px;
   background-color: #333;
   color: #fff;
-  border-radius: 50px;
+  border-radius: 40px;
   text-align: center;
   box-shadow: 2px 2px 3px #999;
+  transition: all 0.3s ease;
+}
+
+.float:hover {
+  color: #26c068;
+  text-decoration: none;
 }
 
 .my-float {
-  margin-top: 22px;
+  margin-top: 14px;
 }
 
 @font-face {
@@ -33,5 +39,5 @@
 }
 
 body {
-  font-family: 'Balsamiq'!important;
+  font-family: 'Balsamiq' !important;
 }

@@ -32,7 +32,7 @@ class MyNavbar extends React.Component {
       botonesUsuario = (
         <>
           <div className="nav-link pr-0">
-            <button className="btn btn-sm btn-outline-light py-2 px-3">
+            <button className="btn btn-sm btn-outline-light py-2 px-3 navbarbtn">
               <FontAwesomeIcon icon={faUser} className="mr-2" />
               {this.state.loggedin}
             </button>
@@ -51,13 +51,13 @@ class MyNavbar extends React.Component {
       botonesUsuario = (
         <>
           <Link className="nav-link pr-0" to="/login">
-            <button className="btn btn-sm btn-outline-light py-2 px-3 text-center">
+            <button className="btn btn-sm btn-outline-light py-2 px-3 text-center navbarbtn">
               <FontAwesomeIcon icon={faKey} />
               <span className="d-none d-md-inline ml-2">Login</span>
             </button>
           </Link>
           <Link className="nav-link pr-0" to="/register">
-            <button className="btn btn-sm btn-outline-light py-2 px-3 text-center">
+            <button className="btn btn-sm btn-outline-light py-2 px-3 text-center navbarbtn">
               <FontAwesomeIcon icon={faUserPlus} />
               <span className="d-none d-md-inline ml-2">Registrar</span>
             </button>
