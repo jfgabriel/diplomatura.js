@@ -175,7 +175,7 @@ function BotonVotarUp(props) {
   return (
     <button
       className={
-        "btn btn-sm btn-outline-dark py-2 px-3 m-1" +
+        "btn btn-sm btn-outline-dark py-2 px-3 m-1 upvote" +
         (props.disabled ? " disabled" : "")
       }
       onClick={() => props.votar(TIPO_UPVOTE)}
@@ -190,7 +190,7 @@ function BotonVotarDown(props) {
   return (
     <button
       className={
-        "btn btn-sm btn-outline-dark py-2 px-3 m-1" +
+        "btn btn-sm btn-outline-dark py-2 px-3 m-1 downvote" +
         (props.disabled ? " disabled" : "")
       }
       onClick={() => props.votar(TIPO_DOWNVOTE)}
