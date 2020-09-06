@@ -1,30 +1,23 @@
 import express from 'express';
 import passport from 'passport';
-import { helpers } from '../db_helpers.js';
-import { ObjectId } from 'mongodb';
+import { helpers } from '../db_helpers';
+import { auxiliaries } from '../auxiliaries';
 
 const router = express.Router();
-const coleccion = 'comentario';
-const coleccionMeme = 'meme';
-
-const parseReply = (body) => {
-  const item = {
-    descripcion: body.descripcion,
-    usuario: body.usuario,
-    fecha: new Date(),
-  };
-  return item;
-};
 
 /*Obtener un comentario*/
 router.get('/:id', async function (req, res) {
-  const db = req.app.locals.db;
-  const comentario = await helpers.getDataFilterById(
-    db,
-    coleccion,
-    req.params.id
-  );
-  res.json(comentario);
+  try {
+    const db = req.app.locals.db;
+    const comentario = await helpers.getDataFilterById(
+      db,
+      auxiliaries.coleccionCom,
+      req.params.id
+    );
+    res.json(comentario);
+  } catch (error) {
+    return res.json({ result: false, message: error });
+  }
 });
 
 /*Dar una Respuesta a un comentario*/
@@ -33,30 +26,47 @@ router.post(
   passport.authenticate('jwt', { session: false }),
 
   async function (req, res) {
-    console.log(req.user.username);
-    console.log(req.body.usuario);
-    if (req.body.usuario != req.user.username) {
-      return res.status(401).send('Usuario No Valido');
+    try {
+      if (req.body.usuario != req.user.username) {
+        return res.json({ result: false, message: 'Usuario No Valido' });
+      }
+
+      const db = req.app.locals.db;
+      const comentario = await helpers.getDataFilterById(
+        db,
+        auxiliaries.coleccionCom,
+        req.params.id
+      );
+
+      if (!comentario) {
+        return res.json({ result: false, message: 'No existe el comentario' });
+      }
+
+      //agrego la respuesta
+      const respuesta = auxiliaries.parseReply(req.body);
+      await helpers.updateDataExpresion(
+        db,
+        auxiliaries.coleccionCom,
+        req.params.id,
+        {
+          $push: { respuestas: respuesta },
+        }
+      );
+
+      //actualizacion del contador de comentarios (una respuesta es un comentario)
+      await helpers.updateDataExpresion(
+        db,
+        auxiliaries.coleccionMeme,
+        comentario.idMeme,
+        {
+          $inc: { cantComentarios: 1 },
+        }
+      );
+
+      return res.json({ result: true, message: 'La respuesta fue registrada' });
+    } catch (error) {
+      return res.json({ result: false, message: error });
     }
-
-    //agrego la respuesta
-    const db = req.app.locals.db;
-    const respuesta = parseReply(req.body);
-    await helpers.updateDataExpresion(db, coleccion, req.params.id, {
-      $push: { respuestas: respuesta },
-    });
-
-    //actualizacion del contador de comentarios (una respuesta es un comentario)
-    const comentario = await helpers.getDataFilterById(
-      db,
-      coleccion,
-      req.params.id
-    );
-    await helpers.updateDataExpresion(db, coleccionMeme, comentario.idMeme, {
-      $inc: { cantComentarios: 1 },
-    });
-
-    return res.json({ result: true, message: 'La respuesta fue registrada' });
   }
 );
 
