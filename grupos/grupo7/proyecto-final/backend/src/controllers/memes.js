@@ -9,7 +9,7 @@ const coleccionCom = 'comentario';
 const coleccionCat = 'categoria';
 const dirUpload = './upload/';
 
-const parseData = (body) => {
+const parseMeme = (body) => {
   const item = {
     titulo: body.titulo,
     imagen: body.imagen,
@@ -42,6 +42,7 @@ const parseComment = (body, idmeme) => {
     descripcion: body.descripcion,
     usuario: body.usuario,
     fecha: new Date(),
+    respuestas: [],
   };
   return item;
 };
@@ -139,7 +140,7 @@ router.post(
       return res.status(401).send('La categoria no existe');
     }
 
-    const meme = await helpers.insertData(db, coleccion, parseData(req.body));
+    const meme = await helpers.insertData(db, coleccion, parseMeme(req.body));
     const uploadFile = req.files.uploadFile;
 
     meme.imagen = `${dirUpload + meme._id}.${uploadFile.name.substring(

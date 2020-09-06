@@ -39,14 +39,21 @@ comentarios = {
     properties: {
       _id: { bsonType: 'objectId' },
       idMeme: { bsonType: 'objectId' },
-      idComentarioPadre: {
-        bsonType: 'objectId',
-        description:
-          'Si el comentario es de un reply de otro, se asigna el id de dicho comentario, sino es undefinded',
-      },
       descripcion: { bsonType: 'string' },
       usuario: { bsonType: 'string' },
       fecha: { bsonType: 'date' },
+      votos: {
+        bsonType: 'array',
+        description: 'Cada una de las respuestas del comentario',
+        items: {
+          bsonType: 'object',
+          properties: {
+            descripcion: 'string',
+            usuario: 'string',
+            fecha: 'date',
+          },
+        },
+      },
     },
   },
 };
