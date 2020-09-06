@@ -58,7 +58,7 @@ mediaType: application/json
                 description: Usuario no autorizado.
     /{id}:
         get:
-            description: Obtiene la información de un meme identificado por su id y todos sus votos
+            description: Obtiene la información de un meme identificado por su id y todos sus votos y comentarios
             responses:
                 200:
                     schema:|
@@ -206,7 +206,13 @@ mediaType: application/json
                 description: Fallo la inserción.
             401:
                 description: Usuario no autorizado.
-
+/comentarios
+    /{id}:
+        get:
+            description: Obtiene un comentario con todas sus respuestas
+    /{id}/replies:
+        post:
+            descripcion: Agrega una nueva respuesta al comentario
 /register
     post:
         description: Agrega un nuevo usuario
