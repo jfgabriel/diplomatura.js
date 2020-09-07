@@ -1,4 +1,3 @@
-import { MongoClient } from 'mongodb';
 import mongoose from 'mongoose';
 
 export async function connect() {
