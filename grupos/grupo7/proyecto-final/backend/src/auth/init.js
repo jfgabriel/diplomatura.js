@@ -9,7 +9,7 @@ async function findUser(username, callback) {
   return callback(null);
 }
 
-function initPassport(app) {
+function initPassport() {
   var JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
   var opts = {};

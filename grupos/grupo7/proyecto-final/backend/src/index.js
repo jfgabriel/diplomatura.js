@@ -18,7 +18,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(fileUpload());
 
-require('./auth/index').init(app);
+require('./auth/index').init();
 
 app.use(passport.initialize());
 
@@ -50,7 +50,7 @@ app.get('/show-image/', function (req, res) {
 });
 
 /* Realizo la conexión a la base de datos al momento de levantar la aplicacion*/
-connect().then((db) => (app.locals.db = db));
+connect();
 
 app.listen(PORT);
 console.log(
