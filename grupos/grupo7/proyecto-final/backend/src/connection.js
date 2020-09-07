@@ -1,16 +1,16 @@
 import { MongoClient } from 'mongodb';
+import mongoose from 'mongoose';
 
 export async function connect() {
   const uri = process.env.DB_MONGO_CONN;
   try {
-    const client = await MongoClient.connect(uri, {
+    const db = await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    const db = client.db();
 
     if (process.env.ENVIRONMENT === 'dev') {
-      console.error('Conexión de DB en ' + process.env.DB_MONGO_CONN);
+      console.error('Conexión de DB ok');
     }
 
     return db;
