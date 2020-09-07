@@ -38,7 +38,7 @@ router.route('/register').post(async (req, res, next) => {
   if (user) {
     res.send('Ya existe un usuario con ese nombre');
   } else {
-    const user = UserModel.create({
+    const newUser = UserModel.create({
       username,
       password: hash,
       email,

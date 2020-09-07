@@ -1,8 +1,8 @@
 import passport from 'passport';
-import { helpers } from '../db_helpers.js';
+import UserModel from '../models/usuario';
 
-async function findUser(db, username, callback) {
-  const user = await helpers.getDataFilterByName(db, 'usuario', username);
+async function findUser(username, callback) {
+  const user = await UserModel.findOne({ username });
   if (user && username === user.username) {
     return callback(null, user);
   }
@@ -17,7 +17,7 @@ function initPassport(app) {
   opts.secretOrKey = process.env.JWT_SECRET;
   passport.use(
     new JwtStrategy(opts, function (jwt_payload, done) {
-      findUser(app.locals.db, jwt_payload.username, (err, user) => {
+      findUser(jwt_payload.username, (err, user) => {
         if (err) {
           return done(err);
         } else if (jwt_payload.expire <= Date.now()) {
