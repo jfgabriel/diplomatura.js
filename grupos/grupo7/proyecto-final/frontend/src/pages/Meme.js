@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Meme from "../components/Meme.js";
-import MemeComs from "../components/MemeComs.js";
+import MemeComs from "../components/MemeComs1.js";
 //import "./styles/Home.css";
 import "./styles/Meme.css";
 import axios from "axios";
@@ -67,10 +67,9 @@ export default class MemePage extends Component {
             sinBtnComs="true"
             userName={this.state.userName}
           ></Meme>
-          <MemeComs userName={this.state.userName} meme={meme}></MemeComs>
+          <MemeComs meme={meme}></MemeComs>
         </>
       );
-      /* <MemeComs userName={this.props.userName}></MemeComs> */
     }
 
     return (

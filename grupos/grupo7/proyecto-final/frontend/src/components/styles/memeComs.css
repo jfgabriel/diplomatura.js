@@ -4,3 +4,14 @@
 .divComUsr {
   font-size: 0.8em;
 }
+
+.ui.comments .reply.form textarea {
+  height: 3em !important;
+}
+
+.ui.comments,
+.ui.reply.form {
+  background-color: #ffffff !important;
+  padding: 10px;
+  max-width: 650px;
+}
