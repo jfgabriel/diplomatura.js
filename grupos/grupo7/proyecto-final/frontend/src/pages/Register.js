@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Form, Row, Col, Card, Button } from "react-bootstrap";
 import axios from "axios";
+import "./styles/Login.css";
 import { Redirect, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import isAuthenticated from "../lib/isAuthenticated";
 
 export default class Register extends Component {
@@ -101,7 +104,7 @@ export default class Register extends Component {
                 <Form.Group controlId="formGroupEmail">
                   <Form.Label>Email</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="email"
                     name="email"
                     pattern=".{2,50}"
                     required
@@ -121,9 +124,13 @@ export default class Register extends Component {
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Button variant="primary" type="submit">
-                    Register
-                  </Button>
+                  <button
+                    className="btn btn-sm py-2 px-3 text-center navbarbtnlog"
+                    type="submit"
+                  >
+                    <FontAwesomeIcon icon={faUserPlus} />
+                    <span className="d-none d-md-inline ml-2">Registrar</span>
+                  </button>
                 </Form.Group>
                 <p>
                   ¿Ya tenés usuario? <Link to="/login">Login</Link>

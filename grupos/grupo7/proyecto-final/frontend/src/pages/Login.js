@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Form, Row, Col, Card, Button } from "react-bootstrap";
 import axios from "axios";
+import "./styles/Login.css";
 import { Redirect, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faKey } from "@fortawesome/free-solid-svg-icons";
 import isAuthenticated from "../lib/isAuthenticated";
 
 export default class Login extends Component {
@@ -105,9 +108,13 @@ export default class Login extends Component {
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Button variant="primary" type="submit">
-                    Login
-                  </Button>
+                  <button
+                    className="btn btn-sm py-2 px-3 text-center navbarbtnlog"
+                    type="submit"
+                  >
+                    <FontAwesomeIcon icon={faKey} />
+                    <span className="d-none d-md-inline ml-2">Login</span>
+                  </button>
                 </Form.Group>
                 <p>
                   ¿No estas registrado?{" "}

@@ -1,0 +1,501 @@
+{
+	"info": {
+		"_postman_id": "b2dc447f-c968-40fb-8de1-8257519ae2bb",
+		"name": "Trabajo Final",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtener lista de memes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/memes?pagina=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"memes"
+					],
+					"query": [
+						{
+							"key": "categoria",
+							"value": "Humor",
+							"disabled": true
+						},
+						{
+							"key": "pagina",
+							"value": "2"
+						}
+					]
+				},
+				"description": "Obtiene una lista 20 de memes"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener  lista de Categorias",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1YW4iLCJleHBpcmUiOjE1OTg4OTIwNzE3OTcsImlhdCI6MTU5ODgwNTY3MX0.N6YGqlZ9QjS9Ran00vtWJSBFYQdFE7ra5V7vUAyF5rg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/categorias",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"categorias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un meme",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/memes/5f4bd56a9dab6ce39803687c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"memes",
+						"5f4bd56a9dab6ce39803687c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Comentarios de un Meme",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1YW4iLCJleHBpcmUiOjE1OTg4OTE2Njg2MTEsImlhdCI6MTU5ODgwNTI2OH0.y26FI9B768ytjsxE4-2RyS8Kgy8dCdS5QriFes6VR4o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"descripcion\":\"Tercer comentario de Meme\",\r\n    \"usuario\":\"juan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/memes/5f4bd56a9dab6ce39803687c/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"memes",
+						"5f4bd56a9dab6ce39803687c",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un comentario",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/memes/5f4bd56a9dab6ce39803687c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"memes",
+						"5f4bd56a9dab6ce39803687c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login de usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"juan\",\r\n    \"password\":\"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "categoria",
+							"value": "categoria01",
+							"disabled": true
+						},
+						{
+							"key": "pagina",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insertar un Meme",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1YW4iLCJleHBpcmUiOjE1OTkxMjUwMDIwNDgsImlhdCI6MTU5OTAzODYwMn0.I97C3btEq6AVba3JLkhCirdLfzNGVTnLE6ktXJeDZoQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "titulo",
+							"value": "otro meme",
+							"type": "text"
+						},
+						{
+							"key": "categoria",
+							"value": "Deporte",
+							"type": "text"
+						},
+						{
+							"key": "usuario",
+							"value": "juan",
+							"type": "text"
+						},
+						{
+							"key": "uploadFile",
+							"type": "file",
+							"src": "/C:/Users/mmoyano/Pictures/DSC03428.JPG"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/memes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"memes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Votar un Meme",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1YW4iLCJleHBpcmUiOjE1OTg4OTE2Njg2MTEsImlhdCI6MTU5ODgwNTI2OH0.y26FI9B768ytjsxE4-2RyS8Kgy8dCdS5QriFes6VR4o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tipo\":\"downvote\",\r\n    \"usuario\":\"juan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/memes/5f4bd56a9dab6ce39803687c/vote",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"memes",
+						"5f4bd56a9dab6ce39803687c",
+						"vote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quitar el voto",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1YW4iLCJleHBpcmUiOjE1OTg5NTA2MDgxMDYsImlhdCI6MTU5ODg2NDIwOH0.7gHXv1eobA8jhcqCDtPu1t937cDKofqNI6bTd7csz2k",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"usuario\":\"juan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/memes/5f4bd56a9dab6ce39803687c/vote",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"memes",
+						"5f4bd56a9dab6ce39803687c",
+						"vote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alta de Categoria",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1YW4iLCJleHBpcmUiOjE1OTg5NTA2MDgxMDYsImlhdCI6MTU5ODg2NDIwOH0.7gHXv1eobA8jhcqCDtPu1t937cDKofqNI6bTd7csz2k",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"Arte\",\r\n    \"usuario\":\"juan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/categorias",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"categorias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar un Comentario",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1YW4iLCJleHBpcmUiOjE1OTg4OTE2Njg2MTEsImlhdCI6MTU5ODgwNTI2OH0.y26FI9B768ytjsxE4-2RyS8Kgy8dCdS5QriFes6VR4o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"descripcion\":\"Otro comentario\",\r\n    \"usuario\":\"juan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/memes/5f54c4fc05dc5f9f50d64bf3/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"memes",
+						"5f54c4fc05dc5f9f50d64bf3",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ver imagen",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1YW4iLCJleHBpcmUiOjE1OTkwODgxNTY4ODIsImlhdCI6MTU5OTAwMTc1Nn0.BBzoCz123z58JvdGF5kZB9MujCx6kyhFGmKqpe3_6Vw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "titulo",
+							"value": "Meme familiar 3",
+							"type": "text"
+						},
+						{
+							"key": "categoria",
+							"value": "Turismo",
+							"type": "text"
+						},
+						{
+							"key": "usuario",
+							"value": "juan",
+							"type": "text"
+						},
+						{
+							"key": "uploadFile",
+							"type": "file",
+							"src": "/C:/Users/mmoyano/Pictures/perfil.png"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/show-image/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"show-image",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar una Respuesta a un comentario",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1YW4iLCJleHBpcmUiOjE1OTk0NzczMDc1MjUsImlhdCI6MTU5OTM5MDkwN30.09L2-lxnMGfVgHbuCfVHdi4tzYgzOYFOHkZupo8eb3g",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"descripcion\":\"Comentario Principal Meme para replicas\",\r\n    \"usuario\":\"juan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/comentarios/5f54c59405dc5f9f50d64bf4/replies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"comentarios",
+						"5f54c59405dc5f9f50d64bf4",
+						"replies"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
