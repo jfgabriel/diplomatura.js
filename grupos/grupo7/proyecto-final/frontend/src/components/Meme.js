@@ -123,7 +123,7 @@ export default class Meme extends React.Component {
 
     return (
       <>
-        <Card className="my-2 cardMeme">
+        <Card className="my-2 cardMeme m-1">
           <Card.Header className="memeHead">
             <Row>
               <Col xs="12" md="6" className="text-left">
