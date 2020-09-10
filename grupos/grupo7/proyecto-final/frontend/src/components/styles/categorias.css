@@ -4,8 +4,9 @@
 }
 
 .categoriasTitulo {
-  background-color: #7b7b7b;
+  background-color: #26c068;
   color: white;
-  font-size: 0.8em;
+  font-size: 17px;
+  line-height: 17px;
   font-weight: 800;
 }
