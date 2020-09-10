@@ -5,7 +5,9 @@ import isAuthenticated from "../lib/isAuthenticated";
 import "./styles/Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import logo from "../img/logo.png";
+import logoBig from "../img/logo.png";
+import logoSmall from "../img/favicon.png";
+
 import {
   faPlusCircle,
   faHome,
@@ -31,10 +33,12 @@ class MyNavbar extends React.Component {
     if (this.state.loggedin && this.state.loggedin !== "") {
       botonesUsuario = (
         <>
-          <div className="nav-link pr-0">
+          <div className="nav-link pr-0 ">
             <button className="btn btn-sm btn-outline-light py-2 px-3 navbarbtn">
               <FontAwesomeIcon icon={faUser} className="mr-2" />
-              {this.state.loggedin}
+              <span className="d-none d-md-inline ml-2">
+                {this.state.loggedin}
+              </span>
             </button>
           </div>
           <div className="nav-link pr-0">
@@ -71,16 +75,18 @@ class MyNavbar extends React.Component {
         <div className="container">
           <Navbar.Brand href="/">
             {/*<img id="logo" ></img>*/}
-            <img className="logo" src={logo} alt="MyMemeJS" />
+            <img
+              src={logoBig}
+              alt="MyMemeJS"
+              className="d-none d-sm-block logo"
+            />
+            <img
+              src={logoSmall}
+              alt="MyMemeJS"
+              className="d-block d-sm-none logo"
+            />
           </Navbar.Brand>
-          <Nav className="mx-auto">
-            {/* <Link className="nav-link" to="/">
-              Home
-            </Link>
-            <Link className="nav-link" to="/addmeme">
-              AddMeme
-            </Link> */}
-          </Nav>
+          <Nav className="mx-auto"></Nav>
           <Nav className="justify-content-end">
             <Link className="nav-link pr-0" to="/">
               <button
