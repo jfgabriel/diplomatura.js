@@ -39,8 +39,6 @@ function MemeComs({ meme }) {
           }
         )
         .then((response) => {
-          console.log("Acáaaaaaaaaaaaaaaa");
-          console.log(response.data);
           if (response.data) {
             setComs(coms.concat(response.data));
             setError("");
@@ -77,37 +75,35 @@ function MemeComs({ meme }) {
           }
         )
         .then((response) => {
-          //let comentarioPpal = coms.filter((e) => {
-          //  e._id === idComment;
-          //});
-          if (response.data) {
-            console.log("Guardando una respuesta");
-            console.log(response);
+          console.log(response);
+          if (response?.data?.result) {
             setComs(
               coms.map((e) => {
-                console.log("recorriendo los comentarios");
-                console.log(e);
-                return e._id === idComment
-                  ? (e.respuestas[e.respuestas.length] = {
-                      descripcion: text,
-                      fecha: Date.now(),
-                      usuario: isAuthenticated(),
-                    })
-                  : e;
+                if (e._id === idComment) {
+                  e.respuestas[e.respuestas.length] = {
+                    descripcion: text,
+                    fecha: new Date(),
+                    usuario: isAuthenticated(),
+                  };
+                }
+                return e;
               })
             );
             console.log(coms);
-            window.location.reload(false);
             setError("");
+            setidComentarioRespondiendo(idComment); // para desclickear el "reply"
           } else {
-            if (response.message?.includes("usuario")) {
+            if (response.data.message?.includes("usuario")) {
               setError("Para comentar debes iniciar sesión");
               logout();
-            } else setError("Error al guardar el comentario: " + error);
+            } else
+              setError(
+                "Error al guardar el comentario: " + response.data.message
+              );
           }
         })
         .catch((error) => {
-          setError("catch:Error al guardar el comentario: " + error);
+          setError("Error al guardar el comentario: " + error);
         });
     } else {
       setError("Para comentar debes iniciar sesión");
@@ -121,13 +117,14 @@ function MemeComs({ meme }) {
         <Header as="h3" dividing>
           Comments
         </Header>
-        {coms.map((c, key) => {
+        {coms?.map((c, key) => {
           return (
             <MemeCom
               comentario={c}
               saveMemeComReply={saveMemeComReply}
               clickOnReply={clickOnReply}
               respondiendo={c._id === idComentarioRespondiendo}
+              error={error}
               key={key}
             />
           );
@@ -142,7 +139,7 @@ function MemeComs({ meme }) {
         <MemeComForm error={error} handleSaveComment={saveMemeCom} />
       )} */}
       </Comment.Group>
-      {error && (
+      {error && !idComentarioRespondiendo && (
         <div className="alert alert-warning alert-dismissable">
           <strong>¡Ups!</strong> {error}
         </div>

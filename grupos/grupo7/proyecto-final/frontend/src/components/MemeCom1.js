@@ -7,6 +7,8 @@ import isAuthenticated from "../lib/isAuthenticated";
 const MemeCom = (com) => {
   // clickOnReply(idComment)
   // saveMemeComReply(idComment,texto)
+  // error={error}
+  const error = com.error;
   const comentario = com.comentario;
   const respuestas = comentario.respuestas;
   const respondiendo = com.respondiendo; // indica si está respondiendo este comentario
@@ -35,7 +37,8 @@ const MemeCom = (com) => {
   const handleClick = () => {
     com.saveMemeComReply(comentario._id, reply);
     //setRespuestas(respuestas.concat(reply));
-    setEnableReply("");
+    //setEnableReply("");
+    setReply("");
   };
   return (
     <Comment>
@@ -48,7 +51,10 @@ const MemeCom = (com) => {
         <Comment.Text>{comentario.descripcion}</Comment.Text>
         {isAuthenticated() && (
           <Comment.Actions>
-            <Comment.Action onClick={enableReplyClick} active={respondiendo}>
+            <Comment.Action
+              onClick={enableReplyClick}
+              active={respondiendo && !error}
+            >
               Reply
             </Comment.Action>
           </Comment.Actions>
@@ -71,19 +77,22 @@ const MemeCom = (com) => {
           );
         })}
         {/* </Comment.Group> */}
-        {respondiendo && (
+        {error && respondiendo && (
+          <div className="alert alert-warning alert-dismissable">
+            <strong>¡Ups!</strong> {error}
+          </div>
+        )}
+        {respondiendo && !error && (
           <Form reply>
             <Form.TextArea value={reply} onChange={handleChange} />
-            {reply && (
-              <Button
-                content="Add Reply"
-                labelPosition="left"
-                icon="edit"
-                primary
-                onClick={handleClick}
-                focus="true"
-              />
-            )}
+            <Button
+              content="Add Reply"
+              labelPosition="left"
+              icon="edit"
+              primary
+              onClick={handleClick}
+              disabled={!reply}
+            />
           </Form>
         )}
       </Comment.Group>
