@@ -11,11 +11,16 @@ import { Comment, Header } from "semantic-ui-react";
 function MemeComs({ meme }) {
   const idMeme = meme._id;
   const [idComentarioRespondiendo, setidComentarioRespondiendo] = useState("");
-  console.log("Respondiendo el comentario: " + idComentarioRespondiendo);
   //const [idMeme, setIdMeme] = useState(meme._id);
   const [coms, setComs] = useState(meme.comentarios);
   const [user, setUser] = useState(isAuthenticated());
   const [error, setError] = useState("");
+
+  const clickOnReply = (valor) => {
+    // si vuelve a clickear sobre el mismo reply, se oculta el form
+    if (valor === idComentarioRespondiendo) setidComentarioRespondiendo("");
+    else setidComentarioRespondiendo(valor);
+  };
 
   const saveMemeCom = async (text) => {
     setUser(isAuthenticated());
@@ -34,14 +39,20 @@ function MemeComs({ meme }) {
           }
         )
         .then((response) => {
-          setComs(coms.concat(response.data));
-          setError("");
+          console.log("Acáaaaaaaaaaaaaaaa");
+          console.log(response.data);
+          if (response.data) {
+            setComs(coms.concat(response.data));
+            setError("");
+          } else {
+            if (response.message?.includes("Usuario")) {
+              setError("Para comentar debes iniciar sesión");
+              logout();
+            } else setError("Error al guardar el comentario: " + error);
+          }
         })
         .catch((error) => {
-          if (error?.toString()?.includes("401")) {
-            logout();
-            setError("Para comentar debes iniciar sesión");
-          } else setError("Error al guardar el comentario: " + error);
+          setError("Error al guardar el comentario: " + error);
         });
     } else {
       setError("Para comentar debes iniciar sesión");
@@ -55,7 +66,7 @@ function MemeComs({ meme }) {
       const token = localStorage.getItem("mymemejs_jwt");
       axios
         .post(
-          "http://localhost:8000/comentarios/" + idComment,
+          "http://localhost:8000/comentarios/" + idComment + "/replies",
           {
             // los datos del comentario que voy a guardar
             usuario: user,
@@ -69,18 +80,34 @@ function MemeComs({ meme }) {
           //let comentarioPpal = coms.filter((e) => {
           //  e._id === idComment;
           //});
-          setComs(
-            coms.map((e) => {
-              return e._id === idComment ? e.concat(response.data) : e;
-            })
-          );
-          setError("");
+          if (response.data) {
+            console.log("Guardando una respuesta");
+            console.log(response);
+            setComs(
+              coms.map((e) => {
+                console.log("recorriendo los comentarios");
+                console.log(e);
+                return e._id === idComment
+                  ? (e.respuestas[e.respuestas.length] = {
+                      descripcion: text,
+                      fecha: Date.now(),
+                      usuario: isAuthenticated(),
+                    })
+                  : e;
+              })
+            );
+            console.log(coms);
+            window.location.reload(false);
+            setError("");
+          } else {
+            if (response.message?.includes("usuario")) {
+              setError("Para comentar debes iniciar sesión");
+              logout();
+            } else setError("Error al guardar el comentario: " + error);
+          }
         })
         .catch((error) => {
-          if (error?.toString()?.includes("401")) {
-            logout();
-            setError("Para comentar debes iniciar sesión");
-          } else setError("Error al guardar el comentario: " + error);
+          setError("catch:Error al guardar el comentario: " + error);
         });
     } else {
       setError("Para comentar debes iniciar sesión");
@@ -95,12 +122,11 @@ function MemeComs({ meme }) {
           Comments
         </Header>
         {coms.map((c, key) => {
-          console.log(c);
           return (
             <MemeCom
               comentario={c}
               saveMemeComReply={saveMemeComReply}
-              setidComentarioRespondiendo={setidComentarioRespondiendo}
+              clickOnReply={clickOnReply}
               respondiendo={c._id === idComentarioRespondiendo}
               key={key}
             />

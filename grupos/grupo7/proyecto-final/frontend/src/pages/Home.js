@@ -3,7 +3,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 import Meme from "../components/Meme.js";
 import "./styles/Home.css";
-import axios from "axios";
+//import axios from "axios";
 import Categorias from "../components/Categorias.js";
 import isAuthenticated from "../lib/isAuthenticated";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

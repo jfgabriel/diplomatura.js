@@ -5,7 +5,7 @@ import { Button, Comment, Form } from "semantic-ui-react";
 import isAuthenticated from "../lib/isAuthenticated";
 
 const MemeCom = (com) => {
-  // setidComentarioRespondiendo(idComment)
+  // clickOnReply(idComment)
   // saveMemeComReply(idComment,texto)
   const comentario = com.comentario;
   const respuestas = comentario.respuestas;
@@ -25,7 +25,7 @@ const MemeCom = (com) => {
 
   const enableReplyClick = () => {
     //setEnableReply(isAuthenticated());
-    com.setidComentarioRespondiendo(comentario._id);
+    com.clickOnReply(comentario._id);
   };
 
   const handleChange = (event) => {
@@ -55,7 +55,7 @@ const MemeCom = (com) => {
         )}
       </Comment.Content>
       <Comment.Group>
-        {respuestas.map((c, key) => {
+        {respuestas?.map((c, key) => {
           fechaFormat = moment(c.fecha, "YYYYMMDD HH:mm:ss").from(utc);
           return (
             <Comment key={key}>
@@ -81,6 +81,7 @@ const MemeCom = (com) => {
                 icon="edit"
                 primary
                 onClick={handleClick}
+                focus="true"
               />
             )}
           </Form>

@@ -13,5 +13,7 @@
 .ui.reply.form {
   background-color: #ffffff !important;
   padding: 10px;
-  max-width: 650px;
+  /*width: 83.333333%*/
+  /*max-width: 850px;*/
+  max-width: 100%;
 }
