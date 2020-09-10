@@ -56,7 +56,7 @@ export default class Meme extends React.Component {
           )
           .then((response) => {
             console.log(response.data);
-            if (response.data.voto === "ok") {
+            if (response.data.result) {
               const memeInc = this.state.meme;
               if (tipo === TIPO_UPVOTE) {
                 memeInc.cantVotosUp += 1;
@@ -70,7 +70,7 @@ export default class Meme extends React.Component {
             } else {
               this.setState({
                 votando: false,
-                votandoError: "Error guardando el voto!",
+                votandoError: response.data.message,
               });
             }
           })
@@ -163,6 +163,11 @@ export default class Meme extends React.Component {
             />
             {!this.props.sinBtnComs && (
               <BotonComent cant={cantComentarios} verMeme={this.verMeme} />
+            )}
+            {this.state.votandoError && (
+              <div className="alert alert-danger m-0 mt-2" role="alert">
+                {this.state.votandoError}
+              </div>
             )}
           </Card.Footer>
         </Card>
