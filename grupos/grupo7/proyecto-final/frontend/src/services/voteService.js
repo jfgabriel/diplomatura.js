@@ -29,13 +29,13 @@ export default class VoteService {
 
   static async deleteVoto(userName, idMeme) {
     const token = localStorage.getItem("mymemejs_jwt");
-    const url = process.env.REACT_APP_API_URL + "memes/" + idMeme + "/vote";
+    const url =
+      process.env.REACT_APP_API_URL + "memes/" + idMeme + "/vote/" + userName;
     const headers = { Authorization: "Bearer " + token };
-    const data = { usuario: userName };
-    //console.log(data);
 
     try {
-      const response = await axios.delete(url, { headers, data });
+      const response = await axios.delete(url, { headers });
+
       if (response.data.result) {
         //console.log("voto eliminado");
         return true;
