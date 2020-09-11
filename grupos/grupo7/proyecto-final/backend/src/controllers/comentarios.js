@@ -1,7 +1,5 @@
 import express from 'express';
 import passport from 'passport';
-import { helpers } from '../db_helpers';
-import { auxiliaries } from '../auxiliaries';
 import ComentarioModel from '../models/comentario';
 import MemeModel from '../models/meme';
 

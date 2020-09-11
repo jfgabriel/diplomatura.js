@@ -10,7 +10,7 @@ const dirUpload = './upload/';
 /*Obtener un paginado de los ultimos memes posteados, se puede filtar por categoria*/
 router.get('/', async function (req, res) {
   try {
-    const { categoria, pagina } = req.query;
+    const { categoria, pagina, usuario } = req.query;
 
     const condition = {};
     let limit = 20;
@@ -26,15 +26,34 @@ router.get('/', async function (req, res) {
       skip = limit * (pagina - 1);
     }
 
-    const memes = await MemeModel.find(
-      condition,
-      { votos: 0 },
+    const memes = await MemeModel.aggregate([
+      { $match: condition },
       {
-        sort: { fecha: -1 },
-        limit,
-        skip,
-      }
-    );
+        $project: {
+          _id: 1,
+          titulo: 1,
+          imagen: 1,
+          categoria: 1,
+          usuario: 1,
+          fecha: 1,
+          cantVotosUp: 1,
+          cantVotosDown: 1,
+          cantComentarios: 1,
+          votos: {
+            $filter: {
+              input: '$votos',
+              as: 'voto',
+              cond: {
+                $eq: ['$$voto.usuario', usuario],
+              },
+            },
+          },
+        },
+      },
+      { $sort: { fecha: -1 } },
+      { $skip: skip },
+      { $limit: limit },
+    ]);
 
     return res.json({ result: true, memes });
   } catch (error) {
