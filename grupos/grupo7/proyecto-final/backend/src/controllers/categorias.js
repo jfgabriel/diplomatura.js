@@ -11,7 +11,7 @@ router.get('/', async function (req, res) {
       sort: { nombre: 1 },
     });
 
-    return res.json(categorias);
+    return res.json({ result: true, categorias });
   } catch (error) {
     return res.json({
       result: false,

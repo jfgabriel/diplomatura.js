@@ -14,7 +14,7 @@ router.get('/:id', async function (req, res) {
       auxiliaries.coleccionCom,
       req.params.id
     );
-    res.json(comentario);
+    res.json({ result: true, comentario });
   } catch (error) {
     return res.json({ result: false, message: error });
   }
@@ -43,7 +43,8 @@ router.post(
       }
 
       //agrego la respuesta
-      const respuesta = auxiliaries.parseReply(req.body);
+      const hora = new Date();
+      const respuesta = auxiliaries.parseReply(req.body, hora);
       await helpers.updateDataExpresion(
         db,
         auxiliaries.coleccionCom,
@@ -63,7 +64,11 @@ router.post(
         }
       );
 
-      return res.json({ result: true, message: 'La respuesta fue registrada' });
+      return res.json({
+        result: true,
+        message: 'La respuesta fue registrada',
+        hora,
+      });
     } catch (error) {
       return res.json({ result: false, message: error });
     }
