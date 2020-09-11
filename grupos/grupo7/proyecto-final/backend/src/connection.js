@@ -6,6 +6,7 @@ export async function connect() {
     const db = await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
     });
 
     if (process.env.ENVIRONMENT === 'dev') {

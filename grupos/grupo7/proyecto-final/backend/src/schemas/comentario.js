@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const ComentarioSchema = new mongoose.Schema({
-  idMeme: ObjectId,
+  idMeme: mongoose.Schema.Types.ObjectId,
   descripcion: String,
   usuario: String,
   fecha: Date,

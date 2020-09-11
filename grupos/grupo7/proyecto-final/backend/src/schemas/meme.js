@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import ComentarioSchema from '../schemas/comentario';
 
 const MemeSchema = new mongoose.Schema({
   titulo: String,
@@ -16,6 +17,9 @@ const MemeSchema = new mongoose.Schema({
   cantVotosUp: Number,
   cantVotosDown: Number,
   cantComentarios: Number,
+  comentarios: {
+    type: [ComentarioSchema],
+  },
 });
 
 export default MemeSchema;

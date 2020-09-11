@@ -1,93 +1,74 @@
 import express from 'express';
 import passport from 'passport';
-import { helpers } from '../db_helpers.js';
-import { ObjectId } from 'mongodb';
+import MemeModel from '../models/meme';
+import ComentarioModel from '../models/comentario';
+import CategoriaModel from '../models/categoria';
+import { helpers } from '../db_helpers';
 import { auxiliaries } from '../auxiliaries';
+import { ObjectId } from 'mongodb';
 
 const router = express.Router();
 const dirUpload = './upload/';
 
-async function commentariosMeme(db, id) {
-  const condition = { idMeme: new ObjectId(id) };
-  const sorting = { fecha: 1 };
-  const comentarios = await helpers.getDataFilterByCondition(
-    db,
-    auxiliaries.coleccionCom,
-    condition,
-    {},
-    sorting,
-    0,
-    0
-  );
-  return comentarios;
-}
-
-async function categoriaMeme(db, nombre) {
-  const condition = { nombre: nombre };
-  const categorias = await helpers.getDataFilterByCondition(
-    db,
-    auxiliaries.coleccionCat,
-    condition
-  );
-
-  if (categorias.length === 0) {
-    return undefined;
-  }
-
-  return categorias[0];
-}
-
 /*Obtener un paginado de los ultimos memes posteados, se puede filtar por categoria*/
 router.get('/', async function (req, res) {
   try {
-    const db = req.app.locals.db;
+    const { categoria, pagina } = req.query;
 
     const condition = {};
-    const proyection = { votos: 0 };
-    const sorting = { fecha: -1 };
     let limit = 20;
     let skip = 0;
 
     if (process.env.PAGING_MEMES) {
       limit = +process.env.PAGING_MEMES;
     }
-
-    if (req.query.categoria) {
-      condition.categoria = req.query.categoria;
+    if (categoria) {
+      condition.categoria = categoria;
     }
-    if (req.query.pagina) {
-      skip = limit * (req.query.pagina - 1);
+    if (pagina) {
+      skip = limit * (pagina - 1);
     }
 
-    const memes = await helpers.getDataFilterByCondition(
-      db,
-      auxiliaries.coleccionMeme,
+    const memes = await MemeModel.find(
       condition,
-      proyection,
-      sorting,
-      limit,
-      skip
+      { votos: 0 },
+      {
+        sort: { fecha: -1 },
+        limit,
+        skip,
+      }
     );
+
     return res.json(memes);
   } catch (error) {
-    return res.json({ result: false, message: error });
+    console.log(error);
+    return res.json({
+      result: false,
+      message: 'no se pude ejecutar la consulta',
+      error,
+    });
   }
 });
 
 /*Obtener un meme*/
 router.get('/:id', async function (req, res) {
   try {
-    const db = req.app.locals.db;
-    const meme = await helpers.getDataFilterById(
-      db,
-      auxiliaries.coleccionMeme,
-      req.params.id
-    );
-    const comentarios = await commentariosMeme(db, req.params.id);
+    const { id } = req.params;
+
+    const meme = await MemeModel.findById(id);
+    const comentarios = await ComentarioModel.find({ idMeme: id }, null, {
+      sort: { fecha: 1 },
+    });
     meme.comentarios = comentarios;
+
     return res.json(meme);
   } catch (error) {
-    return res.json({ result: false, message: error });
+    console.log(error);
+    return res.json({
+      result: false,
+      message: 'No se pudo obtener el meme',
+      error,
+    });
   }
 });
 
@@ -97,7 +78,9 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   async function (req, res) {
     try {
-      if (req.body.usuario !== req.user.username) {
+      const { titulo, categoria, usuario } = req.body;
+
+      if (usuario !== req.user.username) {
         return res.json({ result: false, message: 'Usuario No Valido' });
       }
 
@@ -105,42 +88,76 @@ router.post(
         return res.json({ result: false, message: 'Falta el archivo' });
       }
 
-      const db = req.app.locals.db;
-
       //validar que la categoria exista
-      const categoria = await categoriaMeme(db, req.body.categoria);
-      if (!categoria) {
+      const cat = await CategoriaModel.findOne({ nombre: categoria });
+      if (!cat) {
         return res.json({ result: false, message: 'La categoria no existe' });
       }
 
-      const meme = await helpers.insertData(
-        db,
-        auxiliaries.coleccionMeme,
-        auxiliaries.parseMeme(req.body)
-      );
-      const uploadFile = req.files.uploadFile;
-
-      meme.imagen = `${dirUpload + meme._id}.${uploadFile.name.substring(
-        uploadFile.name.lastIndexOf('.') + 1
-      )}`;
-
-      uploadFile.mv(meme.imagen, function (err) {
-        if (err) return res.json({ result: false, message: err });
+      const newMeme = new MemeModel({
+        titulo,
+        categoria,
+        usuario,
+        fecha: new Date(),
+        cantVotosUp: 0,
+        cantVotosDown: 0,
+        cantComentarios: 0,
       });
 
-      await helpers.updateData(db, auxiliaries.coleccionMeme, meme._id, meme);
-
-      //actualizacion del contador de memes por categoria
-      await helpers.updateDataExpresion(
-        db,
-        auxiliaries.coleccionCat,
-        categoria._id,
-        {
-          $inc: { cantMemes: 1 },
+      //almacenar el nuevo meme
+      newMeme.save(function (error, meme) {
+        if (error) {
+          console.log(error);
+          return res.json({
+            result: false,
+            message: 'no se pudo guardar el meme',
+            error,
+          });
         }
-      );
 
-      return res.json(meme);
+        //copiar la imagen al servidor
+        const uploadFile = req.files.uploadFile;
+        meme.imagen = `${dirUpload + meme._id}.${uploadFile.name.substring(
+          uploadFile.name.lastIndexOf('.') + 1
+        )}`;
+
+        uploadFile.mv(meme.imagen, function (err) {
+          if (err) return res.json({ result: false, message: err });
+        });
+
+        //actualizar el meme con el path de la imagen
+        MemeModel.findByIdAndUpdate(
+          meme._id,
+          { imagen: meme.imagen },
+          function (err, result) {
+            if (error) {
+              res.json({
+                result: false,
+                message: 'no se pudo guardar el meme',
+                error,
+              });
+            }
+          }
+        );
+
+        //actualizacion del contador de memes por categoria
+        console.log(cat);
+        CategoriaModel.findByIdAndUpdate(
+          cat._id,
+          { $inc: { cantMemes: 1 } },
+          function (err, result) {
+            if (error) {
+              res.json({
+                result: false,
+                message: 'no se pudo guardar el meme',
+                error,
+              });
+            }
+          }
+        );
+
+        return res.json(meme);
+      });
     } catch (error) {
       return res.json({ result: false, message: error });
     }
