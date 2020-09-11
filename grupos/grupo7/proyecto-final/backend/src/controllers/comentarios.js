@@ -49,7 +49,6 @@ router.post(
         { $push: { respuestas: respuesta } },
         function (error, result) {
           if (error) {
-            console.log(error);
             return res.json({
               result: false,
               message: 'fallo el registro de la respuesta',
@@ -65,7 +64,6 @@ router.post(
         { $inc: { cantComentarios: 1 } },
         function (error, result) {
           if (error) {
-            console.log(error);
             return res.json({
               result: false,
               message: 'No se pudo actualizar el contador de Comentarios',
@@ -81,7 +79,6 @@ router.post(
         hora,
       });
     } catch (error) {
-      console.log(error);
       return res.json({
         result: false,
         message: 'no se pudo registrar la respuesta',

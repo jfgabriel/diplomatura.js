@@ -23,7 +23,7 @@ export default class Categorias extends React.Component {
           this.setState({
             cargando: false,
             cargandoError: "",
-            categorias: response.data,
+            categorias: response.data.categorias,
           });
         } else {
           this.setState({

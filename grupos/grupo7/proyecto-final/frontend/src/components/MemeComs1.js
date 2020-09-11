@@ -28,7 +28,7 @@ function MemeComs({ meme }) {
       const token = localStorage.getItem("mymemejs_jwt");
       axios
         .post(
-          "http://localhost:8000/memes/" + idMeme + "/comments",
+          process.env.REACT_APP_API_URL + "memes/" + idMeme + "/comments",
           {
             // los datos del comentario que voy a guardar
             usuario: user,
@@ -64,7 +64,10 @@ function MemeComs({ meme }) {
       const token = localStorage.getItem("mymemejs_jwt");
       axios
         .post(
-          "http://localhost:8000/comentarios/" + idComment + "/replies",
+          process.env.REACT_APP_API_URL +
+            "comentarios/" +
+            idComment +
+            "/replies",
           {
             // los datos del comentario que voy a guardar
             usuario: user,
@@ -75,7 +78,6 @@ function MemeComs({ meme }) {
           }
         )
         .then((response) => {
-          console.log(response);
           if (response?.data?.result) {
             setComs(
               coms.map((e) => {
@@ -89,7 +91,6 @@ function MemeComs({ meme }) {
                 return e;
               })
             );
-            console.log(coms);
             setError("");
             setidComentarioRespondiendo(idComment); // para desclickear el "reply"
           } else {

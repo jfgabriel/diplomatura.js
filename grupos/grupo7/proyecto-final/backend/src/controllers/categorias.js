@@ -50,7 +50,6 @@ router.post(
       //almacenar la nueva categoria
       newCategoria.save(function (error, categoria) {
         if (error) {
-          console.log(error);
           return res.json({
             result: false,
             message: 'no se pudo guardar la categoria',

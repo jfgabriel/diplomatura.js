@@ -57,7 +57,6 @@ router.get('/', async function (req, res) {
 
     return res.json({ result: true, memes });
   } catch (error) {
-    console.log(error);
     return res.json({
       result: false,
       message: 'no se pude ejecutar la consulta',
@@ -80,7 +79,6 @@ router.get('/:id', async function (req, res) {
     meme.comentarios = comentarios;
     return res.json({ result: true, meme });
   } catch (error) {
-    console.log(error);
     return res.json({
       result: false,
       message: 'No se pudo obtener el meme',
@@ -124,7 +122,6 @@ router.post(
       //almacenar el nuevo meme
       newMeme.save(function (error, meme) {
         if (error) {
-          console.log(error);
           return res.json({
             result: false,
             message: 'no se pudo guardar el meme',
@@ -237,7 +234,6 @@ router.post(
 
       MemeModel.findByIdAndUpdate(id, exp, function (error, result) {
         if (error) {
-          console.log(error);
           return res.json({
             result: false,
             message: 'fallo el registro del voto',
@@ -248,7 +244,6 @@ router.post(
 
       return res.json({ result: true, message: 'Voto registrado!', hora });
     } catch (error) {
-      console.log(error);
       return res.json({
         result: false,
         message: 'no se pudo registrar el voto',
@@ -303,7 +298,6 @@ router.delete(
 
       MemeModel.findByIdAndUpdate(id, exp, function (error, result) {
         if (error) {
-          console.log(error);
           return res.json({
             result: false,
             message: 'fallo el registro del voto',
@@ -364,7 +358,6 @@ router.post(
       //almacenar el nuevo comentario
       newComment.save(function (error, comentario) {
         if (error) {
-          console.log(error);
           return res.json({
             result: false,
             message: 'no se pudo guardar el comentario',
@@ -378,7 +371,6 @@ router.post(
           { $inc: { cantComentarios: 1 } },
           function (error, result) {
             if (error) {
-              console.log(error);
               return res.json({
                 result: false,
                 message: 'No se pudo actualizar el contador de Comentarios',

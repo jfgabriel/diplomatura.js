@@ -18,7 +18,7 @@ function MemeComs({ meme }) {
       const token = localStorage.getItem("mymemejs_jwt");
       axios
         .post(
-          "http://localhost:8000/memes/" + idMeme + "/comments",
+          process.env.REACT_APP_API_URL + "memes/" + idMeme + "/comments",
           {
             // los datos del comentario que voy a guardar
             usuario: user,

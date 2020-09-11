@@ -25,7 +25,10 @@ export default class Login extends Component {
     const { username, password } = this.state;
 
     axios
-      .post("http://localhost:8000/user/login", { username, password })
+      .post(process.env.REACT_APP_API_URL + "user/login", {
+        username,
+        password,
+      })
       .then((result) => {
         if (result.data.login === "ok") {
           localStorage.setItem("mymemejs_jwt", result.data.token);

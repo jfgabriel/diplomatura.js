@@ -37,15 +37,11 @@ export default class Meme extends React.Component {
     if (!votando) {
       if (userName) {
         this.setState({ votando: true, votandoError: "" });
-        console.log("votando");
-
-        //await timeout(200);
-
         const token = localStorage.getItem("mymemejs_jwt");
 
         axios
           .post(
-            "http://localhost:8000/memes/" + _id + "/vote",
+            process.env.REACT_APP_API_URL + "memes/" + _id + "/vote",
             {
               usuario: userName,
               tipo,
@@ -55,7 +51,6 @@ export default class Meme extends React.Component {
             }
           )
           .then((response) => {
-            console.log(response.data);
             if (response.data.result) {
               const memeInc = this.state.meme;
               if (tipo === TIPO_UPVOTE) {
@@ -75,7 +70,6 @@ export default class Meme extends React.Component {
             }
           })
           .catch((error) => {
-            console.log("votando catch 2");
             this.setState({
               votando: false,
               votandoError: "Error guardando el voto!",
@@ -145,7 +139,9 @@ export default class Meme extends React.Component {
             <div className="p-2 memeImgCont text-center">
               <img
                 className="img-fluid"
-                src={"http://localhost:8000/show-image/?file=" + imagen}
+                src={
+                  process.env.REACT_APP_API_URL + "show-image/?file=" + imagen
+                }
                 alt="Meme"
               ></img>
             </div>
