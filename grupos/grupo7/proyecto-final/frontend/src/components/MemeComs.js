@@ -6,7 +6,8 @@ import isAuthenticated from "../lib/isAuthenticated";
 import logout from "../lib/logout";
 
 function MemeComs({ meme }) {
-  const [idMeme, setIdMeme] = useState(meme._id);
+  const idMeme = meme._id;
+  //const [idMeme, setIdMeme] = useState(meme._id);
   const [coms, setComs] = useState(meme.comentarios);
   const [user, setUser] = useState(isAuthenticated());
   const [error, setError] = useState("");

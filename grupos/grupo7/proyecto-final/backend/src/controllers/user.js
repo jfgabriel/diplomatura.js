@@ -16,7 +16,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign(
           {
             username,
-            expire: Date.now() + 1000 * 60 * 60 * 24 * 7, // 7 day
+            expire: Date.now() + 1000 * 60 * 60 * 24 * 7, // 7 days
           },
           process.env.JWT_SECRET
         );
@@ -47,7 +47,7 @@ router.route('/register').post(async (req, res, next) => {
     const token = jwt.sign(
       {
         username,
-        expire: Date.now() + 1000 * 60 * 60 * 24 * 7, // 7 day
+        expire: Date.now() + 1000 * 60 * 60 * 24 * 7, // 7 days
       },
       process.env.JWT_SECRET
     );

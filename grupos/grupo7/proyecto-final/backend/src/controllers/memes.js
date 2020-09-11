@@ -78,7 +78,6 @@ router.get('/:id', async function (req, res) {
       sort: { fecha: 1 },
     });
     meme.comentarios = comentarios;
-
     return res.json({ result: true, meme });
   } catch (error) {
     console.log(error);

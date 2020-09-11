@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Row, Col, Card, Button } from "react-bootstrap";
+import { Form, Row, Col, Card } from "react-bootstrap";
 import axios from "axios";
 import "./styles/Login.css";
 import { Redirect, Link } from "react-router-dom";
@@ -67,7 +67,7 @@ export default class Login extends Component {
     } else {
       return (
         <>
-          <Card className="my-2 cardMeme">
+          <Card className="my-2 cardMeme m-1">
             <Card.Header className="memeHead">
               <Row>
                 <Col xs="12" md="6" className="text-left">
