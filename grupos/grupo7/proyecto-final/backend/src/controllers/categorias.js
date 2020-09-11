@@ -28,7 +28,7 @@ router.get('/', async function (req, res) {
       {},
       sorting
     );
-    return res.json(categorias);
+    return res.json({ result: true, categorias });
   } catch (error) {
     return res.json({ result: false, message: error });
   }
@@ -67,7 +67,7 @@ router.post(
         auxiliaries.coleccionCat,
         parseData(req.body)
       );
-      return res.json(categoria);
+      return res.json({ result: true, categoria });
     } catch (error) {
       return res.json({ result: false, message: error });
     }
