@@ -68,7 +68,8 @@ router.get('/', async function (req, res) {
       limit,
       skip
     );
-    return res.json(memes);
+
+    return res.json({ result: true, memes });
   } catch (error) {
     return res.json({ result: false, message: error });
   }
@@ -85,7 +86,7 @@ router.get('/:id', async function (req, res) {
     );
     const comentarios = await commentariosMeme(db, req.params.id);
     meme.comentarios = comentarios;
-    return res.json(meme);
+    return res.json({ result: true, meme });
   } catch (error) {
     return res.json({ result: false, message: error });
   }
@@ -140,7 +141,7 @@ router.post(
         }
       );
 
-      return res.json(meme);
+      return res.json({ result: true, meme });
     } catch (error) {
       return res.json({ result: false, message: error });
     }
@@ -305,7 +306,7 @@ router.get('/:id/comments', async function (req, res) {
     const db = req.app.locals.db;
     const comentarios = await commentariosMeme(db, req.params.id);
 
-    res.json(comentarios);
+    res.json({ result: true, comentarios });
   } catch (error) {
     return res.json({ result: false, message: error });
   }
@@ -350,7 +351,7 @@ router.post(
           $inc: { cantComentarios: 1 },
         }
       );
-      return res.json(comentario);
+      return res.json({ result: true, comentario });
     } catch (error) {
       return res.json({ result: false, message: error });
     }

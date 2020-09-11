@@ -32,6 +32,7 @@ router.post(
       }
 
       const db = req.app.locals.db;
+
       const comentario = await helpers.getDataFilterById(
         db,
         auxiliaries.coleccionCom,
@@ -43,7 +44,8 @@ router.post(
       }
 
       //agrego la respuesta
-      const respuesta = auxiliaries.parseReply(req.body);
+      const hora = new Date();
+      const respuesta = auxiliaries.parseReply(req.body, hora);
       await helpers.updateDataExpresion(
         db,
         auxiliaries.coleccionCom,
@@ -63,9 +65,18 @@ router.post(
         }
       );
 
-      return res.json({ result: true, message: 'La respuesta fue registrada' });
-    } catch (error) {
-      return res.json({ result: false, message: error });
+      return res.json({
+        result: true,
+        message: 'La respuesta fue registrada',
+        hora,
+      });
+    } catch (err) {
+      console.log(error);
+      return res.json({
+        result: false,
+        message: 'no fue posible registrar la respuesta',
+        err,
+      });
     }
   }
 );

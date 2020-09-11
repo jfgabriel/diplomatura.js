@@ -43,11 +43,11 @@ const parseComment = (body, idmeme) => {
   return item;
 };
 
-const parseReply = (body) => {
+const parseReply = (body, f) => {
   const item = {
     descripcion: body.descripcion,
     usuario: body.usuario,
-    fecha: new Date(),
+    fecha: f,
   };
   return item;
 };
