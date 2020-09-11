@@ -16,7 +16,6 @@ export default class Home extends Component {
     const userName = isAuthenticated();
     this.state = {
       userName,
-      //categoria: this.props.match.params.categoria ?? "",
       memes: [],
       pagina: 0,
       paginas: 1,
@@ -26,11 +25,11 @@ export default class Home extends Component {
   }
 
   cargarMasMemes = async () => {
-    let { pagina, paginas, username } = this.state;
+    let { pagina, paginas, userName } = this.state;
     const categoria = this.props.match.params.categoria;
     if (pagina < paginas) {
       pagina += 1;
-      const r = await MemeService.getMemes(pagina, categoria, username);
+      const r = await MemeService.getMemes(pagina, categoria, userName);
       if (r.result) {
         this.agregarMemes(r.memes, pagina, r.paginas);
       } else {
