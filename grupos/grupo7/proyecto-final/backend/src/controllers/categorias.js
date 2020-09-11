@@ -40,12 +40,26 @@ router.post(
         return res.json({ result: false, message: 'Ya existe la categoria' });
       }
 
-      const categoria = CategoriaModel.create({
+      //inserto la nueva categoria
+      const newCategoria = new CategoriaModel({
         nombre,
         cantMemes: 0,
+        fecha: new Date(),
       });
 
-      return res.json({ result: true, nombre });
+      //almacenar la nueva categoria
+      newCategoria.save(function (error, categoria) {
+        if (error) {
+          console.log(error);
+          return res.json({
+            result: false,
+            message: 'no se pudo guardar la categoria',
+            error,
+          });
+        }
+
+        return res.json({ result: true, categoria });
+      });
     } catch (error) {
       return res.json({
         result: false,

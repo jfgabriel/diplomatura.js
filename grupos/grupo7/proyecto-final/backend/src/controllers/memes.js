@@ -3,9 +3,6 @@ import passport from 'passport';
 import MemeModel from '../models/meme';
 import ComentarioModel from '../models/comentario';
 import CategoriaModel from '../models/categoria';
-import { helpers } from '../db_helpers';
-import { auxiliaries } from '../auxiliaries';
-import { ObjectId } from 'mongodb';
 
 const router = express.Router();
 const dirUpload = './upload/';
@@ -346,7 +343,7 @@ router.post(
         fecha: new Date(),
       });
 
-      //almacenar el nuevo meme
+      //almacenar el nuevo comentario
       newComment.save(function (error, comentario) {
         if (error) {
           console.log(error);

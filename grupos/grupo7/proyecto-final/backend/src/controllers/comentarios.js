@@ -2,18 +2,17 @@ import express from 'express';
 import passport from 'passport';
 import { helpers } from '../db_helpers';
 import { auxiliaries } from '../auxiliaries';
+import ComentarioModel from '../models/comentario';
+import MemeModel from '../models/meme';
 
 const router = express.Router();
 
 /*Obtener un comentario*/
 router.get('/:id', async function (req, res) {
   try {
-    const db = req.app.locals.db;
-    const comentario = await helpers.getDataFilterById(
-      db,
-      auxiliaries.coleccionCom,
-      req.params.id
-    );
+    const { id } = req.params;
+    const comentario = await ComentarioModel.findById(id);
+
     res.json({ result: true, comentario });
   } catch (error) {
     return res.json({ result: false, message: error });
@@ -27,40 +26,54 @@ router.post(
 
   async function (req, res) {
     try {
-      if (req.body.usuario != req.user.username) {
+      const { id } = req.params;
+      const { descripcion, usuario } = req.body;
+
+      if (usuario !== req.user.username) {
         return res.json({ result: false, message: 'Usuario No Valido' });
       }
 
-      const db = req.app.locals.db;
-      const comentario = await helpers.getDataFilterById(
-        db,
-        auxiliaries.coleccionCom,
-        req.params.id
-      );
-
+      const comentario = await ComentarioModel.findById(id);
       if (!comentario) {
         return res.json({ result: false, message: 'No existe el comentario' });
       }
 
-      //agrego la respuesta
       const hora = new Date();
-      const respuesta = auxiliaries.parseReply(req.body, hora);
-      await helpers.updateDataExpresion(
-        db,
-        auxiliaries.coleccionCom,
-        req.params.id,
-        {
-          $push: { respuestas: respuesta },
+      const respuesta = {
+        descripcion,
+        usuario,
+        fecha: hora,
+      };
+
+      //agrego la respuesta
+      ComentarioModel.findByIdAndUpdate(
+        id,
+        { $push: { respuestas: respuesta } },
+        function (error, result) {
+          if (error) {
+            console.log(error);
+            return res.json({
+              result: false,
+              message: 'fallo el registro de la respuesta',
+              error,
+            });
+          }
         }
       );
 
-      //actualizacion del contador de comentarios (una respuesta es un comentario)
-      await helpers.updateDataExpresion(
-        db,
-        auxiliaries.coleccionMeme,
+      //actualizacion del contador de comentarios
+      MemeModel.findByIdAndUpdate(
         comentario.idMeme,
-        {
-          $inc: { cantComentarios: 1 },
+        { $inc: { cantComentarios: 1 } },
+        function (error, result) {
+          if (error) {
+            console.log(error);
+            return res.json({
+              result: false,
+              message: 'No se pudo actualizar el contador de Comentarios',
+              error,
+            });
+          }
         }
       );
 
@@ -70,7 +83,12 @@ router.post(
         hora,
       });
     } catch (error) {
-      return res.json({ result: false, message: error });
+      console.log(error);
+      return res.json({
+        result: false,
+        message: 'no se pudo registrar la respuesta',
+        error,
+      });
     }
   }
 );
