@@ -26,12 +26,13 @@ function MemeComs({ meme }) {
     setUser(isAuthenticated());
     if (user) {
       const token = localStorage.getItem("mymemejs_jwt");
+      const avatar = getUserAvatar();
       axios
         .post(
           process.env.REACT_APP_API_URL + "memes/" + idMeme + "/comments",
           {
-            // los datos del comentario que voy a guardar
             usuario: user,
+            avatar,
             descripcion: text,
           },
           {
@@ -43,7 +44,7 @@ function MemeComs({ meme }) {
           console.log(response);
           if (response.data.result) {
             if (!response.data.comentario.avatar)
-              response.data.comentario.avatar = getUserAvatar();
+              response.data.comentario.avatar = avatar;
             setComs(coms.concat(response.data.comentario));
             setError("");
           } else {
@@ -71,6 +72,7 @@ function MemeComs({ meme }) {
 
   const saveMemeComReply = async (idComment, text) => {
     setUser(isAuthenticated());
+    const avatar = getUserAvatar();
     if (user) {
       const token = localStorage.getItem("mymemejs_jwt");
       axios
@@ -80,8 +82,8 @@ function MemeComs({ meme }) {
             idComment +
             "/replies",
           {
-            // los datos del comentario que voy a guardar
             usuario: user,
+            avatar,
             descripcion: text,
           },
           {
@@ -99,7 +101,7 @@ function MemeComs({ meme }) {
                     descripcion: text,
                     fecha: response.data.hora,
                     usuario: isAuthenticated(),
-                    avatar: getUserAvatar(),
+                    avatar,
                   };
                 }
                 return e;

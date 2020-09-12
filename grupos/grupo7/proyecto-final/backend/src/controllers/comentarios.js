@@ -25,7 +25,7 @@ router.post(
   async function (req, res) {
     try {
       const { id } = req.params;
-      const { descripcion, usuario } = req.body;
+      const { descripcion, usuario, avatar } = req.body;
 
       if (usuario !== req.user.username) {
         return res.json({ result: false, message: 'Usuario No Valido' });
@@ -40,6 +40,7 @@ router.post(
       const respuesta = {
         descripcion,
         usuario,
+        avatar,
         fecha: hora,
       };
 
