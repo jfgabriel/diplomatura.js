@@ -256,12 +256,11 @@ router.post(
 /*Elimina un voto realidado a un meme, valida que efectivamente ese usuario votó el meme y actualiza los contadores*/
 
 router.delete(
-  '/:id/vote',
+  '/:id/vote/:usuario',
   passport.authenticate('jwt', { session: false }),
   async function (req, res) {
     try {
-      const { usuario } = req.body;
-      const { id } = req.params;
+      const { id, usuario } = req.params;
 
       if (usuario !== req.user.username) {
         return res.json({ result: false, message: 'Usuario No Valido' });
