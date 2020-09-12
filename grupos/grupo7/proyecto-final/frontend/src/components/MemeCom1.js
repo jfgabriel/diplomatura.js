@@ -5,6 +5,7 @@ import { Button, Comment, Form } from "semantic-ui-react";
 import isAuthenticated from "../lib/isAuthenticated";
 
 const MemeCom = (com) => {
+  // lo que recibe:
   // clickOnReply(idComment)
   // saveMemeComReply(idComment,texto)
   // error={error}
@@ -13,7 +14,6 @@ const MemeCom = (com) => {
   const respuestas = comentario.respuestas;
   const respondiendo = com.respondiendo; // indica si está respondiendo este comentario
   const [reply, setReply] = useState(); // contiene la respuesta
-  const [enableReply, setEnableReply] = useState(isAuthenticated());
 
   let fechaFormat;
   try {
@@ -26,7 +26,6 @@ const MemeCom = (com) => {
   }
 
   const enableReplyClick = () => {
-    //setEnableReply(isAuthenticated());
     com.clickOnReply(comentario._id);
   };
 
@@ -36,8 +35,6 @@ const MemeCom = (com) => {
 
   const handleClick = () => {
     com.saveMemeComReply(comentario._id, reply);
-    //setRespuestas(respuestas.concat(reply));
-    //setEnableReply("");
     setReply("");
   };
   return (

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "semantic-ui-css/semantic.min.css";
 import { Button, Form } from "semantic-ui-react";
 
-function MemeComForm({ error, handleSaveComment }) {
+function MemeComForm({ error, handleSaveComment, respondiendo }) {
   const [comment, setComment] = useState("");
 
   const handleChange = (event) => {
@@ -15,21 +15,28 @@ function MemeComForm({ error, handleSaveComment }) {
   };
 
   return (
-    <Form reply>
-      <Form.TextArea
-        onChange={handleChange}
-        value={comment}
-        disabled={error !== ""}
-      />
-      <Button
-        content="Add Reply"
-        labelPosition="left"
-        icon="edit"
-        primary
-        disabled={!comment}
-        onClick={handleSave}
-      />
-    </Form>
+    <>
+      {error && !respondiendo && (
+        <div className="alert alert-warning alert-dismissable">
+          <strong>¡Ups!</strong> {error}
+        </div>
+      )}
+      <Form reply>
+        <Form.TextArea
+          onChange={handleChange}
+          value={comment}
+          disabled={error !== ""}
+        />
+        <Button
+          content="Add Reply"
+          labelPosition="left"
+          icon="edit"
+          primary
+          disabled={!comment}
+          onClick={handleSave}
+        />
+      </Form>
+    </>
   );
 }
 
