@@ -4,6 +4,7 @@ export default class MemeService {
   static async getMemes(pagina, categoria, usuario) {
     if (!categoria) categoria = "";
     if (!pagina) pagina = 1;
+
     const options = {
       url: process.env.REACT_APP_API_URL + "memes",
       method: "GET",
@@ -20,11 +21,12 @@ export default class MemeService {
 
     try {
       const response = await axios(options);
-      if (response.status === 200) {
+      console.log(response);
+      if (response.data.result) {
         return {
           result: true,
           memes: response.data.memes,
-          paginas: response.data.length > 0 ? 100 : 0,
+          paginas: response.data.memes.length > 0 ? 100 : 0,
           mensaje: "",
         };
       } else {

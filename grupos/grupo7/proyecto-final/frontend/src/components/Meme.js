@@ -10,6 +10,7 @@ import {
   faThumbsDown,
   faComment,
 } from "@fortawesome/free-regular-svg-icons";
+import VoteService from "../services/voteService";
 
 const TIPO_UPVOTE = "upvote";
 const TIPO_DOWNVOTE = "downvote";
@@ -17,8 +18,13 @@ const TIPO_DOWNVOTE = "downvote";
 export default class Meme extends React.Component {
   constructor(props) {
     super(props);
+    let miVoto = "";
+    if (props.meme.votos.length === 1) {
+      miVoto = props.meme.votos[0].tipo;
+    }
     this.state = {
       meme: props.meme,
+      miVoto,
       userName: props.userName,
       redirectLogin: false,
       redirectMeme: "",
@@ -37,44 +43,46 @@ export default class Meme extends React.Component {
     if (!votando) {
       if (userName) {
         this.setState({ votando: true, votandoError: "" });
-        const token = localStorage.getItem("mymemejs_jwt");
-
-        axios
-          .post(
-            process.env.REACT_APP_API_URL + "memes/" + _id + "/vote",
-            {
-              usuario: userName,
-              tipo,
-            },
-            {
-              headers: { Authorization: "Bearer " + token },
-            }
-          )
-          .then((response) => {
-            if (response.data.result) {
-              const memeInc = this.state.meme;
-              if (tipo === TIPO_UPVOTE) {
-                memeInc.cantVotosUp += 1;
-              } else {
-                memeInc.cantVotosDown += 1;
-              }
-              this.setState({
-                votando: false,
-                meme: memeInc,
-              });
+        if (this.state.miVoto === tipo) {
+          // hizo clic de nuevo, se borra el voto
+          if (await VoteService.deleteVoto(userName, _id)) {
+            const memeInc = this.state.meme;
+            if (tipo === TIPO_UPVOTE) {
+              memeInc.cantVotosUp -= 1;
             } else {
-              this.setState({
-                votando: false,
-                votandoError: response.data.message,
-              });
+              memeInc.cantVotosDown -= 1;
             }
-          })
-          .catch((error) => {
             this.setState({
               votando: false,
-              votandoError: "Error guardando el voto!",
+              meme: memeInc,
+              miVoto: "",
             });
-          });
+          } else {
+            this.setState({
+              votando: false,
+              votandoError: VoteService.ultimoError,
+            });
+          }
+        } else {
+          if (await VoteService.postVoto(userName, tipo, _id)) {
+            const memeInc = this.state.meme;
+            if (tipo === TIPO_UPVOTE) {
+              memeInc.cantVotosUp += 1;
+            } else {
+              memeInc.cantVotosDown += 1;
+            }
+            this.setState({
+              votando: false,
+              meme: memeInc,
+              miVoto: tipo,
+            });
+          } else {
+            this.setState({
+              votando: false,
+              votandoError: VoteService.ultimoError,
+            });
+          }
+        }
       } else {
         this.setState({ redirectLogin: true });
       }
@@ -96,7 +104,7 @@ export default class Meme extends React.Component {
       cantComentarios,
     } = this.state.meme;
 
-    const { redirectLogin, redirectMeme, votando } = this.state;
+    const { redirectLogin, redirectMeme, votando, miVoto } = this.state;
 
     if (redirectLogin) {
       return <Redirect to="/login"></Redirect>;
@@ -151,11 +159,13 @@ export default class Meme extends React.Component {
               cant={cantVotosUp}
               votar={this.votar}
               disabled={votando}
+              miVoto={miVoto}
             />
             <BotonVotarDown
               cant={cantVotosDown}
               votar={this.votar}
               disabled={votando}
+              miVoto={miVoto}
             />
             {!this.props.sinBtnComs && (
               <BotonComent cant={cantComentarios} verMeme={this.verMeme} />
@@ -176,8 +186,9 @@ function BotonVotarUp(props) {
   return (
     <button
       className={
-        "btn btn-sm btn-outline-dark py-2 px-3 m-1 upvote" +
-        (props.disabled ? " disabled" : "")
+        "btn btn-sm btn-outline-dark py-2 px-3 m-1" +
+        (props.disabled ? " disabled" : "") +
+        (props.miVoto === TIPO_UPVOTE ? " upvote" : "")
       }
       onClick={() => props.votar(TIPO_UPVOTE)}
     >
@@ -191,8 +202,9 @@ function BotonVotarDown(props) {
   return (
     <button
       className={
-        "btn btn-sm btn-outline-dark py-2 px-3 m-1 downvote" +
-        (props.disabled ? " disabled" : "")
+        "btn btn-sm btn-outline-dark py-2 px-3 m-1" +
+        (props.disabled ? " disabled" : "") +
+        (props.miVoto === TIPO_DOWNVOTE ? " downvote" : "")
       }
       onClick={() => props.votar(TIPO_DOWNVOTE)}
     >
