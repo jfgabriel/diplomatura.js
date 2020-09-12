@@ -33,6 +33,7 @@ export default class Login extends Component {
         if (result.data.login === "ok") {
           localStorage.setItem("mymemejs_jwt", result.data.token);
           localStorage.setItem("mymemejs_username", result.data.username);
+          localStorage.setItem("mymemejs_avatar", result.data.avatar);
           this.props.history.push("/");
           window.location.reload(false);
         } else {

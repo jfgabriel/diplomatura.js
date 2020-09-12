@@ -4,7 +4,6 @@ import { Navbar, Nav } from "react-bootstrap";
 import isAuthenticated from "../lib/isAuthenticated";
 import "./styles/Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
 import logoBig from "../img/logo.png";
 import logoSmall from "../img/favicon.png";
 
@@ -19,9 +18,11 @@ import {
 class MyNavbar extends React.Component {
   constructor(props) {
     super(props);
+    const avatar = localStorage.getItem("mymemejs_avatar");
 
     this.state = {
       loggedin: isAuthenticated(),
+      avatar,
     };
   }
 
@@ -35,7 +36,7 @@ class MyNavbar extends React.Component {
         <>
           <div className="nav-link pr-0 ">
             <button className="btn btn-sm btn-outline-light py-2 px-3 navbarbtn">
-              <FontAwesomeIcon icon={faUser} className="mr-2" />
+              <img src={this.state.avatar} alt="avatar" />
               <span className="d-none d-md-inline ml-2">
                 {this.state.loggedin}
               </span>

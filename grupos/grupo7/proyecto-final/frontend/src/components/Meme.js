@@ -2,7 +2,6 @@ import React from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import "./styles/meme.css";
 import { Redirect, Link } from "react-router-dom";
-import axios from "axios";
 import moment from "moment/min/moment-with-locales.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
