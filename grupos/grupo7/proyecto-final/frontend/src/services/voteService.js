@@ -1,7 +1,43 @@
 import axios from "axios";
 
+const TIPO_UPVOTE = "upvote";
+const TIPO_DOWNVOTE = "downvote";
+
 export default class VoteService {
   static ultimoError;
+  static async votar(meme, userName, votoActual, votoSolicitado) {
+    // Veo si hay que borrar el voto actual
+    if (votoActual) {
+      console.log("Elimianndo voto actual: " + votoActual);
+      if (await this.deleteVoto(userName, meme._id)) {
+        if (votoActual === TIPO_UPVOTE) {
+          meme.cantVotosUp -= 1;
+        } else {
+          meme.cantVotosDown -= 1;
+        }
+      } else {
+        // Fallo la eliminacion
+        return false;
+      }
+    }
+    // Hago el post del voto
+    if (votoSolicitado != votoActual) {
+      console.log("Generando voto nuevo: " + votoSolicitado);
+      if (await this.postVoto(userName, votoSolicitado, meme._id)) {
+        if (votoSolicitado === TIPO_UPVOTE) {
+          meme.cantVotosUp += 1;
+        } else {
+          meme.cantVotosDown += 1;
+        }
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
   static async postVoto(userName, tipo, idMeme) {
     try {
       const token = localStorage.getItem("mymemejs_jwt");
