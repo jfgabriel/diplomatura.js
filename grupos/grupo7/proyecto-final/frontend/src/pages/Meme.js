@@ -21,7 +21,7 @@ export default class MemePage extends Component {
 
   cargarMeme(id) {
     const options = {
-      url: "http://localhost:8000/memes/" + id,
+      url: process.env.REACT_APP_API_URL + "memes/" + id,
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -33,7 +33,7 @@ export default class MemePage extends Component {
         this.setState({
           cargando: false,
           cargandoError: "",
-          meme: response.data,
+          meme: response.data.meme,
         });
       } else {
         this.setState({

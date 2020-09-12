@@ -1,75 +1,70 @@
 import express from 'express';
 import passport from 'passport';
-import { helpers } from '../db_helpers';
-import { auxiliaries } from '../auxiliaries';
+import CategoriaModel from '../models/categoria';
 
 const router = express.Router();
-
-const parseData = (body) => {
-  const item = {
-    nombre: body.nombre,
-    cantMemes: 0,
-    fecha: new Date(),
-  };
-  return item;
-};
 
 /*Obtener todas las categorias*/
 router.get('/', async function (req, res) {
   try {
-    const db = req.app.locals.db;
+    const categorias = await CategoriaModel.find({}, null, {
+      sort: { nombre: 1 },
+    });
 
-    const sorting = { nombre: 1 };
-
-    const categorias = await helpers.getDataFilterByCondition(
-      db,
-      auxiliaries.coleccionCat,
-      {},
-      {},
-      sorting
-    );
-    return res.json(categorias);
+    return res.json({ result: true, categorias });
   } catch (error) {
-    return res.json({ result: false, message: error });
+    return res.json({
+      result: false,
+      message: 'Error al obtener las categorias',
+      error,
+    });
   }
 });
 
 /*Agregar una categoria*/
-
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
 
   async function (req, res) {
     try {
-      if (req.body.usuario !== req.user.username) {
+      const { nombre, usuario } = req.body;
+
+      if (usuario !== req.user.username) {
         return res.json({ result: false, message: 'Usuario No Valido' });
       }
 
-      const db = req.app.locals.db;
+      const categoriaExiste = await CategoriaModel.findOne({ nombre });
 
-      const categoriasExistentes = await helpers.getDataFilterByCondition(
-        db,
-        auxiliaries.coleccionCat,
-        { nombre: req.body.nombre },
-        { _id: 1 },
-        {},
-        1,
-        0
-      );
-
-      if (categoriasExistentes.length > 0) {
+      if (categoriaExiste) {
         return res.json({ result: false, message: 'Ya existe la categoria' });
       }
 
-      const categoria = await helpers.insertData(
-        db,
-        auxiliaries.coleccionCat,
-        parseData(req.body)
-      );
-      return res.json(categoria);
+      //inserto la nueva categoria
+      const newCategoria = new CategoriaModel({
+        nombre,
+        cantMemes: 0,
+        fecha: new Date(),
+      });
+
+      //almacenar la nueva categoria
+      newCategoria.save(function (error, categoria) {
+        if (error) {
+          return res.json({
+            result: false,
+            message: 'no se pudo guardar la categoria',
+            error,
+          });
+        }
+
+        return res.json({ result: true, categoria });
+      });
     } catch (error) {
-      return res.json({ result: false, message: error });
+      return res.json({
+        result: false,
+        message: 'Error al crear una categoria',
+        error,
+      });
     }
   }
 );

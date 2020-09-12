@@ -3,7 +3,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 import Meme from "../components/Meme.js";
 import "./styles/Home.css";
-//import axios from "axios";
 import Categorias from "../components/Categorias.js";
 import isAuthenticated from "../lib/isAuthenticated";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,23 +15,20 @@ export default class Home extends Component {
     const userName = isAuthenticated();
     this.state = {
       userName,
-      //categoria: this.props.match.params.categoria ?? "",
       memes: [],
       pagina: 0,
       paginas: 1,
       cargandoMemes: true,
       cargandoError: "",
     };
-    console.log("Constructor");
   }
 
   cargarMasMemes = async () => {
-    console.log("Cargar Mas Memes");
-    let { pagina, paginas } = this.state;
+    let { pagina, paginas, userName } = this.state;
     const categoria = this.props.match.params.categoria;
     if (pagina < paginas) {
       pagina += 1;
-      const r = await MemeService.getMemes(pagina, categoria);
+      const r = await MemeService.getMemes(pagina, categoria, userName);
       if (r.result) {
         this.agregarMemes(r.memes, pagina, r.paginas);
       } else {
@@ -45,8 +41,9 @@ export default class Home extends Component {
   };
 
   cargarMemesDeCero = async () => {
+    let { username } = this.state;
     const categoria = this.props.match.params.categoria;
-    const r = await MemeService.getMemes(1, categoria);
+    const r = await MemeService.getMemes(1, categoria, username);
     if (r.result) {
       this.setState({
         cargandoMemes: false,
@@ -81,58 +78,23 @@ export default class Home extends Component {
       pagina,
       paginas,
     });
-    console.log("Nuevos memes: " + nuevos.length + ". Agregados: " + agregados);
   }
 
   componentDidMount() {
-    console.log("ComponentDidMount");
     this.cargarMasMemes();
-    //this.cargarMemes(this.state.pagina, this.state.categoria);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   // Cada vez que props.email cambia, actualiza el estado.
-  //   if (
-  //     nextProps.match.params.categoria !== this.props.match.params.categoria
-  //   ) {
-  //     window.reload;
-  //     //this.cargarInicial(nextProps.match.params.categoria);
-  //     //this.cargarMemes(1, nextProps.match.params.categoria);
-  //   }
-  // }
-
-  // shouldComponentUpdate(nextProps) {
-  //   return (
-  //     nextProps.match.params.categoria !== this.props.match.params.categoria
-  //   );
-  // }
-
   componentDidUpdate(prevProps) {
-    console.log("componentDidUpdate");
     if (
       prevProps.match.params.categoria !== this.props.match.params.categoria
     ) {
-      // this.setState({
-      //   memes: [],
-      //   cargandoMemes: true,
-      //   cargandoError: "",
-      //   pagina: 0,
-      //   paginas: 4,
-      // });
-      // this.cargarMasMemes(0, 1, this.props.match.params.categoria);
-      console.log(
-        "Component did Update: " +
-          prevProps.match.params.categoria +
-          " " +
-          this.props.match.params.categoria
-      );
       this.cargarMemesDeCero();
     }
   }
 
   render() {
     const { memes, cargandoMemes, cargandoError, userName } = this.state;
-    console.log("Render: " + memes.length);
+
     return (
       <>
         <div className="row">

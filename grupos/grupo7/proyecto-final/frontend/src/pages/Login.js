@@ -25,11 +25,15 @@ export default class Login extends Component {
     const { username, password } = this.state;
 
     axios
-      .post("http://localhost:8000/user/login", { username, password })
+      .post(process.env.REACT_APP_API_URL + "user/login", {
+        username,
+        password,
+      })
       .then((result) => {
         if (result.data.login === "ok") {
           localStorage.setItem("mymemejs_jwt", result.data.token);
           localStorage.setItem("mymemejs_username", result.data.username);
+          localStorage.setItem("mymemejs_avatar", result.data.avatar);
           this.props.history.push("/");
           window.location.reload(false);
         } else {
@@ -67,7 +71,7 @@ export default class Login extends Component {
     } else {
       return (
         <>
-          <Card className="my-2 cardMeme">
+          <Card className="my-2 cardMeme m-1">
             <Card.Header className="memeHead">
               <Row>
                 <Col xs="12" md="6" className="text-left">

@@ -23,7 +23,7 @@ export default class Categorias extends React.Component {
           this.setState({
             cargando: false,
             cargandoError: "",
-            categorias: response.data,
+            categorias: response.data.categorias,
           });
         } else {
           this.setState({
@@ -60,7 +60,7 @@ export default class Categorias extends React.Component {
             categorias &&
             categorias.map((c) => (
               <Link
-                className="list-group-item list-group-item-action"
+                className="list-group-item list-group-item-action m-0 p-2"
                 to={"/" + c.nombre}
                 key={c._id}
               >

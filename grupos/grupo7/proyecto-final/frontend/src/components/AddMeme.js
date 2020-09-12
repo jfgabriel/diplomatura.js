@@ -23,7 +23,7 @@ function AddMeme(usuario) {
 
   const cargarCategorias = () => {
     const options = {
-      url: "http://localhost:8000/categorias",
+      url: process.env.REACT_APP_API_URL + "categorias",
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -33,7 +33,7 @@ function AddMeme(usuario) {
     axios(options)
       .then((response) => {
         if (response.status === 200) {
-          setCategorias(response.data);
+          setCategorias(response.data.categorias);
         } else {
           setMensaje("Problema cargando las categorias");
         }
@@ -63,11 +63,10 @@ function AddMeme(usuario) {
       const token = localStorage.getItem("mymemejs_jwt");
 
       axios
-        .post("http://localhost:8000/memes", data, {
+        .post(process.env.REACT_APP_API_URL + "memes", data, {
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
-          console.log(res.data);
           if (res.data._id) {
             setMemeGuardado(true);
           } else {
@@ -86,22 +85,17 @@ function AddMeme(usuario) {
 
   const handleTituloChange = (e) => {
     setTitulo(e.target.value);
-    //console.log(titulo);
   };
 
   const handleCategoriaChange = (e) => {
     setCategoria(e.target.value);
-    //console.log(categoria);
   };
 
   const onImageChange = (imageList, addUpdateIndex) => {
     setImages(imageList);
 
-    //if (imageList.length > 0) formData.append("uploadFile", imageList.files[0]);
     let im = null;
     imageList.forEach((file, i) => {
-      // formData.append("uploadFile", file);
-      // console.log(i, file);
       im = file.file;
     });
     if (im) setImagen(im);
@@ -110,10 +104,6 @@ function AddMeme(usuario) {
   const onImageError = (errors, files) => {
     setMensaje("Error subiendo la imagen");
   };
-
-  // const onImageRemove = (index) => {
-  //   setImagen("");
-  // };
 
   if (memeGuardado) {
     return <Redirect to="/login"></Redirect>;
