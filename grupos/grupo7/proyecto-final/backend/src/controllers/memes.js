@@ -333,7 +333,7 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   async function (req, res) {
     try {
-      const { descripcion, usuario } = req.body;
+      const { descripcion, usuario, avatar } = req.body;
       const { id } = req.params;
 
       if (usuario !== req.user.username) {
@@ -351,6 +351,7 @@ router.post(
         idMeme: id,
         descripcion,
         usuario,
+        avatar,
         fecha: new Date(),
       });
 
