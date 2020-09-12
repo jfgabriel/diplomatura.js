@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Meme from "../components/Meme.js";
-import MemeComs from "../components/MemeComs1.js";
+import MemeComs from "../components/MemeComs.js";
 //import "./styles/Home.css";
 import "./styles/Meme.css";
 import axios from "axios";

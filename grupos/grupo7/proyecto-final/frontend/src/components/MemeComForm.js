@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-regular-svg-icons";
+import "semantic-ui-css/semantic.min.css";
+import { Button, Form } from "semantic-ui-react";
 
-function MemeComForm({ error, handleSaveComment }) {
+function MemeComForm({ error, handleSaveComment, respondiendo }) {
   const [comment, setComment] = useState("");
 
   const handleChange = (event) => {
@@ -15,29 +15,28 @@ function MemeComForm({ error, handleSaveComment }) {
   };
 
   return (
-    <div className="container p-3 m-0">
-      <div className="form-group">
-        <label htmlFor="newComment">Nuevo comentario</label>
-
-        <textarea
+    <>
+      {error && !respondiendo && (
+        <div className="alert alert-warning alert-dismissable">
+          <strong>¡Ups!</strong> {error}
+        </div>
+      )}
+      <Form reply>
+        <Form.TextArea
           onChange={handleChange}
-          name="newComment"
-          disabled={error}
-          className="form-control"
           value={comment}
-          maxLength="350"
-        ></textarea>
-      </div>
-      <button
-        className="btn btn-primary pull-right"
-        type="submit"
-        disabled={!comment}
-        onClick={handleSave}
-      >
-        <FontAwesomeIcon icon={faEdit} className="mr-2" />
-        Publicar
-      </button>
-    </div>
+          disabled={error !== ""}
+        />
+        <Button
+          content="Add Reply"
+          labelPosition="left"
+          icon="edit"
+          primary
+          disabled={!comment}
+          onClick={handleSave}
+        />
+      </Form>
+    </>
   );
 }
 
