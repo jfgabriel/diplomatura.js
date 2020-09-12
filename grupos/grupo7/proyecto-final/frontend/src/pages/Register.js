@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Row, Col, Card } from "react-bootstrap";
+import { Form, Row, Col, Card, InputGroup } from "react-bootstrap";
 import axios from "axios";
 import "./styles/Login.css";
 import { Redirect, Link } from "react-router-dom";
@@ -111,6 +111,46 @@ export default class Register extends Component {
                     value={email}
                     onChange={this.onChange}
                   />
+                </Form.Group>
+                <Form.Group controlId="formGroupEmail">
+                  <Form.Label>Elija un avatar</Form.Label>
+                  <InputGroup>
+                    <InputGroup.Prepend>
+                      <InputGroup.Radio
+                        aria-label="Avatar 1"
+                        id="avatar-1"
+                        name="formHorizontalRadios"
+                      />
+                    </InputGroup.Prepend>
+                    <img src="https://react.semantic-ui.com/images/avatar/small/matt.jpg" />
+
+                    <InputGroup.Prepend className="avatar">
+                      <InputGroup.Radio
+                        aria-label="Avatar 2"
+                        id="avatar-2"
+                        name="formHorizontalRadios"
+                      />
+                    </InputGroup.Prepend>
+                    <img src="https://react.semantic-ui.com/images/avatar/small/elliot.jpg" />
+
+                    <InputGroup.Prepend className="avatar">
+                      <InputGroup.Radio
+                        aria-label="Avatar 2"
+                        id="avatar-2"
+                        name="formHorizontalRadios"
+                      />
+                    </InputGroup.Prepend>
+                    <img src="https://react.semantic-ui.com/images/avatar/small/jenny.jpg" />
+
+                    <InputGroup.Prepend className="avatar">
+                      <InputGroup.Radio
+                        aria-label="Avatar 2"
+                        id="avatar-2"
+                        name="formHorizontalRadios"
+                      />
+                    </InputGroup.Prepend>
+                    <img src="https://react.semantic-ui.com/images/avatar/small/joe.jpg" />
+                  </InputGroup>
                 </Form.Group>
                 <Form.Group controlId="formGroupPassword">
                   <Form.Label>Password</Form.Label>
