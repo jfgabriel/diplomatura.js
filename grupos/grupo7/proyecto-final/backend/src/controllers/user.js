@@ -20,7 +20,7 @@ router.post('/login', async (req, res) => {
           },
           process.env.JWT_SECRET
         );
-        res.json({ login: 'ok', token: token, username });
+        res.json({ login: 'ok', token: token, username, avatar: user.avatar });
       } else {
         res.send('Password incorrecto');
       }
@@ -31,7 +31,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.route('/register').post(async (req, res, next) => {
-  const { username, password, email } = req.body;
+  const { username, email, password, avatar } = req.body;
   const hash = bcrypt.hashSync(password, 10);
   const user = await UserModel.findOne({ username });
 
@@ -42,6 +42,7 @@ router.route('/register').post(async (req, res, next) => {
       username,
       password: hash,
       email,
+      avatar,
     });
 
     const token = jwt.sign(
@@ -51,7 +52,7 @@ router.route('/register').post(async (req, res, next) => {
       },
       process.env.JWT_SECRET
     );
-    res.json({ registration: 'ok', token: token, username });
+    res.json({ registration: 'ok', token: token, username, avatar });
   }
 });
 

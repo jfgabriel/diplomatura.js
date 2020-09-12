@@ -8,3 +8,7 @@ button.navbarbtnlog:hover {
     border: 1px solid #dc8022;
     color: #fff;
 }
+
+.avatar {
+    margin-left: 15px;
+}

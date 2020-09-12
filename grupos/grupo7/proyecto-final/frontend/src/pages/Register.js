@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Row, Col, Card } from "react-bootstrap";
+import { Form, Row, Col, Card, InputGroup } from "react-bootstrap";
 import axios from "axios";
 import "./styles/Login.css";
 import { Redirect, Link } from "react-router-dom";
@@ -23,6 +23,9 @@ export default class Register extends Component {
   submit(e) {
     e.preventDefault();
     e.stopPropagation();
+    const avatar =
+      e.target.formHorizontalRadios.value ||
+      "https://react.semantic-ui.com/images/avatar/small/matt.jpg";
     const { username, email, password } = this.state;
 
     axios
@@ -30,11 +33,13 @@ export default class Register extends Component {
         username,
         email,
         password,
+        avatar,
       })
       .then((result) => {
         if (result.data.registration === "ok") {
           localStorage.setItem("mymemejs_jwt", result.data.token);
           localStorage.setItem("mymemejs_username", result.data.username);
+          localStorage.setItem("mymemejs_avatar", result.data.avatar);
           this.props.history.push("/");
           window.location.reload(false);
         } else {
@@ -111,6 +116,63 @@ export default class Register extends Component {
                     value={email}
                     onChange={this.onChange}
                   />
+                </Form.Group>
+                <Form.Group controlId="formGroupEmail">
+                  <Form.Label>Elija un avatar</Form.Label>
+                  <InputGroup>
+                    <InputGroup.Prepend>
+                      <InputGroup.Radio
+                        defaultChecked
+                        aria-label="Avatar 1"
+                        id="avatar-1"
+                        name="formHorizontalRadios"
+                        value="https://react.semantic-ui.com/images/avatar/small/matt.jpg"
+                      />
+                    </InputGroup.Prepend>
+                    <img
+                      src="https://react.semantic-ui.com/images/avatar/small/matt.jpg"
+                      alt="avatar"
+                    />
+
+                    <InputGroup.Prepend className="avatar">
+                      <InputGroup.Radio
+                        aria-label="Avatar 2"
+                        id="avatar-2"
+                        name="formHorizontalRadios"
+                        value="https://react.semantic-ui.com/images/avatar/small/elliot.jpg"
+                      />
+                    </InputGroup.Prepend>
+                    <img
+                      src="https://react.semantic-ui.com/images/avatar/small/elliot.jpg"
+                      alt="avatar"
+                    />
+
+                    <InputGroup.Prepend className="avatar">
+                      <InputGroup.Radio
+                        aria-label="Avatar 3"
+                        id="avatar-3"
+                        name="formHorizontalRadios"
+                        value="https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
+                      />
+                    </InputGroup.Prepend>
+                    <img
+                      src="https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
+                      alt="avatar"
+                    />
+
+                    <InputGroup.Prepend className="avatar">
+                      <InputGroup.Radio
+                        aria-label="Avatar 4"
+                        id="avatar-4"
+                        name="formHorizontalRadios"
+                        value="https://react.semantic-ui.com/images/avatar/small/joe.jpg"
+                      />
+                    </InputGroup.Prepend>
+                    <img
+                      src="https://react.semantic-ui.com/images/avatar/small/joe.jpg"
+                      alt="avatar"
+                    />
+                  </InputGroup>
                 </Form.Group>
                 <Form.Group controlId="formGroupPassword">
                   <Form.Label>Password</Form.Label>

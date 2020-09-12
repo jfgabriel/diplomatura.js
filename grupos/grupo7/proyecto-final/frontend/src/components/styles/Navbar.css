@@ -10,3 +10,7 @@ button.navbarbtn:hover {
   background-color: #dc8022;
   color: #fff;
 }
+
+button.navbarbtn img {
+  width: 18px;
+}
