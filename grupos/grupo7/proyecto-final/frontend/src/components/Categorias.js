@@ -8,7 +8,13 @@ import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 export default class Categorias extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { cargando: true, cargandoError: "", categorias: [] };
+    const categoria = this.props.categoria;
+    this.state = {
+      cargando: true,
+      cargandoError: "",
+      categorias: [],
+      categoria,
+    };
   }
   cargarCategorias() {
     axios
@@ -46,6 +52,8 @@ export default class Categorias extends React.Component {
 
   render() {
     const { cargando, cargandoError, categorias } = this.state;
+    const categoria = this.props.categoria;
+
     return (
       <div className="card p-0 my-2">
         <div className="categoriasTitulo p-3">CATEGORIAS</div>
@@ -60,7 +68,11 @@ export default class Categorias extends React.Component {
             categorias &&
             categorias.map((c) => (
               <Link
-                className="list-group-item list-group-item-action m-0 p-2"
+                className={
+                  categoria === c.nombre
+                    ? "active list-group-item list-group-item-action m-0 p-2"
+                    : "list-group-item list-group-item-action m-0 p-2"
+                }
                 to={"/" + c.nombre}
                 key={c._id}
               >
