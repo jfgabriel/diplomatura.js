@@ -18,7 +18,7 @@ export default class Meme extends React.Component {
   constructor(props) {
     super(props);
     let votoActual = "";
-    if (props.meme.votos.length === 1) {
+    if (props.meme.votos && props.meme.votos.length === 1) {
       votoActual = props.meme.votos[0].tipo;
     }
     this.state = {
@@ -37,7 +37,7 @@ export default class Meme extends React.Component {
     //   return new Promise((resolve) => setTimeout(resolve, ms));
     // }
 
-    const { _id } = this.state.meme;
+    //const { _id } = this.state.meme;
     const { userName, votando, meme, votoActual } = this.state;
     if (!votando) {
       if (userName) {
