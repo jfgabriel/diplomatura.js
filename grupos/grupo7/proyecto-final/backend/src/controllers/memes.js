@@ -3,6 +3,7 @@ import passport from 'passport';
 import MemeModel from '../models/meme';
 import ComentarioModel from '../models/comentario';
 import CategoriaModel from '../models/categoria';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 const dirUpload = './upload/';
@@ -69,8 +70,44 @@ router.get('/', async function (req, res) {
 router.get('/:id', async function (req, res) {
   try {
     const { id } = req.params;
+    const { usuario } = req.query;
 
-    const meme = await MemeModel.findById(id);
+    //const meme = await MemeModel.findById(id);
+
+    const memes = await MemeModel.aggregate([
+      { $match: { _id: mongoose.Types.ObjectId(id) } },
+      {
+        $project: {
+          _id: 1,
+          titulo: 1,
+          imagen: 1,
+          categoria: 1,
+          usuario: 1,
+          fecha: 1,
+          cantVotosUp: 1,
+          cantVotosDown: 1,
+          cantComentarios: 1,
+          votos: {
+            $filter: {
+              input: '$votos',
+              as: 'voto',
+              cond: {
+                $eq: ['$$voto.usuario', usuario],
+              },
+            },
+          },
+        },
+      },
+    ]);
+
+    if (memes.length === 0) {
+      return res.json({
+        result: false,
+        message: 'no existe un meme con ese id',
+      });
+    }
+
+    const meme = memes[0];
 
     //incluir los comentarios al meme
     const comentarios = await ComentarioModel.find({ idMeme: id }, null, {
@@ -79,6 +116,7 @@ router.get('/:id', async function (req, res) {
     meme.comentarios = comentarios;
     return res.json({ result: true, meme });
   } catch (error) {
+    console.log(error);
     return res.json({
       result: false,
       message: 'No se pudo obtener el meme',
