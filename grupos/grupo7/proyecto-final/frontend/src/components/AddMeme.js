@@ -11,7 +11,7 @@ function AddMeme(usuario) {
   const [memeGuardado, setMemeGuardado] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [titulo, setTitulo] = useState("");
-  const [categoria, setCategoria] = useState("");
+  const [categoria, setCategoria] = useState("Arte");
   const [images, setImages] = useState([]);
   const [imagen, setImagen] = useState(null);
   const [respuesta, setRespuesta] = useState("");
