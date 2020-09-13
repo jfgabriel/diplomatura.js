@@ -67,7 +67,7 @@ function AddMeme(usuario) {
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
-          if (res.data._id) {
+          if (res.data.result) {
             setMemeGuardado(true);
           } else {
             setMensaje(
