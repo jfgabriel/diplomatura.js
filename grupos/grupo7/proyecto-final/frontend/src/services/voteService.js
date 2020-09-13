@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const TIPO_UPVOTE = "upvote";
-const TIPO_DOWNVOTE = "downvote";
+//const TIPO_DOWNVOTE = "downvote";
 
 export default class VoteService {
   static ultimoError;
@@ -12,7 +12,7 @@ export default class VoteService {
       if (await this.deleteVoto(userName, meme._id)) {
         if (votoActual === TIPO_UPVOTE) {
           meme.cantVotosUp -= 1;
-        } else if (votoActual === TIPO_DOWNVOTE) {
+        } else {
           meme.cantVotosDown -= 1;
         }
       } else {
@@ -26,7 +26,7 @@ export default class VoteService {
       if (await this.postVoto(userName, votoSolicitado, meme._id)) {
         if (votoSolicitado === TIPO_UPVOTE) {
           meme.cantVotosUp += 1;
-        } else if (votoActual === TIPO_DOWNVOTE) {
+        } else {
           meme.cantVotosDown += 1;
         }
         return true;
