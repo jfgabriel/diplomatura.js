@@ -10,3 +10,9 @@
   line-height: 1px;
   font-weight: 800;
 }
+
+.list-group-item.active {
+  background-color: #67cf92 !important;
+  color: #343a40 !important;
+  border-width: 0 !important;
+}

@@ -14,8 +14,7 @@ function AddMeme(usuario) {
   const [categoria, setCategoria] = useState("Arte");
   const [images, setImages] = useState([]);
   const [imagen, setImagen] = useState(null);
-  const [respuesta, setRespuesta] = useState("");
-  const [loggedin, setLoggedin] = useState(isAuthenticated());
+  const [loggedin] = useState(isAuthenticated());
   const [categorias, setCategorias] = useState([]);
   useEffect(() => {
     cargarCategorias();
@@ -125,7 +124,6 @@ function AddMeme(usuario) {
         onChange={onImageChange}
         maxNumber={maxNumber}
         maxFileSize={maxMbFileSize}
-        // acceptType={["jpg", "gif", "png"]}
         onError={onImageError}
         dataURLKey="data_url"
       >
@@ -201,12 +199,6 @@ function AddMeme(usuario) {
                     >
                       Cambiar
                     </button>
-                    {/* <button
-                      className="btn btn-danger mt-2"
-                      onClick={() => onImageRemove(index)}
-                    >
-                      Borrar
-                    </button> */}
                   </div>
                 </div>
               ))}
@@ -219,7 +211,6 @@ function AddMeme(usuario) {
                 Guardar
               </button>
             </div>
-            <p>{respuesta}</p>
           </div>
         )}
       </ImageUploading>

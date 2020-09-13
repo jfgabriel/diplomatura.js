@@ -94,6 +94,7 @@ export default class Home extends Component {
 
   render() {
     const { memes, cargandoMemes, cargandoError, userName } = this.state;
+    const categoria = this.props.match.params.categoria;
 
     return (
       <>
@@ -133,7 +134,7 @@ export default class Home extends Component {
           </div>
 
           <div className="col-md-2 d-none d-lg-block">
-            <Categorias></Categorias>
+            <Categorias categoria={categoria}></Categorias>
           </div>
         </div>
         <Link className="float" to="/addmeme">
