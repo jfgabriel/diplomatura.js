@@ -73,7 +73,7 @@ router.get('/:id', async function (req, res) {
     const { usuario } = req.query;
 
     //const meme = await MemeModel.findById(id);
-    console.log(id);
+
     const memes = await MemeModel.aggregate([
       { $match: { _id: mongoose.Types.ObjectId(id) } },
       {
@@ -99,8 +99,6 @@ router.get('/:id', async function (req, res) {
         },
       },
     ]);
-
-    console.log(memes);
 
     if (memes.length === 0) {
       return res.json({
