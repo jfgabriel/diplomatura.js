@@ -65,7 +65,7 @@ export default class Categorias extends React.Component {
                 key={c._id}
               >
                 <FontAwesomeIcon icon={faBookmark} className="mr-2" />
-                {c.nombre}
+                {c.nombre} ({c.cantMemes})
               </Link>
             ))}
         </div>
