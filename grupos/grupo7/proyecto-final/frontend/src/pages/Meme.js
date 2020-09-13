@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import Meme from "../components/Meme.js";
 import MemeComs from "../components/MemeComs.js";
-//import "./styles/Home.css";
 import "./styles/Meme.css";
-import axios from "axios";
 import isAuthenticated from "../lib/isAuthenticated";
+import MemeService from "../services/memeService.js";
 
 export default class MemePage extends Component {
   constructor(props) {
@@ -19,29 +18,27 @@ export default class MemePage extends Component {
     };
   }
 
-  cargarMeme(id) {
-    const options = {
-      url: process.env.REACT_APP_API_URL + "memes/" + id,
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json;charset=UTF-8",
-      },
-    };
-    axios(options).then((response) => {
-      if (response.status === 200) {
+  async cargarMeme(idMeme) {
+    try {
+      let meme = await MemeService.getMeme(idMeme, this.state.userName);
+      if (meme) {
         this.setState({
           cargando: false,
           cargandoError: "",
-          meme: response.data.meme,
+          meme,
         });
       } else {
         this.setState({
           cargando: false,
-          cargandoError: response.data,
+          cargandoError: MemeService.ultimoError,
         });
       }
-    });
+    } catch (error) {
+      this.setState({
+        cargando: false,
+        cargandoError: error,
+      });
+    }
   }
 
   componentDidMount() {
@@ -52,7 +49,7 @@ export default class MemePage extends Component {
     const { cargando, cargandoError, meme } = this.state;
 
     let contenido;
-    if (cargando || cargandoError) {
+    if (cargando || cargandoError || !meme) {
       contenido = (
         <MemeCargando
           cargando={this.state.cargando}

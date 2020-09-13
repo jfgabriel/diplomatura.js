@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export default class MemeService {
+  static ultimoError;
+
   static async getMemes(pagina, categoria, usuario) {
     if (!categoria) categoria = "";
     if (!pagina) pagina = 1;
@@ -21,7 +23,6 @@ export default class MemeService {
 
     try {
       const response = await axios(options);
-      console.log(response);
       if (response.data.result) {
         return {
           result: true,
@@ -44,6 +45,32 @@ export default class MemeService {
         paginas: 0,
         mensaje: "Error en API",
       };
+    }
+  }
+
+  static async getMeme(id, usuario) {
+    const options = {
+      url: process.env.REACT_APP_API_URL + "memes/" + id,
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      params: {
+        usuario,
+      },
+    };
+    try {
+      const response = await axios(options);
+      if (response.data.result) {
+        return response.data.meme;
+      } else {
+        this.ultimoError = response.data.message;
+        return null;
+      }
+    } catch (error) {
+      this.ultimoError = error;
+      return null;
     }
   }
 }

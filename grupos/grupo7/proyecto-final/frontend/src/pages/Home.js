@@ -61,13 +61,13 @@ export default class Home extends Component {
   };
 
   agregarMemes(nuevos, pagina, paginas) {
-    let agregados = 0;
+    //let agregados = 0;
     let memes = this.state.memes;
     if (!memes) memes = [];
     for (const m of nuevos) {
       if (!memes.some((me) => me._id === m._id)) {
         memes.push(m);
-        agregados += 1;
+        //agregados += 1;
       } else {
       }
     }
@@ -94,6 +94,7 @@ export default class Home extends Component {
 
   render() {
     const { memes, cargandoMemes, cargandoError, userName } = this.state;
+    const categoria = this.props.match.params.categoria;
 
     return (
       <>
@@ -133,7 +134,7 @@ export default class Home extends Component {
           </div>
 
           <div className="col-md-2 d-none d-lg-block">
-            <Categorias></Categorias>
+            <Categorias categoria={categoria}></Categorias>
           </div>
         </div>
         <Link className="float" to="/addmeme">
