@@ -41,9 +41,9 @@ export default class Home extends Component {
   };
 
   cargarMemesDeCero = async () => {
-    let { username } = this.state;
+    let { userName } = this.state;
     const categoria = this.props.match.params.categoria;
-    const r = await MemeService.getMemes(1, categoria, username);
+    const r = await MemeService.getMemes(1, categoria, userName);
     if (r.result) {
       this.setState({
         cargandoMemes: false,

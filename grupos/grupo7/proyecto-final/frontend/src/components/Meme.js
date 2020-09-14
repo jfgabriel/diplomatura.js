@@ -78,7 +78,6 @@ export default class Meme extends React.Component {
     } = this.state.meme;
 
     const { redirectLogin, redirectMeme, votando, votoActual } = this.state;
-
     if (redirectLogin) {
       return <Redirect to="/login"></Redirect>;
     }

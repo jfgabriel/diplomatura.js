@@ -20,7 +20,6 @@ export default class MemeService {
         usuario,
       },
     };
-
     try {
       const response = await axios(options);
       if (response.data.result) {
