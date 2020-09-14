@@ -13,7 +13,6 @@ function MemeComs({ meme }) {
   const idMeme = meme._id;
   const [idComentarioRespondiendo, setidComentarioRespondiendo] = useState("");
   const [coms, setComs] = useState(meme.comentarios);
-  const [user, setUser] = useState(isAuthenticated());
   const [error, setError] = useState("");
 
   const clickOnReply = (valor) => {
@@ -22,18 +21,18 @@ function MemeComs({ meme }) {
     else setidComentarioRespondiendo(valor);
   };
 
-  const saveMemeCom = async (text) => {
-    setUser(isAuthenticated());
-    if (user) {
+  const saveMemeCom = async (descripcion) => {
+    const usuario = isAuthenticated();
+    if (usuario) {
       const token = localStorage.getItem("mymemejs_jwt");
       const avatar = getUserAvatar();
       axios
         .post(
           process.env.REACT_APP_API_URL + "memes/" + idMeme + "/comments",
           {
-            usuario: user,
+            usuario,
             avatar,
-            descripcion: text,
+            descripcion,
           },
           {
             headers: { Authorization: "Bearer " + token },
@@ -70,11 +69,11 @@ function MemeComs({ meme }) {
     }
   };
 
-  const saveMemeComReply = async (idComment, text) => {
-    setUser(isAuthenticated());
-    const avatar = getUserAvatar();
-    if (user) {
+  const saveMemeComReply = async (idComment, descripcion) => {
+    const usuario = isAuthenticated();
+    if (usuario) {
       const token = localStorage.getItem("mymemejs_jwt");
+      const avatar = getUserAvatar();
       axios
         .post(
           process.env.REACT_APP_API_URL +
@@ -82,9 +81,9 @@ function MemeComs({ meme }) {
             idComment +
             "/replies",
           {
-            usuario: user,
+            usuario,
             avatar,
-            descripcion: text,
+            descripcion,
           },
           {
             headers: { Authorization: "Bearer " + token },
@@ -98,9 +97,9 @@ function MemeComs({ meme }) {
               coms.map((e) => {
                 if (e._id === idComment) {
                   e.respuestas[e.respuestas.length] = {
-                    descripcion: text,
+                    descripcion,
                     fecha: response.data.hora,
-                    usuario: isAuthenticated(),
+                    usuario,
                     avatar,
                   };
                 }
