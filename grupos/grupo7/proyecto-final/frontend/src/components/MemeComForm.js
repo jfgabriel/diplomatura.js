@@ -28,7 +28,7 @@ function MemeComForm({ error, handleSaveComment, respondiendo }) {
           disabled={error !== ""}
         />
         <Button
-          content="Add Reply"
+          content="Add Comment"
           labelPosition="left"
           icon="edit"
           primary
