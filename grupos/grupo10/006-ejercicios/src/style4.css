@@ -1,0 +1,26 @@
+body {
+  font-family: sans-serif;
+}
+
+div {
+  width: 40px;
+  height: 70px;
+  margin: 3px;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 100%;
+  border-bottom-left-radius: 100%;
+  display: -webkit-box;
+}
+
+.rojo {
+  background-color: red;
+}
+
+.amarillo {
+  background-color: yellow;
+}
+
+.azul {
+  background-color: blue;
+}

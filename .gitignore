@@ -533,3 +533,5 @@ MigrationBackup/
 .ionide/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,node,visualstudio,macos,linux
+/node_modules
+/dist
