@@ -1,0 +1,18 @@
+.categoriaDiv {
+  width: 100%;
+  display: block;
+}
+
+.categoriasTitulo {
+  background-color: #28724d;
+  color: white;
+  font-size: 13px;
+  line-height: 1px;
+  font-weight: 800;
+}
+
+.list-group-item.active {
+  background-color: #67cf92 !important;
+  color: #343a40 !important;
+  border-width: 0 !important;
+}

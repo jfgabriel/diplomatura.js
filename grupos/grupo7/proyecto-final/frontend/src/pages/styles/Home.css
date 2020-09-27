@@ -1,0 +1,43 @@
+.Home {
+  background-image: url(../../img/memeback.png);
+  min-height: 100vh;
+}
+
+.noHayMemes {
+  font-size: 70px !important;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 40px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+  transition: all 0.3s ease;
+}
+
+.float:hover {
+  color: #26c068;
+  text-decoration: none;
+}
+
+.my-float {
+  margin-top: 14px;
+}
+
+@font-face {
+  font-family: Balsamiq;
+  src: url('../../fonts/BalsamiqSans-Regular.ttf');
+}
+
+body {
+  font-family: 'Balsamiq' !important;
+}

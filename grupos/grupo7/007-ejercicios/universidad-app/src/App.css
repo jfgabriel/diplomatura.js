@@ -1,0 +1,33 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.deleted {
+  color: red;
+}
+
+#botonera {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+th {
+  text-align: left;
+}
+
+td {
+  text-align: left;
+}
+
+form {
+  float: left;
+}

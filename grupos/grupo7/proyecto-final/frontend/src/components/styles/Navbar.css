@@ -1,0 +1,16 @@
+.logo {
+  height: 30px;
+}
+
+button.navbarbtn:hover {
+  transition: all 0.3s ease;
+}
+
+button.navbarbtn:hover {
+  background-color: #dc8022;
+  color: #fff;
+}
+
+button.navbarbtn img {
+  width: 18px;
+}

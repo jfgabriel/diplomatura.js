@@ -1,0 +1,64 @@
+.btnLike {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+.memeTitulo {
+  margin-bottom: 0rem;
+  font-size: 1.3em;
+  font-weight: 700;
+}
+
+.memeImgCont {
+  /* max-height: 600px; */
+  /* background: linear-gradient(#eaeaea, #d2d2d2); */
+}
+
+.memeImg {
+  /* display: block;
+    width: auto;
+    max-height: 100%; */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.memeData {
+  margin-bottom: 0rem;
+  font-size: 0.7em;
+  color: #656565;
+}
+
+.memeFoot {
+  background-color: #fbf7fa !important;
+  color: white;
+}
+
+.memeHead {
+  background-color: #ffffff !important;
+  color: #7b7b7b;
+}
+
+.cardMeme {
+  background-color: #ffffffd9 !important;
+}
+
+button.upvote {
+  background-color: #26c068;
+  color: #fff;
+}
+
+button.downvote {
+  background-color: #c02626;
+  color: #fff;
+}
+
+button.upvote:hover {
+  color: #26c068;
+  background-color: #fff;
+}
+
+button.downvote:hover {
+  color: #c02626;
+  background-color: #fff;
+}

@@ -1,0 +1,274 @@
+#%RAML 0.8
+title: myMemeJS API
+baseUri:http://localhost:8000/
+version: v1
+mediaType: application/json
+
+/memes 
+    get:
+        description: Obtiene un lote de n memes. Puede filtrarse por una categoría o fecha de posteo
+        queryParameters:   
+            categoria:
+                description: categoria de los memes. si no viene este valor, se buscan los memes de cualquier categoría
+            pagina:
+                description: sirve para el paginado, identifica el lote de memes que debe obtener de la base
+        responses:
+            200:
+                body:
+                    schema: |
+                    { "$schema": "http://json-schema.org/draft-03/schema",
+                       "type": "array",
+                       "description": "memes",
+                       "items": 
+                        {
+                            "type": "object",  
+                            "properties": {
+                                "_id": { "type": "string" },
+                                "titulo": { "type": "string"},
+                                "imagen": { "type": "string"},
+                                "usuario": { "type":"string"},
+                                "fecha": { "type":"date"},
+                                "categoria": { "type": "string" },
+                                "cantVotosUp": { "type": "number" },
+                                "cantVotosDown": { "type": "number" },
+                                "cantComentarios": { "type": "number" },
+                            }
+                        }
+                    }
+    post:
+        description: Agrega un nuevo meme
+        body:
+            schema:|
+            {"$schema": "http://json-schema.org/draft-03/schema",
+                "type": "object",
+                "properties": {
+                        "titulo": { "type": "string"},
+                        "imagen": { "type": "string"},
+                        "usuario": { "type":"string"},
+                        "categoria": { "type": "string" },
+                        "token": { "type": "string" },
+                }
+            }
+        responses:
+            200:
+                description: Se insertó el meme con éxito.
+            400:
+                description: Fallo la inserción.
+            401:
+                description: Usuario no autorizado.
+    /{id}:
+        get:
+            description: Obtiene la información de un meme identificado por su id y todos sus votos y comentarios
+            responses:
+                200:
+                    schema:|
+                    {"$schema": "http://json-schema.org/draft-03/schema",
+                        "type": "object",
+                        "properties": {
+                            "titulo": { "type": "string"},
+                            "imagen": { "type": "string"},
+                            "usuario": { "type":"string"},
+                            "fecha": { "type":"date"},
+                            "categoria": { "type": "string" },
+                            "cantVotosUp": { "type": "string" },
+                            "cantVotosDown": { "type": "number" },
+                            "cantComentarios": { "type": "number" },
+                            "votos": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",  
+                                    "properties": {
+                                        "tipo": { "type": "string"},
+                                        "usuario": { "type": "string"},
+                                        "fecha": { "type":"date"},
+                                    }
+                                }
+                            }
+                        }
+                    }
+    /{id}/vote:
+        post:
+            description: Agrega un nuevo voto al meme
+            body:
+                schema:|
+                {"$schema": "http://json-schema.org/draft-03/schema",
+                    "type": "object",
+                    "properties": {
+                            "tipo": { "type":"string"},
+                            "usuario": { "type":"string"},
+                            "token": { "type": "string" },
+                    }
+                }
+            responses:
+                200:
+                    description: el voto fue agregado
+                400:
+                    description: Fallo la inserción.
+                401:
+                    description: Usuario no autorizado.
+        delete:
+            description: Elimina un voto
+            body:
+                schema:|
+                {"$schema": "http://json-schema.org/draft-03/schema",
+                    "type": "object",
+                    "properties": {
+                            "usuario": { "type":"string"},
+                            "token": { "type": "string" },
+                    }
+                }
+            responses:
+                200:
+                    description: el voto fue eliminado
+                400:
+                    description: Falló la elimianción
+                401:
+                    description: Usuario no autorizado.
+
+    /{id}/comments:
+        get:
+            description: Obtiene todos los comentarios del meme
+            responses:
+                200:
+                    body:
+                        schema:|
+                        {"$schema": "http://json-schema.org/draft-03/schema",
+                            "type": "array",
+                        "description": "comentarios",
+                        "items": 
+                            {
+                                "type": "object",  
+                                "properties": {
+                                    "_id": { "type": "string" },
+                                    "descripcion": { "type": "string"},
+                                    "usuario": { "type": "string"},
+                                    "fecha": { "type": "string"},
+                                }
+                            }
+                        }
+        post: 
+            description: Agrega un comentario al meme.
+            body:
+                schema:|
+                {"$schema": "http://json-schema.org/draft-03/schema",
+                    "type": "object",
+                    "properties": {
+                            "idMeme": { "type":"string"},
+                            "descripcion": { "type":"string"},
+                            "usuario": { "type":"string"},
+                            "token": { "type": "string" },
+                    }
+                }
+            responses:
+                200:
+                    description: el comentario fue agregado
+                400:
+                    description: Fallo la inserción.
+                401:
+                    description: Usuario no autorizado.
+
+
+/categorias
+    get:
+        description: Obtiene todos las categorias
+        responses:
+            200:
+                body:
+                    schema: |
+                    { "$schema": "http://json-schema.org/draft-03/schema",
+                       "type": "array",
+                       "description": "categorias",
+                       "items": 
+                        {
+                            "type": "object",  
+                            "properties": {
+                                "_id": { "type": "string" },
+                                "nombre": { "type": "string"},
+                            }
+                        }
+                    }
+    post:
+        description: Agrega una nueva categoria
+        body:
+            schema:|
+            {"$schema": "http://json-schema.org/draft-03/schema",
+                "type": "object",
+                "properties":{
+                        "nombre": { "type": "string"},
+                        "usuario": { "type":"string"},
+                        "token": { "type": "string" },
+                }
+            }
+        responses:
+            200:
+                description: Se insertó la categoría con éxito.
+            400:
+                description: Fallo la inserción.
+            401:
+                description: Usuario no autorizado.
+/comentarios
+    /{id}:
+        get:
+            description: Obtiene un comentario con todas sus respuestas
+    /{id}/replies:
+        post:
+            descripcion: Agrega una nueva respuesta al comentario
+/register
+    post:
+        description: Agrega un nuevo usuario
+        body:
+            schema:|
+            {"$schema": "http://json-schema.org/draft-03/schema",
+                "type": "object",
+                "properties": {
+                        "email": { "type": "string"},
+                        "pass": { "type":"string"},
+                }
+            }
+        responses:
+            200:
+                body:
+                    schema:|
+                    {"$schema": "http://json-schema.org/draft-03/schema",
+                        "type": "object",
+                        "properties": {
+                                "_id": { "type": "string"},
+                                "token": { "type":"string"},
+                        }
+                    }
+
+            400:
+                description: Fallo el registro del usuario, usuario duplicado, etc.
+/login
+    post:
+        description: Identifica el usuario e inicia su sección en la aplicación
+        body:
+            schema:|
+            {"$schema": "http://json-schema.org/draft-03/schema",
+                "type": "object",
+                "properties": {
+                        "email": { "type": "string"},
+                        "pass": { "type":"string"},
+                }
+            }
+        responses:
+            200:
+                body:
+                    schema:|
+                    {"$schema": "http://json-schema.org/draft-03/schema",
+                        "type": "object",
+                        "properties": {
+                                "token": { "type":"string"},
+                        }
+                    }
+            401:
+                description: Usuario no autorizado
+        
+            
+
+
+
+
+
+
+
