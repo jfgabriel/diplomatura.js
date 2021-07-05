@@ -35,3 +35,13 @@ import { database } from './basededatos';
 // 12) Implementar una función que guarde la calificación de un alumno y una materia
 //     La función recibirá: 'nombre del alumno', 'nombre de la materia', 'nota'
 //     Si el alumno y/o la materia no existen deberán crearlos en sus respectivas tablas
+
+export const universidadById = (id) =>{
+    return database.universidades.find(universidad=>universidad.id==id);
+
+}
+
+export const profesorById = (id) =>{
+    return database.universidades.find(universidad=>universidad.id==id);
+
+}
