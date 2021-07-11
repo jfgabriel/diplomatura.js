@@ -1,0 +1,69 @@
+{
+  "folders": [
+    /*
+     * THE ROOT OF THE PROJECT MUST BE THE FIRST IN THE LIST!
+     * See: https://github.com/Microsoft/vscode/issues/69416#issuecomment-475455567
+     */
+    { "path": "." },
+
+    /**
+     * Also for convention, keep the list in alphabetic order.
+     */
+    { "path": "grupos/grupo4/001-ejercicios", "name": "001-ejercicios" },
+    { "path": "grupos/grupo4/002-ejercicios", "name": "002-ejercicios" },
+    { "path": "grupos/grupo4/003-ejercicios", "name": "003-ejercicios" },
+    { "path": "grupos/grupo4/004-ejercicios", "name": "004-ejercicios" },
+    { "path": "grupos/grupo4/005-ejercicios", "name": "005-ejercicios" },
+    { "path": "grupos/grupo4/006-ejercicios", "name": "006-ejercicios" },
+    { "path": "grupos/grupo4/007-ejercicios", "name": "007-ejercicios" }
+
+  ],
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "mohsen1.prettify-json",
+      "dbaeumer.vscode-eslint",
+      "xyz.local-history",
+      "tgreen7.vs-code-node-require",
+      "stevencl.adddoccomments"
+    ]
+  },
+  "settings": {
+    "code-runner.runInTerminal": true,
+    "code-runner.showExecutionMessage": false,
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.ignoreSelection": true,
+    "code-runner.preserveFocus": true,
+    "code-runner.saveFileBeforeRun": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.alwaysShowStatus": true,
+    "eslint.workingDirectories": [],
+    "prettier.requireConfig": true,
+    "files.exclude": {
+      "**/.history": true
+    },
+    "files.watcherExclude": {
+      "**/.history/**": true,
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/**": true,
+      "**/build/**": true,
+      "**/.cache/**": true,
+      "**/dist/**": true,
+      "**/package-lock.json": true,
+    },
+    "search.exclude": {
+      "**/.git": true,
+      "**/.history/**": true,
+      "**/node_modules/**": true,
+      "**/build/**": true,
+      "**/dist/**": true,
+      "**/.cache/**": true,
+      "**/package-lock.json": true
+    },
+    "editor.formatOnSave": true,
+    "[jsonc]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+  }
+}
